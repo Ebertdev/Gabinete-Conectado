@@ -28,7 +28,7 @@ const AuthContext = createContext<AuthContextProps>({
   profile: null,
   loading: true,
   can: () => false,
-  signOut: async () => {},
+  signOut: async () => { },
 });
 
 function normalizeRole(value: unknown): Role {
@@ -93,7 +93,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         nome: profileRow.nome,
         role: normalizeRole(profileRow.role),
         gabinete_id: profileRow.gabinete_id ?? '',
-        gabinete_nome: gab?.nome,
+        gabinete_nome: gab?.nome ?? undefined,
         gabinete_plano: gab?.plano as Plan,
       };
     } catch (err) {
