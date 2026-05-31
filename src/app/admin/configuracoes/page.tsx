@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Settings, Save, Database, Shield, Bell, Loader2, CheckCircle2, Trash2, X, UserPlus, Lock, Zap, Sparkles } from 'lucide-react';
-import type { PlanType } from '../assinatura/page';
+export type PlanType = 'essencial' | 'inteligente' | 'enterprise';
 
 type Tab = 'geral' | 'acessos' | 'notificacoes';
 
@@ -104,7 +104,7 @@ export default function ConfiguracoesPage() {
           </button>
         </div>
 
-        <div className="p-8 space-y-8 min-h-[400px]">
+        <div className="p-4 sm:p-8 space-y-8 min-h-[400px]">
           
           {activeTab === 'geral' && (
             <div className="animate-in fade-in slide-in-from-right-4 duration-300">

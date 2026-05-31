@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { FolderOpen, Sparkles, FileText, Download, Upload, Plus, Search, Copy, Check, Printer, Trash2, FileCode, Clock, Building, ArrowRight, Loader2, Tag, Eye, X, Lock, Zap } from 'lucide-react';
-import type { PlanType } from '../assinatura/page';
+import type { PlanType } from '../configuracoes/page';
 
 type DocumentItem = {
   id: string;
@@ -482,7 +482,7 @@ export default function DocumentosIAPage() {
 
               {/* Generated Preview Output (7 cols) */}
               <div className="lg:col-span-7 flex flex-col h-full">
-                <div className="bg-gray-900 text-white rounded-t-3xl p-6 border-b border-gray-800 flex items-center justify-between shadow-xl">
+                <div className="bg-gray-900 text-white rounded-t-3xl p-4 sm:p-6 border-b border-gray-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xl">
                   <div className="flex items-center gap-3">
                     <FileCode className="w-6 h-6 text-emerald-400" />
                     <div>
@@ -492,27 +492,30 @@ export default function DocumentosIAPage() {
                   </div>
                   
                   {generatedContent && (
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 self-end sm:self-auto">
                       <button
                         onClick={handleCopy}
                         className="bg-gray-800 border border-gray-700 text-gray-200 px-3.5 py-2 rounded-xl font-bold text-xs hover:bg-gray-700 transition-colors flex items-center gap-1.5"
                         title="Copiar texto formatado"
                       >
                         {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
-                        {copied ? 'Copiado!' : 'Copiar'}
+                        <span className="hidden sm:inline">{copied ? 'Copiado!' : 'Copiar'}</span>
                       </button>
                       <button
                         onClick={handlePrintAI}
                         className="bg-gray-800 border border-gray-700 text-gray-200 px-3.5 py-2 rounded-xl font-bold text-xs hover:bg-gray-700 transition-colors flex items-center gap-1.5"
                         title="Imprimir ou Salvar PDF"
                       >
-                        <Printer className="w-4 h-4 text-emerald-400" /> Imprimir / PDF
+                        <Printer className="w-4 h-4 text-emerald-400" />
+                        <span className="hidden sm:inline">Imprimir / PDF</span>
                       </button>
                       <button
                         onClick={handleSaveToVault}
                         className="bg-emerald-600 text-white px-4 py-2 rounded-xl font-bold text-xs hover:bg-emerald-700 transition-colors flex items-center gap-1.5 shadow-sm"
+                        title="Salvar no Cofre"
                       >
-                        <Upload className="w-4 h-4" /> Salvar no Cofre
+                        <Upload className="w-4 h-4" />
+                        <span className="hidden sm:inline">Salvar no Cofre</span>
                       </button>
                     </div>
                   )}

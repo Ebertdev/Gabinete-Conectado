@@ -173,10 +173,10 @@ export default function MapComponent() {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row gap-6 h-[720px] w-full rounded-3xl overflow-hidden bg-white border border-gray-200 shadow-xl relative z-0">
+    <div className="flex flex-col lg:flex-row gap-6 h-[800px] lg:h-[720px] w-full rounded-3xl overflow-hidden bg-white border border-gray-200 shadow-xl relative z-0">
       
       {/* Sidebar de Controle Geoespacial */}
-      <div className="w-full lg:w-96 bg-gray-50/95 border-b lg:border-b-0 lg:border-r border-gray-200 p-6 flex flex-col h-full z-10 overflow-hidden shadow-lg">
+      <div className="w-full lg:w-96 bg-gray-50/95 border-b lg:border-b-0 lg:border-r border-gray-200 p-6 flex flex-col h-[350px] lg:h-full z-10 overflow-hidden shadow-lg">
         
         <div className="flex items-center justify-between mb-5">
           <div>
@@ -275,7 +275,7 @@ export default function MapComponent() {
       </div>
 
       {/* Container Principal do Mapa Leaflet */}
-      <div className="flex-1 h-full w-full relative z-0 min-h-[500px]">
+      <div className="flex-1 h-[450px] lg:h-full w-full relative z-0">
         <MapContainer 
           center={centerCenter} 
           zoom={12} 

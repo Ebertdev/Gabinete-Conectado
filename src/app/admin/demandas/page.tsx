@@ -322,32 +322,32 @@ export default function DemandasList() {
       <div className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
 
         {/* Navigation Tabs and Display Toggle */}
-        <div className="flex border-b border-gray-100 justify-between items-center pr-4 bg-gray-50/20">
-          <div className="flex">
+        <div className="flex flex-col sm:flex-row border-b border-gray-100 justify-between items-start sm:items-center px-4 bg-gray-50/20 gap-3 py-3 sm:py-0">
+          <div className="flex w-full sm:w-auto border-b sm:border-b-0 border-gray-100">
             <button
               onClick={() => setViewMode('ativas')}
-              className={`px-6 py-4 font-bold text-sm transition-colors ${viewMode === 'ativas' ? 'border-b-2 border-emerald-500 text-emerald-700 bg-emerald-50/20' : 'text-gray-500 hover:text-gray-800'}`}
+              className={`flex-1 sm:flex-none text-center px-4 sm:px-6 py-3 sm:py-4 font-bold text-sm transition-colors ${viewMode === 'ativas' ? 'border-b-2 border-emerald-500 text-emerald-700 bg-emerald-50/20' : 'text-gray-500 hover:text-gray-800'}`}
             >
               Caixa de Entrada
             </button>
             <button
               onClick={() => setViewMode('arquivadas')}
-              className={`px-6 py-4 font-bold text-sm transition-colors flex items-center gap-2 ${viewMode === 'arquivadas' ? 'border-b-2 border-gray-800 text-gray-900 bg-gray-50' : 'text-gray-500 hover:text-gray-800'}`}
+              className={`flex-1 sm:flex-none text-center px-4 sm:px-6 py-3 sm:py-4 font-bold text-sm transition-colors flex items-center justify-center gap-2 ${viewMode === 'arquivadas' ? 'border-b-2 border-gray-800 text-gray-900 bg-gray-50' : 'text-gray-500 hover:text-gray-800'}`}
             >
               Arquivadas <Archive className="w-4 h-4" />
             </button>
           </div>
 
-          <div className="bg-gray-100 p-1 rounded-xl flex items-center gap-1 border border-gray-200 shadow-xs">
+          <div className="bg-gray-100 p-1 rounded-xl flex items-center gap-1 border border-gray-200 shadow-xs w-full sm:w-auto justify-center sm:justify-start">
             <button
               onClick={() => setDisplayMode('kanban')}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg font-bold text-xs transition-all ${displayMode === 'kanban' ? 'bg-white text-emerald-700 shadow-sm' : 'text-gray-600 hover:text-gray-900'}`}
+              className={`flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3.5 py-1.5 rounded-lg font-bold text-xs transition-all ${displayMode === 'kanban' ? 'bg-white text-emerald-700 shadow-sm' : 'text-gray-600 hover:text-gray-900'}`}
             >
               <Kanban className="w-3.5 h-3.5" /> Esteira Kanban
             </button>
             <button
               onClick={() => setDisplayMode('table')}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg font-bold text-xs transition-all ${displayMode === 'table' ? 'bg-white text-emerald-700 shadow-sm' : 'text-gray-600 hover:text-gray-900'}`}
+              className={`flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3.5 py-1.5 rounded-lg font-bold text-xs transition-all ${displayMode === 'table' ? 'bg-white text-emerald-700 shadow-sm' : 'text-gray-600 hover:text-gray-900'}`}
             >
               <Table className="w-3.5 h-3.5" /> Tabela
             </button>

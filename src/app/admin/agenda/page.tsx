@@ -324,60 +324,62 @@ export default function AgendaPage() {
 
       {/* Visual Monthly Calendar Grid */}
       {viewMode === 'grid' ? (
-        <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden p-6 animate-in fade-in duration-300">
-          {/* Weekday Labels */}
-          <div className="grid grid-cols-7 gap-3 mb-3 text-center">
-            {weekDays.map((d, index) => (
-              <div key={d} className={`text-xs font-black uppercase py-2 rounded-lg bg-gray-100 ${index === 0 || index === 6 ? 'text-violet-700' : 'text-gray-700'}`}>
-                {d}
-              </div>
-            ))}
-          </div>
-
-          {/* Days Grid */}
-          <div className="grid grid-cols-7 gap-3">
-            {blanks.map(b => (
-              <div key={`blank-${b}`} className="min-h-[110px] bg-gray-50/50 border border-gray-100 rounded-xl p-2 opacity-40"></div>
-            ))}
-
-            {days.map(day => {
-              const dayString = getDayString(day);
-              const dayAppts = filtered.filter(a => a.date === dayString);
-              const isToday = day === 18 && currentMonth === 4 && currentYear === 2026; // Highlight 18/05/2026
-
-              return (
-                <div 
-                  key={day} 
-                  className={`min-h-[115px] bg-white border p-2.5 rounded-xl flex flex-col justify-between transition-all group ${isToday ? 'border-2 border-emerald-500 bg-emerald-50/10 shadow-sm' : 'border-gray-200 hover:border-emerald-400'}`}
-                >
-                  <div className="flex justify-between items-center mb-1.5">
-                    <span className={`text-xs font-black w-6 h-6 rounded-full flex items-center justify-center ${isToday ? 'bg-emerald-600 text-white shadow-sm' : 'text-gray-800'}`}>
-                      {day}
-                    </span>
-                    <button
-                      onClick={() => handleOpenNewAppointment(dayString)}
-                      className="opacity-0 group-hover:opacity-100 text-emerald-600 hover:bg-emerald-50 p-1 rounded-lg transition-opacity"
-                      title="Agendar neste dia"
-                    >
-                      <Plus className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-
-                  <div className="space-y-1.5 overflow-y-auto max-h-24 flex-1 pr-1">
-                    {dayAppts.map(appt => (
-                      <div
-                        key={appt.id}
-                        onClick={() => handleOpenEditAppointment(appt)}
-                        className={`text-[11px] font-bold px-2.5 py-1 rounded-lg truncate cursor-pointer shadow-xs transition-transform hover:scale-[1.02] border ${typeColors[appt.type] || 'bg-gray-100 text-gray-800'}`}
-                        title={`${appt.time} - ${appt.title}`}
-                      >
-                        <span className="font-extrabold mr-1">{appt.time}</span> {appt.title}
-                      </div>
-                    ))}
-                  </div>
+        <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden p-6 animate-in fade-in duration-300 overflow-x-auto">
+          <div className="min-w-[768px]">
+            {/* Weekday Labels */}
+            <div className="grid grid-cols-7 gap-3 mb-3 text-center">
+              {weekDays.map((d, index) => (
+                <div key={d} className={`text-xs font-black uppercase py-2 rounded-lg bg-gray-100 ${index === 0 || index === 6 ? 'text-violet-700' : 'text-gray-700'}`}>
+                  {d}
                 </div>
-              );
-            })}
+              ))}
+            </div>
+
+            {/* Days Grid */}
+            <div className="grid grid-cols-7 gap-3">
+              {blanks.map(b => (
+                <div key={`blank-${b}`} className="min-h-[110px] bg-gray-50/50 border border-gray-100 rounded-xl p-2 opacity-40"></div>
+              ))}
+
+              {days.map(day => {
+                const dayString = getDayString(day);
+                const dayAppts = filtered.filter(a => a.date === dayString);
+                const isToday = day === 18 && currentMonth === 4 && currentYear === 2026; // Highlight 18/05/2026
+
+                return (
+                  <div 
+                    key={day} 
+                    className={`min-h-[115px] bg-white border p-2.5 rounded-xl flex flex-col justify-between transition-all group ${isToday ? 'border-2 border-emerald-500 bg-emerald-50/10 shadow-sm' : 'border-gray-200 hover:border-emerald-400'}`}
+                  >
+                    <div className="flex justify-between items-center mb-1.5">
+                      <span className={`text-xs font-black w-6 h-6 rounded-full flex items-center justify-center ${isToday ? 'bg-emerald-600 text-white shadow-sm' : 'text-gray-800'}`}>
+                        {day}
+                      </span>
+                      <button
+                        onClick={() => handleOpenNewAppointment(dayString)}
+                        className="opacity-0 group-hover:opacity-100 text-emerald-600 hover:bg-emerald-50 p-1 rounded-lg transition-opacity"
+                        title="Agendar neste dia"
+                      >
+                        <Plus className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+
+                    <div className="space-y-1.5 overflow-y-auto max-h-24 flex-1 pr-1">
+                      {dayAppts.map(appt => (
+                        <div
+                          key={appt.id}
+                          onClick={() => handleOpenEditAppointment(appt)}
+                          className={`text-[11px] font-bold px-2.5 py-1 rounded-lg truncate cursor-pointer shadow-xs transition-transform hover:scale-[1.02] border ${typeColors[appt.type] || 'bg-gray-100 text-gray-800'}`}
+                          title={`${appt.time} - ${appt.title}`}
+                        >
+                          <span className="font-extrabold mr-1">{appt.time}</span> {appt.title}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       ) : (

@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Mail, Lock, User as UserIcon, Loader2, ArrowRight, ShieldCheck, Key, CheckCircle, X } from 'lucide-react';
+import { Mail, Lock, User as UserIcon, Loader2, ArrowRight, ShieldCheck, Key, CheckCircle, X, AlertCircle } from 'lucide-react';
 import { Logo } from '@/components/logo';
+import { supabase } from '@/infrastructure/supabase/client';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -12,44 +13,76 @@ export default function LoginPage() {
   const [isForgotModalOpen, setIsForgotModalOpen] = useState(false);
   const [forgotEmail, setForgotEmail] = useState('');
   const [forgotSuccess, setForgotSuccess] = useState(false);
+  const [error, setError] = useState('');
 
   // Form State
-  const [email, setEmail] = useState('admin@gabinete.com');
-  const [password, setPassword] = useState('123456');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [role, setRole] = useState('Assessor');
 
-  const handleForgotPasswordSubmit = (e: React.FormEvent) => {
+  const handleForgotPasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!forgotEmail) return;
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+    setError('');
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(forgotEmail, {
+        redirectTo: `${window.location.origin}/admin/configuracoes?reset=true`,
+      });
+      if (error) throw error;
       setForgotSuccess(true);
-    }, 1200);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Erro ao enviar e-mail. Tente novamente.';
+      setError(message);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError('');
 
-    if (isRegistering) {
-      // Simulate registering new account
-      setTimeout(() => {
-        alert(`Conta criada com sucesso para ${name || email}! Seja bem-vindo ao Gabinete Conectado.`);
+    try {
+      if (isRegistering) {
+        const { error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: { full_name: name, role },
+          },
+        });
+        if (error) throw error;
+        alert(`Conta criada! Verifique seu e-mail (${email}) para confirmar o cadastro antes de acessar.`);
+        setIsRegistering(false);
+      } else {
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) throw error;
         router.push('/admin');
-      }, 1500);
-    } else {
-      // Simulate login
-      setTimeout(() => {
-        router.push('/admin');
-      }, 1200);
+      }
+    } catch (err: unknown) {
+      const raw = err instanceof Error ? err.message : 'Ocorreu um erro inesperado.';
+      if (raw.includes('Invalid login credentials')) {
+        setError('E-mail ou senha incorretos. Verifique suas credenciais.');
+      } else if (raw.includes('Email not confirmed')) {
+        setError('Confirme seu e-mail antes de acessar. Verifique sua caixa de entrada.');
+      } else if (raw.includes('User already registered')) {
+        setError('Este e-mail já está cadastrado. Faça login ou recupere sua senha.');
+      } else if (raw.includes('Password should be at least')) {
+        setError('A senha deve ter no mínimo 6 caracteres.');
+      } else {
+        setError(raw);
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
-      {/* Left Column - Branding (Hidden on mobile) */}
+      {/* Left Column - Branding */}
       <div className="hidden lg:flex lg:w-1/2 relative bg-gradient-to-br from-gray-900 to-gray-800 p-12 items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
         <div className="absolute top-[-10%] right-[-10%] w-96 h-96 bg-emerald-500 rounded-full blur-3xl opacity-20"></div>
@@ -65,7 +98,10 @@ export default function LoginPage() {
           </div>
 
           <h1 className="text-5xl font-black mb-6 leading-tight tracking-tight">
-            Gestão inteligente para <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-violet-400 font-extrabold">seu gabinete.</span>
+            Gestão inteligente para{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-violet-400 font-extrabold">
+              seu gabinete.
+            </span>
           </h1>
           <p className="text-gray-300 text-lg leading-relaxed mb-10 font-medium">
             Acesse o painel para gerenciar demandas, acompanhar estatísticas em tempo real, gerir agenda e se comunicar diretamente com a população de Camaçari.
@@ -87,7 +123,7 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* Right Column - Login / Register Form */}
+      {/* Right Column - Form */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-white">
         <div className="w-full max-w-md animate-in slide-in-from-bottom-8 fade-in duration-700">
 
@@ -101,11 +137,19 @@ export default function LoginPage() {
               {isRegistering ? 'Criar Nova Conta' : 'Bem-vindo de volta'}
             </h2>
             <p className="text-gray-500 font-medium text-sm">
-              {isRegistering 
-                ? 'Preencha seus dados para habilitar o acesso ao sistema.' 
+              {isRegistering
+                ? 'Preencha seus dados para habilitar o acesso ao sistema.'
                 : 'Insira suas credenciais para acessar o painel de administração.'}
             </p>
           </div>
+
+          {/* Error Alert */}
+          {error && (
+            <div className="mb-5 flex items-start gap-3 bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 animate-in fade-in duration-300">
+              <AlertCircle className="w-5 h-5 mt-0.5 shrink-0 text-red-500" />
+              <p className="text-sm font-medium">{error}</p>
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {isRegistering && (
@@ -152,7 +196,7 @@ export default function LoginPage() {
                   type="email"
                   required
                   value={email}
-                  onChange={e => setEmail(e.target.value)}
+                  onChange={e => { setEmail(e.target.value); setError(''); }}
                   className="w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all text-gray-800 font-medium text-sm"
                   placeholder="seu@email.com"
                 />
@@ -165,7 +209,7 @@ export default function LoginPage() {
                 {!isRegistering && (
                   <button
                     type="button"
-                    onClick={() => { setForgotEmail(email); setForgotSuccess(false); setIsForgotModalOpen(true); }}
+                    onClick={() => { setForgotEmail(email); setForgotSuccess(false); setError(''); setIsForgotModalOpen(true); }}
                     className="text-xs font-bold text-emerald-600 hover:text-emerald-700 transition-colors"
                   >
                     Esqueceu a senha?
@@ -178,9 +222,10 @@ export default function LoginPage() {
                   type="password"
                   required
                   value={password}
-                  onChange={e => setPassword(e.target.value)}
+                  onChange={e => { setPassword(e.target.value); setError(''); }}
                   className="w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all text-gray-800 font-medium text-sm"
                   placeholder="••••••••"
+                  minLength={6}
                 />
               </div>
             </div>
@@ -211,7 +256,7 @@ export default function LoginPage() {
                 Já possui uma conta?{' '}
                 <button
                   type="button"
-                  onClick={() => setIsRegistering(false)}
+                  onClick={() => { setIsRegistering(false); setError(''); }}
                   className="font-bold text-emerald-600 hover:text-emerald-800 hover:underline transition-colors"
                 >
                   Faça login aqui
@@ -222,7 +267,7 @@ export default function LoginPage() {
                 Ainda não tem acesso?{' '}
                 <button
                   type="button"
-                  onClick={() => setIsRegistering(true)}
+                  onClick={() => { setIsRegistering(true); setError(''); }}
                   className="font-bold text-emerald-600 hover:text-emerald-800 hover:underline transition-colors"
                 >
                   Criar uma nova conta
@@ -237,20 +282,20 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* Forgot Password Recovery Modal */}
+      {/* Forgot Password Modal */}
       {isForgotModalOpen && (
         <div className="fixed inset-0 bg-gray-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 animate-in fade-in">
           <div className="bg-white rounded-3xl p-7 w-full max-w-md shadow-2xl animate-in zoom-in-95 duration-200 border border-gray-100">
             <div className="flex justify-between items-center mb-6">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold">
+                <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center">
                   <Key className="w-5 h-5 text-emerald-600" />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900">Recuperação de Acesso</h3>
               </div>
-              <button 
-                type="button" 
-                onClick={() => setIsForgotModalOpen(false)}
+              <button
+                type="button"
+                onClick={() => { setIsForgotModalOpen(false); setError(''); }}
                 className="text-gray-400 hover:text-gray-600 p-1.5 rounded-lg hover:bg-gray-100 transition-colors"
               >
                 <X className="w-5 h-5" />
@@ -259,12 +304,12 @@ export default function LoginPage() {
 
             {forgotSuccess ? (
               <div className="text-center py-6 space-y-4 animate-in fade-in zoom-in duration-300">
-                <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-sm">
-                  <CheckCircle className="w-10 h-10" />
+                <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto shadow-sm">
+                  <CheckCircle className="w-10 h-10 text-emerald-600" />
                 </div>
                 <h4 className="text-lg font-bold text-gray-900">E-mail de Redefinição Enviado!</h4>
                 <p className="text-sm text-gray-600 leading-relaxed font-medium px-4">
-                  Enviamos instruções de recuperação e um link seguro temporário para <strong>{forgotEmail}</strong>. Verifique sua caixa de entrada e spam.
+                  Enviamos um link seguro para <strong>{forgotEmail}</strong>. Verifique sua caixa de entrada e spam.
                 </p>
                 <button
                   type="button"
@@ -277,8 +322,16 @@ export default function LoginPage() {
             ) : (
               <form onSubmit={handleForgotPasswordSubmit} className="space-y-5 animate-in fade-in duration-300">
                 <p className="text-sm text-gray-600 font-medium leading-relaxed">
-                  Informe o seu e-mail corporativo cadastrado. Você receberá um link temporário para criar uma nova senha com segurança.
+                  Informe o seu e-mail cadastrado. Você receberá um link para criar uma nova senha.
                 </p>
+
+                {error && (
+                  <div className="flex items-start gap-3 bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3">
+                    <AlertCircle className="w-5 h-5 mt-0.5 shrink-0 text-red-500" />
+                    <p className="text-sm font-medium">{error}</p>
+                  </div>
+                )}
+
                 <div>
                   <label className="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wider">
                     E-mail Corporativo
@@ -303,7 +356,7 @@ export default function LoginPage() {
                     className="w-full bg-emerald-600 text-white font-extrabold py-3.5 rounded-xl hover:bg-emerald-700 transition-colors shadow-md flex items-center justify-center gap-2 text-sm disabled:opacity-70"
                   >
                     {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Key className="w-4 h-4" />}
-                    {loading ? 'Verificando Cadastro...' : 'Enviar Link de Recuperação'}
+                    {loading ? 'Enviando...' : 'Enviar Link de Recuperação'}
                   </button>
                 </div>
               </form>
