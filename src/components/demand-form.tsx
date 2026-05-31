@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { MapPin, Camera, Send, Loader2, CheckCircle, X } from 'lucide-react';
-import { supabase } from '@/infrastructure/supabase/client';
 // In a real app we'd use the use-case with DI, but for simplicity we directly instantiate or use a Server Action.
 import { CreateDemandUseCase } from '@/application/use-cases/CreateDemandUseCase';
 import { SupabaseDemandRepository } from '@/infrastructure/repositories/SupabaseDemandRepository';
@@ -147,32 +146,25 @@ export default function DemandForm() {
       const repo = new SupabaseDemandRepository();
       const useCase = new CreateDemandUseCase(repo);
 
-      // We use a mock or standard call. Since Supabase tables might not exist yet, we will mock the protocol locally
-      // IF supabase fails because tables aren't there, we fallback to a mock success for UI demonstration.
-      try {
-        const result = await useCase.execute({
-          citizen: { name: formData.name, phone: formData.phone },
-          description: formData.description,
-          type: formData.type,
-          location: {
-            latitude: location?.lat || 0,
-            longitude: location?.lng || 0,
-            neighborhood: 'Aguardando Geocoding API',
-          },
-          attachments: uploadedImageUrls,
-        });
-        setSuccessProtocol(result.protocolNumber || 'CAM-2026-9999');
-      } catch (err) {
-        console.warn('Supabase DB error (tables might not exist yet):', err);
-        // Fallback for UI visualization
-        setTimeout(() => {
-          setSuccessProtocol('CAM-2026-' + Math.floor(1000 + Math.random() * 9000));
-        }, 1000);
-      }
+      const result = await useCase.execute({
+        citizen: { name: formData.name, phone: formData.phone, address: formData.address },
+        description: formData.description,
+        type: formData.type,
+        location: {
+          latitude: location?.lat || 0,
+          longitude: location?.lng || 0,
+          address: formData.address,
+          neighborhood: formData.neighborhood,
+        },
+        attachments: uploadedImageUrls,
+      });
+
+      setSuccessProtocol(result.protocolNumber || 'CAM-2026-9999');
 
     } catch (error) {
       console.error(error);
-      alert('Erro ao enviar demanda.');
+      const message = error instanceof Error ? error.message : 'Erro ao enviar demanda.';
+      alert(message);
     } finally {
       setLoading(false);
     }

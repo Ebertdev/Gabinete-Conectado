@@ -1,13 +1,15 @@
 'use client';
 
-import { useState } from 'react';
-import { Calendar as CalendarIcon, Clock, MapPin, User, Plus, Search, Filter, MessageSquare, CheckCircle, AlertCircle, X, Save, Trash2, CalendarDays, ListFilter, LayoutGrid, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Calendar as CalendarIcon, Clock, MapPin, User, Plus, Search, CheckCircle, AlertCircle, X, Save, Trash2, ListFilter, LayoutGrid, ChevronLeft, ChevronRight, Loader2, MessageSquare } from 'lucide-react';
+import { supabase } from '@/infrastructure/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
 
 type Appointment = {
   id: string;
   title: string;
-  date: string; // e.g. "2026-05-18"
-  time: string; // e.g. "14:30"
+  date: string;
+  time: string;
   location: string;
   contactName: string;
   contactPhone: string;
@@ -16,71 +18,11 @@ type Appointment = {
   description: string;
 };
 
-const initialAppointments: Appointment[] = [
-  {
-    id: '1',
-    title: 'Atendimento Cidadão - Liderança Comunitária',
-    date: '2026-05-18',
-    time: '14:00',
-    location: 'Gabinete 104 - Câmara Municipal',
-    contactName: 'Carlos Almeida',
-    contactPhone: '5571999993333',
-    type: 'Atendimento Gabinete',
-    status: 'Confirmado',
-    description: 'Reunião para debater solicitações de poda e asfaltamento na Gleba A.',
-  },
-  {
-    id: '2',
-    title: 'Vistoria de Obras de Drenagem',
-    date: '2026-05-19',
-    time: '09:30',
-    location: 'Vila de Abrantes (Rua Principal)',
-    contactName: 'João da Silva',
-    contactPhone: '5571999991111',
-    type: 'Visita a Bairro',
-    status: 'Confirmado',
-    description: 'Acompanhar o início das obras solicitadas pelo gabinete na semana anterior.',
-  },
-  {
-    id: '3',
-    title: 'Sessão Plenária Ordinária',
-    date: '2026-05-20',
-    time: '09:00',
-    location: 'Plenário da Câmara Municipal',
-    contactName: 'Mesa Diretora',
-    contactPhone: '557130000000',
-    type: 'Sessão na Câmara',
-    status: 'Confirmado',
-    description: 'Votação de projetos de lei do executivo e indicações do nosso mandato.',
-  },
-  {
-    id: '4',
-    title: 'Audiência na Secretaria de Saúde (SESAU)',
-    date: '2026-05-21',
-    time: '15:00',
-    location: 'Centro Administrativo de Camaçari',
-    contactName: 'Secretário de Saúde',
-    contactPhone: '5571988880000',
-    type: 'Reunião Externa',
-    status: 'Pendente',
-    description: 'Cobrar insumos para o posto de saúde de Arembepe.',
-  },
-  {
-    id: '5',
-    title: 'Reunião com Moradores',
-    date: '2026-05-18',
-    time: '17:00',
-    location: 'Associação de Moradores - Gleba E',
-    contactName: 'Dona Maria',
-    contactPhone: '5571999992222',
-    type: 'Visita a Bairro',
-    status: 'Confirmado',
-    description: 'Apresentação de demandas de pavimentação.',
-  },
-];
-
 export default function AgendaPage() {
-  const [appointments, setAppointments] = useState<Appointment[]>(initialAppointments);
+  const { profile } = useAuth();
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('Todos');
   const [filterStatus, setFilterStatus] = useState('Todos');
@@ -123,6 +65,50 @@ export default function AgendaPage() {
     'Concluído': { bg: 'bg-gray-100 text-gray-800', icon: CheckCircle },
   };
 
+  const fetchAppointments = async () => {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('agenda')
+        .select('*');
+
+      if (error) throw error;
+
+      if (data) {
+        const mapped = data.map((a: any) => {
+          const dateObj = new Date(a.data_hora);
+          const year = dateObj.getFullYear();
+          const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+          const day = String(dateObj.getDate()).padStart(2, '0');
+          const dateStr = `${year}-${month}-${day}`;
+          const timeStr = dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+          return {
+            id: a.id,
+            title: a.titulo,
+            date: dateStr,
+            time: timeStr,
+            location: a.local || '',
+            contactName: a.contato_nome || '',
+            contactPhone: a.contato_telefone || '',
+            type: a.tipo || 'Atendimento Gabinete',
+            status: a.status || 'Confirmado',
+            description: a.descricao || '',
+          };
+        });
+        setAppointments(mapped);
+      }
+    } catch (err: any) {
+      console.error('Erro ao carregar compromissos:', err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAppointments();
+  }, []);
+
   const filtered = appointments.filter(a => {
     const matchesSearch = a.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           a.contactName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -164,20 +150,68 @@ export default function AgendaPage() {
     setIsModalOpen(true);
   };
 
-  const handleSaveAppointment = (e: React.FormEvent) => {
+  const handleSaveAppointment = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (selectedAppointment) {
-      setAppointments(appointments.map(a => a.id === selectedAppointment.id ? { ...a, ...formData } : a));
-    } else {
-      setAppointments([{ id: `appt-${Date.now()}`, ...formData }, ...appointments]);
+    setSaving(true);
+    const dataHoraIso = new Date(`${formData.date}T${formData.time}:00`).toISOString();
+
+    try {
+      if (selectedAppointment) {
+        const { error } = await supabase
+          .from('agenda')
+          .update({
+            titulo: formData.title,
+            data_hora: dataHoraIso,
+            local: formData.location,
+            contato_nome: formData.contactName,
+            contato_telefone: formData.contactPhone,
+            tipo: formData.type,
+            status: formData.status,
+            descricao: formData.description,
+          })
+          .eq('id', selectedAppointment.id);
+
+        if (error) throw error;
+      } else {
+        const { error } = await supabase
+          .from('agenda')
+          .insert({
+            titulo: formData.title,
+            data_hora: dataHoraIso,
+            local: formData.location,
+            contato_nome: formData.contactName,
+            contato_telefone: formData.contactPhone,
+            tipo: formData.type,
+            status: formData.status,
+            descricao: formData.description,
+            gabinete_id: profile?.gabinete_id
+          });
+
+        if (error) throw error;
+      }
+      setIsModalOpen(false);
+      fetchAppointments();
+    } catch (err: any) {
+      alert('Erro ao salvar compromisso: ' + err.message);
+    } finally {
+      setSaving(false);
     }
-    setIsModalOpen(false);
   };
 
-  const handleDeleteAppointment = (id: string) => {
+  const handleDeleteAppointment = async (id: string) => {
     if (window.confirm('Tem certeza que deseja desmarcar e excluir este compromisso?')) {
-      setAppointments(appointments.filter(a => a.id !== id));
-      setIsModalOpen(false);
+      try {
+        const { error } = await supabase
+          .from('agenda')
+          .delete()
+          .eq('id', id);
+
+        if (error) throw error;
+        fetchAppointments();
+        setIsModalOpen(false);
+      } catch (err: any) {
+        alert('Erro ao excluir compromisso: ' + err.message);
+      }
     }
   };
 
@@ -200,7 +234,6 @@ export default function AgendaPage() {
     return isoDate;
   };
 
-  // Calendar Calculation Helper
   const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
   const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
@@ -322,8 +355,13 @@ export default function AgendaPage() {
         )}
       </div>
 
-      {/* Visual Monthly Calendar Grid */}
-      {viewMode === 'grid' ? (
+      {loading ? (
+        <div className="flex flex-col items-center justify-center py-20 gap-3">
+          <Loader2 className="w-10 h-10 text-emerald-600 animate-spin" />
+          <span className="text-gray-500 font-medium text-sm">Carregando compromissos da agenda...</span>
+        </div>
+      ) : viewMode === 'grid' ? (
+        /* Visual Monthly Calendar Grid */
         <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden p-6 animate-in fade-in duration-300 overflow-x-auto">
           <div className="min-w-[768px]">
             {/* Weekday Labels */}
@@ -344,7 +382,7 @@ export default function AgendaPage() {
               {days.map(day => {
                 const dayString = getDayString(day);
                 const dayAppts = filtered.filter(a => a.date === dayString);
-                const isToday = day === 18 && currentMonth === 4 && currentYear === 2026; // Highlight 18/05/2026
+                const isToday = day === 18 && currentMonth === 4 && currentYear === 2026;
 
                 return (
                   <div 
@@ -364,7 +402,7 @@ export default function AgendaPage() {
                       </button>
                     </div>
 
-                    <div className="space-y-1.5 overflow-y-auto max-h-24 flex-1 pr-1">
+                    <div className="space-y-1.5 overflow-y-auto max-h-24 flex-1 pr-1 text-left">
                       {dayAppts.map(appt => (
                         <div
                           key={appt.id}
@@ -388,7 +426,7 @@ export default function AgendaPage() {
           {filtered.map(appt => {
             const StatusIcon = statusBadges[appt.status]?.icon || CheckCircle;
             return (
-              <div key={appt.id} className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+              <div key={appt.id} className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between text-left">
                 <div>
                   <div className="flex items-start justify-between gap-3 mb-3">
                     <span className={`text-xs font-bold px-3 py-1 rounded-full border ${typeColors[appt.type] || 'bg-gray-100 text-gray-800 border-gray-200'}`}>
@@ -425,7 +463,7 @@ export default function AgendaPage() {
                     onClick={() => handleNotifyParticipant(appt)}
                     className="bg-emerald-50 border border-emerald-200 text-emerald-800 font-extrabold text-xs px-3.5 py-2 rounded-xl hover:bg-emerald-600 hover:text-white transition-all shadow-xs flex items-center gap-1.5"
                   >
-                    <MessageSquare className="w-3.5 h-3.5 text-emerald-600 group-hover:text-white" /> Notificar WhatsApp
+                    <MessageSquare className="w-3.5 h-3.5 text-emerald-600" /> Notificar WhatsApp
                   </button>
                   <button
                     onClick={() => handleOpenEditAppointment(appt)}
@@ -459,7 +497,7 @@ export default function AgendaPage() {
               </button>
             </div>
 
-            <form onSubmit={handleSaveAppointment} className="space-y-4">
+            <form onSubmit={handleSaveAppointment} className="space-y-4 text-left">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1">Título do Compromisso</label>
                 <input required type="text" placeholder="Ex: Reunião Comunitária" value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-emerald-500 font-semibold text-gray-900 text-sm" />
@@ -528,8 +566,8 @@ export default function AgendaPage() {
                     <Trash2 className="w-4 h-4 text-red-500" /> Desmarcar
                   </button>
                 )}
-                <button type="submit" className="flex-1 bg-emerald-600 text-white font-bold py-3 px-6 rounded-xl hover:bg-emerald-700 transition-colors flex items-center justify-center gap-2 shadow-sm text-sm">
-                  <Save className="w-4 h-4" /> Salvar Compromisso
+                <button type="submit" disabled={saving} className="flex-1 bg-emerald-600 text-white font-bold py-3 px-6 rounded-xl hover:bg-emerald-700 transition-colors flex items-center justify-center gap-2 shadow-sm text-sm disabled:opacity-75">
+                  {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} Salvar Compromisso
                 </button>
               </div>
             </form>

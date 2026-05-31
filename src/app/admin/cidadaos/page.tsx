@@ -1,7 +1,10 @@
 'use client';
 
-import { useState } from 'react';
-import { Users, Search, Mail, Phone, X, Save, MessageSquare, ShieldCheck, ShieldAlert, Clock, Plus, Download, Trash2, MapPin, Calendar } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Users, Search, Phone, X, Save, MessageSquare, ShieldCheck, ShieldAlert, Clock, Plus, Download, Trash2, MapPin, Calendar, Loader2 } from 'lucide-react';
+import { supabase } from '@/infrastructure/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
+import { PLAN_LIMITS } from '@/utils/permissions';
 
 type Note = {
   id: string;
@@ -22,73 +25,14 @@ type Citizen = {
   notes: Note[];
 };
 
-const initialMockCitizens: Citizen[] = [
-  { 
-    id: '1', 
-    name: 'João da Silva', 
-    phone: '5571999991111', 
-    address: 'Rua das Flores, 12', 
-    neighborhood: 'Vila de Abrantes',
-    birthDate: '18/05', // Hoje!
-    demandsCount: 3, 
-    lgpdVerified: true,
-    notes: [
-      { id: 'n1', date: '12/05/2026', author: 'Assessor Carlos', content: 'Cidadão veio ao gabinete agradecer pela resolução do asfalto.' },
-      { id: 'n2', date: '05/04/2026', author: 'Gabinete Digital', content: 'Aceitou os termos da LGPD via portal.' }
-    ]
-  },
-  { 
-    id: '2', 
-    name: 'Maria Souza', 
-    phone: '5571999992222', 
-    address: 'Avenida Sul, 45', 
-    neighborhood: 'Centro',
-    birthDate: '24/09',
-    demandsCount: 1, 
-    lgpdVerified: true,
-    notes: []
-  },
-  { 
-    id: '3', 
-    name: 'Carlos Almeida', 
-    phone: '5571999993333', 
-    address: 'Caminho 2, Casa 8', 
-    neighborhood: 'Gleba A',
-    birthDate: '18/05', // Hoje!
-    demandsCount: 5, 
-    lgpdVerified: true,
-    notes: [
-      { id: 'n3', date: '15/05/2026', author: 'Assessor Marcos', content: 'Solicitou urgência na poda de árvores da praça.' }
-    ]
-  },
-  { 
-    id: '4', 
-    name: 'Ana Paula', 
-    phone: '5571999994444', 
-    address: 'Rua Direta, 102', 
-    neighborhood: 'Ponto Certo',
-    birthDate: '12/11',
-    demandsCount: 2, 
-    lgpdVerified: false,
-    notes: []
-  },
-  { 
-    id: '5', 
-    name: 'Roberto Santos', 
-    phone: '5571999995555', 
-    address: 'Alameda do Sol, 304', 
-    neighborhood: 'Vila de Abrantes',
-    birthDate: '03/02',
-    demandsCount: 4, 
-    lgpdVerified: true,
-    notes: []
-  },
-];
-
 export default function CidadaosPage() {
+  const { profile } = useAuth();
   const [search, setSearch] = useState('');
   const [filterNeighborhood, setFilterNeighborhood] = useState('Todos');
-  const [citizens, setCitizens] = useState<Citizen[]>(initialMockCitizens);
+  const [citizens, setCitizens] = useState<Citizen[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [addingNote, setAddingNote] = useState(false);
   
   // Modals
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -108,6 +52,41 @@ export default function CidadaosPage() {
 
   const neighborhoods = ['Todos', 'Vila de Abrantes', 'Centro', 'Gleba A', 'Ponto Certo'];
 
+  const fetchCitizens = async () => {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('cidadaos')
+        .select('*, demandas(id)')
+        .order('nome', { ascending: true });
+
+      if (error) throw error;
+
+      if (data) {
+        const mapped = data.map((c: any) => ({
+          id: c.id,
+          name: c.nome,
+          phone: c.telefone || '',
+          address: c.endereco || '',
+          neighborhood: c.bairro || 'Centro',
+          birthDate: c.data_nascimento || '',
+          demandsCount: c.demandas ? c.demandas.length : 0,
+          lgpdVerified: c.lgpd_consentimento ?? true,
+          notes: c.anotacoes || []
+        }));
+        setCitizens(mapped);
+      }
+    } catch (err: any) {
+      console.error('Erro ao buscar cidadãos:', err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCitizens();
+  }, []);
+
   const filtered = citizens.filter(c => {
     const matchesSearch = c.name.toLowerCase().includes(search.toLowerCase()) || c.phone.includes(search);
     const matchesNeighborhood = filterNeighborhood === 'Todos' || c.neighborhood === filterNeighborhood;
@@ -115,6 +94,14 @@ export default function CidadaosPage() {
   });
 
   const openNewCitizen = () => {
+    // Verificar limites do plano SaaS antes de cadastrar
+    const plano = profile?.gabinete_plano || 'Essencial';
+    const limite = PLAN_LIMITS[plano].maxCitizens;
+    if (citizens.length >= limite) {
+      alert(`Você atingiu o limite de ${limite} cidadãos do seu plano ${plano}. Faça upgrade para cadastrar mais.`);
+      return;
+    }
+
     setSelectedCitizen(null);
     setFormData({ name: '', phone: '', address: '', neighborhood: 'Centro', birthDate: '', lgpdVerified: true });
     setIsModalOpen(true);
@@ -125,19 +112,47 @@ export default function CidadaosPage() {
     setIsProfileModalOpen(true);
   };
 
-  const saveCitizen = (e: React.FormEvent) => {
+  const saveCitizen = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (selectedCitizen) {
-      setCitizens(citizens.map(c => c.id === selectedCitizen.id ? { ...c, ...formData } : c));
-    } else {
-      setCitizens([{ 
-        id: Math.random().toString(), 
-        demandsCount: 0, 
-        notes: [{ id: 'n-init', date: 'Hoje', author: 'Cadastro Inicial', content: 'Cidadão inserido via painel de administração.' }], 
-        ...formData 
-      }, ...citizens]);
+    setSaving(true);
+    try {
+      if (selectedCitizen) {
+        const { error } = await supabase
+          .from('cidadaos')
+          .update({
+            nome: formData.name,
+            telefone: formData.phone,
+            endereco: formData.address,
+            bairro: formData.neighborhood,
+            data_nascimento: formData.birthDate,
+            lgpd_consentimento: formData.lgpdVerified
+          })
+          .eq('id', selectedCitizen.id);
+
+        if (error) throw error;
+      } else {
+        const { error } = await supabase
+          .from('cidadaos')
+          .insert({
+            nome: formData.name,
+            telefone: formData.phone,
+            endereco: formData.address,
+            bairro: formData.neighborhood,
+            data_nascimento: formData.birthDate,
+            lgpd_consentimento: formData.lgpdVerified,
+            anotacoes: [{ id: 'n-init', date: new Date().toLocaleDateString('pt-BR'), author: profile?.nome || 'Gabinete', content: 'Cadastro inicial do cidadão no sistema.' }],
+            gabinete_id: profile?.gabinete_id
+          });
+
+        if (error) throw error;
+      }
+      setIsModalOpen(false);
+      fetchCitizens();
+    } catch (err: any) {
+      alert('Erro ao salvar cidadão: ' + err.message);
+    } finally {
+      setSaving(false);
     }
-    setIsModalOpen(false);
   };
 
   const handleBroadcastWhatsApp = () => {
@@ -145,31 +160,42 @@ export default function CidadaosPage() {
       alert('Nenhum cidadão filtrado para enviar notificação.');
       return;
     }
-    const phones = filtered.map(c => c.phone).join(',');
     const text = `Gabinete Conectado de Camaçari informa: Temos novidades sobre os serviços no bairro ${filterNeighborhood === 'Todos' ? 'em sua região' : filterNeighborhood}!`;
     alert(`Preparando disparo no WhatsApp para ${filtered.length} contatos de ${filterNeighborhood === 'Todos' ? 'Camaçari' : filterNeighborhood}...`);
     window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
   };
 
-  const handleAddNote = (e: React.FormEvent) => {
+  const handleAddNote = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedCitizen || !newNoteText.trim()) return;
+    setAddingNote(true);
 
     const newNoteObj: Note = {
       id: `note-${Date.now()}`,
       date: new Date().toLocaleDateString('pt-BR'),
-      author: 'Assessor (Você)',
+      author: profile?.nome || 'Assessor',
       content: newNoteText.trim(),
     };
 
-    const updatedCitizen = {
-      ...selectedCitizen,
-      notes: [newNoteObj, ...selectedCitizen.notes],
-    };
+    const newNotes = [newNoteObj, ...selectedCitizen.notes];
 
-    setSelectedCitizen(updatedCitizen);
-    setCitizens(citizens.map(c => c.id === updatedCitizen.id ? updatedCitizen : c));
-    setNewNoteText('');
+    try {
+      const { error } = await supabase
+        .from('cidadaos')
+        .update({ anotacoes: newNotes })
+        .eq('id', selectedCitizen.id);
+
+      if (error) throw error;
+
+      const updatedCitizen = { ...selectedCitizen, notes: newNotes };
+      setSelectedCitizen(updatedCitizen);
+      setCitizens(citizens.map(c => c.id === updatedCitizen.id ? updatedCitizen : c));
+      setNewNoteText('');
+    } catch (err: any) {
+      alert('Erro ao adicionar anotação: ' + err.message);
+    } finally {
+      setAddingNote(false);
+    }
   };
 
   const exportLgpdData = (c: Citizen) => {
@@ -180,21 +206,55 @@ export default function CidadaosPage() {
     dlAnchorElem.click();
   };
 
-  const anonymizeCitizen = (c: Citizen) => {
+  const anonymizeCitizen = async (c: Citizen) => {
     if (window.confirm(`Tem certeza que deseja anonimizar os dados de ${c.name}? (Ação irreversível de acordo com a LGPD)`)) {
-      const anonymized: Citizen = {
-        ...c,
-        name: 'Cidadão Anonimizado (LGPD)',
-        phone: '***-****',
-        address: 'Dado Ocultado',
-        birthDate: '**/**',
-        lgpdVerified: false,
-        notes: [...c.notes, { id: Date.now().toString(), date: 'Hoje', author: 'Sistema LGPD', content: 'Dados sensíveis anonimizados a pedido do titular.' }]
-      };
-      setCitizens(citizens.map(item => item.id === c.id ? anonymized : item));
-      setSelectedCitizen(anonymized);
-      alert('Dados do cidadão anonimizados com sucesso conforme LGPD.');
+      const anonymizedNotes = [...c.notes, { id: Date.now().toString(), date: 'Hoje', author: 'Sistema LGPD', content: 'Dados sensíveis anonimizados a pedido do titular.' }];
+      
+      try {
+        const { error } = await supabase
+          .from('cidadaos')
+          .update({
+            nome: 'Cidadão Anonimizado (LGPD)',
+            telefone: '***-****',
+            endereco: 'Dado Ocultado',
+            data_nascimento: '**/**',
+            lgpd_consentimento: false,
+            anotacoes: anonymizedNotes
+          })
+          .eq('id', c.id);
+
+        if (error) throw error;
+
+        const anonymized: Citizen = {
+          ...c,
+          name: 'Cidadão Anonimizado (LGPD)',
+          phone: '***-****',
+          address: 'Dado Ocultado',
+          birthDate: '**/**',
+          lgpdVerified: false,
+          notes: anonymizedNotes
+        };
+
+        setCitizens(citizens.map(item => item.id === c.id ? anonymized : item));
+        setSelectedCitizen(anonymized);
+        alert('Dados do cidadão anonimizados com sucesso conforme LGPD.');
+      } catch (err: any) {
+        alert('Erro ao anonimizar cidadão: ' + err.message);
+      }
     }
+  };
+
+  const startEditCitizen = (citizen: Citizen) => {
+    setSelectedCitizen(citizen);
+    setFormData({
+      name: citizen.name,
+      phone: citizen.phone,
+      address: citizen.address,
+      neighborhood: citizen.neighborhood,
+      birthDate: citizen.birthDate,
+      lgpdVerified: citizen.lgpdVerified
+    });
+    setIsModalOpen(true);
   };
 
   return (
@@ -251,71 +311,86 @@ export default function CidadaosPage() {
         </div>
       </div>
 
-      {/* Citizens Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filtered.map(c => (
-          <div key={c.id} className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
-            <div>
-              <div className="flex items-start justify-between gap-3 mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-emerald-100 text-emerald-800 rounded-full flex items-center justify-center font-extrabold text-lg border border-emerald-200 shadow-xs">
-                    {c.name.charAt(0)}
+      {/* Citizens Grid / Loading */}
+      {loading ? (
+        <div className="flex flex-col items-center justify-center py-20 gap-3">
+          <Loader2 className="w-10 h-10 text-emerald-600 animate-spin" />
+          <span className="text-gray-500 font-medium text-sm">Carregando dados dos cidadãos...</span>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filtered.map(c => (
+            <div key={c.id} className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+              <div>
+                <div className="flex items-start justify-between gap-3 mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-emerald-100 text-emerald-800 rounded-full flex items-center justify-center font-extrabold text-lg border border-emerald-200 shadow-xs">
+                      {c.name.charAt(0)}
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-gray-900 text-base">{c.name}</h3>
+                      <span className="text-xs font-semibold text-violet-700 bg-violet-50 border border-violet-200 px-2.5 py-0.5 rounded-full inline-block mt-1">
+                        {c.neighborhood}
+                      </span>
+                    </div>
                   </div>
+                  
+                  {/* Feature 3: LGPD Verified Badge */}
                   <div>
-                    <h3 className="font-bold text-gray-900 text-base">{c.name}</h3>
-                    <span className="text-xs font-semibold text-violet-700 bg-violet-50 border border-violet-200 px-2.5 py-0.5 rounded-full inline-block mt-1">
-                      {c.neighborhood}
-                    </span>
+                    {c.lgpdVerified ? (
+                      <span className="flex items-center gap-1 bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-extrabold px-2 py-1 rounded-lg" title="Consentimento LGPD Ativo">
+                        <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" /> LGPD OK
+                      </span>
+                    ) : (
+                      <span className="flex items-center gap-1 bg-amber-50 text-amber-700 border border-amber-200 text-[10px] font-extrabold px-2 py-1 rounded-lg" title="Aceite de Termos Pendente">
+                        <ShieldAlert className="w-3.5 h-3.5 text-amber-600 flex-shrink-0" /> Pendente
+                      </span>
+                    )}
                   </div>
                 </div>
-                
-                {/* Feature 3: LGPD Verified Badge */}
-                <div>
-                  {c.lgpdVerified ? (
-                    <span className="flex items-center gap-1 bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-extrabold px-2 py-1 rounded-lg" title="Consentimento LGPD Ativo">
-                      <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" /> LGPD OK
-                    </span>
-                  ) : (
-                    <span className="flex items-center gap-1 bg-amber-50 text-amber-700 border border-amber-200 text-[10px] font-extrabold px-2 py-1 rounded-lg" title="Aceite de Termos Pendente">
-                      <ShieldAlert className="w-3.5 h-3.5 text-amber-600 flex-shrink-0" /> Pendente
-                    </span>
-                  )}
+
+                <div className="space-y-2.5 text-sm text-gray-600 font-medium py-3 border-t border-b border-gray-100/80 my-3">
+                  <div className="flex items-center gap-2.5 text-gray-800">
+                    <Phone className="w-4 h-4 text-emerald-600" /> {c.phone}
+                  </div>
+                  <div className="flex items-center gap-2.5 text-gray-600 text-xs">
+                    <MapPin className="w-4 h-4 text-amber-500" /> {c.address}
+                  </div>
+                  <div className="flex items-center gap-2.5 text-gray-600 text-xs">
+                    <Calendar className="w-4 h-4 text-violet-500" /> Nasc: <span className="font-bold text-gray-800">{c.birthDate}</span>
+                  </div>
                 </div>
               </div>
 
-              <div className="space-y-2.5 text-sm text-gray-600 font-medium py-3 border-t border-b border-gray-100/80 my-3">
-                <div className="flex items-center gap-2.5 text-gray-800">
-                  <Phone className="w-4 h-4 text-emerald-600" /> {c.phone}
-                </div>
-                <div className="flex items-center gap-2.5 text-gray-600 text-xs">
-                  <MapPin className="w-4 h-4 text-amber-500" /> {c.address}
-                </div>
-                <div className="flex items-center gap-2.5 text-gray-600 text-xs">
-                  <Calendar className="w-4 h-4 text-violet-500" /> Nasc: <span className="font-bold text-gray-800">{c.birthDate}</span>
+              <div className="flex items-center justify-between pt-2 gap-2">
+                <span className="text-xs text-gray-500 font-semibold">{c.demandsCount} demandas</span>
+                <div className="flex gap-2">
+                  <button 
+                    onClick={() => startEditCitizen(c)}
+                    className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-extrabold text-xs px-3 py-2 rounded-xl transition-all shadow-xs"
+                  >
+                    Editar
+                  </button>
+                  <button 
+                    onClick={() => openCitizenProfile(c)}
+                    className="bg-emerald-50 hover:bg-emerald-600 hover:text-white text-emerald-800 font-extrabold text-xs px-3 py-2 rounded-xl transition-all shadow-xs"
+                  >
+                    Histórico
+                  </button>
                 </div>
               </div>
             </div>
+          ))}
 
-            <div className="flex items-center justify-between pt-2">
-              <span className="text-xs text-gray-500 font-semibold">{c.demandsCount} demandas abertas</span>
-              <button 
-                onClick={() => openCitizenProfile(c)}
-                className="bg-gray-100 text-gray-800 font-extrabold text-xs px-4 py-2 rounded-xl hover:bg-emerald-600 hover:text-white transition-all shadow-xs"
-              >
-                Perfil & Histórico
-              </button>
+          {filtered.length === 0 && (
+            <div className="col-span-full py-12 text-center text-gray-500 font-bold bg-white rounded-2xl border border-gray-200">
+              Nenhum cidadão encontrado.
             </div>
-          </div>
-        ))}
+          )}
+        </div>
+      )}
 
-        {filtered.length === 0 && (
-          <div className="col-span-full py-12 text-center text-gray-500 font-bold bg-white rounded-2xl border border-gray-200">
-            Nenhum cidadão encontrado para a busca ou filtro selecionado.
-          </div>
-        )}
-      </div>
-
-      {/* Feature 4 & 3: Citizen Profile Modal (Timeline & LGPD Actions) */}
+      {/* Profile Modal */}
       {isProfileModalOpen && selectedCitizen && (
         <div className="fixed inset-0 bg-gray-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 animate-in fade-in">
           <div className="bg-white rounded-3xl w-full max-w-2xl shadow-2xl max-h-[90vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-200 border border-gray-100">
@@ -344,7 +419,7 @@ export default function CidadaosPage() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <ShieldCheck className={`w-5 h-5 ${selectedCitizen.lgpdVerified ? 'text-emerald-600' : 'text-amber-500'}`} />
-                    <span className="font-bold text-gray-900 text-sm">Status de Conformidade LGPD (Lei 13.709/2018)</span>
+                    <span className="font-bold text-gray-900 text-sm">Status de Conformidade LGPD</span>
                   </div>
                   <span className={`text-xs font-black px-2.5 py-1 rounded-lg ${selectedCitizen.lgpdVerified ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}`}>
                     {selectedCitizen.lgpdVerified ? 'Autorizado pelo Titular' : 'Consentimento Pendente'}
@@ -373,7 +448,7 @@ export default function CidadaosPage() {
               <div>
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-base font-bold text-gray-900 flex items-center gap-2">
-                    <Clock className="w-5 h-5 text-violet-600" /> Linha do Tempo & Anotações do Assessor
+                    <Clock className="w-5 h-5 text-violet-600" /> Linha do Tempo & Anotações
                   </h3>
                   <span className="text-xs bg-violet-100 text-violet-800 font-extrabold px-2.5 py-0.5 rounded-full">
                     {selectedCitizen.notes.length} registros
@@ -392,16 +467,16 @@ export default function CidadaosPage() {
                       onChange={e => setNewNoteText(e.target.value)}
                       className="flex-1 px-4 py-2.5 bg-white border border-violet-200 rounded-xl outline-none focus:border-violet-500 text-sm text-gray-900 placeholder:text-gray-400 font-medium"
                     />
-                    <button type="submit" className="bg-violet-600 text-white font-extrabold px-5 py-2.5 rounded-xl hover:bg-violet-700 transition-colors text-sm shadow-sm flex items-center gap-1">
-                      <Plus className="w-4 h-4" /> Registrar
+                    <button type="submit" disabled={addingNote} className="bg-violet-600 text-white font-extrabold px-5 py-2.5 rounded-xl hover:bg-violet-700 transition-colors text-sm shadow-sm flex items-center gap-1 disabled:opacity-75">
+                      {addingNote ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />} Registrar
                     </button>
                   </div>
                 </form>
 
                 {/* Notes List */}
                 <div className="space-y-3 max-h-64 overflow-y-auto pr-1">
-                  {selectedCitizen.notes.map(note => (
-                    <div key={note.id} className="bg-gray-50/80 border border-gray-200 p-4 rounded-2xl flex items-start gap-3">
+                  {selectedCitizen.notes.map((note, index) => (
+                    <div key={note.id || index} className="bg-gray-50/80 border border-gray-200 p-4 rounded-2xl flex items-start gap-3">
                       <div className="w-2.5 h-2.5 rounded-full bg-violet-500 mt-1.5 flex-shrink-0"></div>
                       <div className="flex-1">
                         <div className="flex justify-between items-center mb-1">
@@ -415,13 +490,11 @@ export default function CidadaosPage() {
 
                   {selectedCitizen.notes.length === 0 && (
                     <div className="text-center py-8 text-sm text-gray-400 font-medium bg-gray-50 rounded-2xl border border-dashed border-gray-200">
-                      Nenhuma anotação ou ponto de contato registrado para este cidadão ainda.
+                      Nenhuma anotação registrada ainda.
                     </div>
                   )}
                 </div>
-
               </div>
-
             </div>
 
             {/* Modal Footer */}
@@ -433,17 +506,16 @@ export default function CidadaosPage() {
                 Fechar Perfil
               </button>
             </div>
-
           </div>
         </div>
       )}
 
-      {/* New Citizen Modal */}
+      {/* New/Edit Citizen Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-gray-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 animate-in fade-in">
           <div className="bg-white rounded-3xl p-6 w-full max-w-md shadow-2xl animate-in zoom-in-95 duration-200 border border-gray-100">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">Novo Cidadão</h2>
+              <h2 className="text-2xl font-bold text-gray-900">{selectedCitizen ? 'Editar Cidadão' : 'Novo Cidadão'}</h2>
               <button onClick={() => setIsModalOpen(false)} className="text-gray-400 hover:text-gray-600 p-1 rounded-lg hover:bg-gray-100">
                 <X className="w-6 h-6" />
               </button>
@@ -474,9 +546,22 @@ export default function CidadaosPage() {
                 <label className="block text-sm font-semibold text-gray-700 mb-1">Data de Nascimento</label>
                 <input required type="text" placeholder="Ex: 18/05" value={formData.birthDate} onChange={e => setFormData({...formData, birthDate: e.target.value})} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-emerald-500 font-semibold text-gray-900" />
               </div>
+              
+              <div className="flex items-center gap-2 pt-2">
+                <input
+                  type="checkbox"
+                  id="lgpdVerified"
+                  checked={formData.lgpdVerified}
+                  onChange={e => setFormData({...formData, lgpdVerified: e.target.checked})}
+                  className="rounded text-emerald-600 focus:ring-emerald-500 h-4 w-4"
+                />
+                <label htmlFor="lgpdVerified" className="text-sm font-semibold text-gray-700">Consentimento LGPD Ativo</label>
+              </div>
+
               <div className="pt-4">
-                <button type="submit" className="w-full bg-emerald-600 text-white font-extrabold py-3.5 rounded-xl hover:bg-emerald-700 transition-colors flex items-center justify-center gap-2 shadow-md">
-                  <Save className="w-5 h-5" /> Salvar Cadastro
+                <button type="submit" disabled={saving} className="w-full bg-emerald-600 text-white font-extrabold py-3.5 rounded-xl hover:bg-emerald-700 transition-colors flex items-center justify-center gap-2 shadow-md disabled:opacity-75">
+                  {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
+                  {selectedCitizen ? 'Salvar Alterações' : 'Salvar Cadastro'}
                 </button>
               </div>
             </form>

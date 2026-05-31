@@ -1,0 +1,667 @@
+[browser] Error creating profile: new row violates row-level security policy for table "usuarios" 42501 null 
+    at fetchProfile (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/src_01dr34e._.js:171:29) (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/src_01dr34e._.js:171:29)
+[browser] Error creating profile: new row violates row-level security policy for table "usuarios" 42501 null 
+    at fetchProfile (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/src_01dr34e._.js:171:29) (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/src_01dr34e._.js:171:29)
+[browser] Error creating profile: new row violates row-level security policy for table "usuarios" 42501 null 
+    at fetchProfile (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/src_01dr34e._.js:171:29) (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/src_01dr34e._.js:171:29)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Error creating profile: new row violates row-level security policy for table "usuarios" 42501 null 
+    at fetchProfile (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/src_01dr34e._.js:171:29) (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/src_01dr34e._.js:171:29)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Supabase DB error (tables might not exist yet): Error: Citizen Error: Could not find the table 'public.citizens' in the schema cache
+    at SupabaseDemandRepository.create (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/_0.zwd-d._.js:55:33)
+    at async handleSubmit (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/_0.zwd-d._.js:257:32) (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+⨯ ./src/infrastructure/repositories/SupabaseDemandRepository.ts:111:7
+Expression expected
+  [90m109 |[0m   }
+  [90m110 |[0m }
+[31m[1m>[0m [90m111 |[0m       .upsert(
+  [90m    |[0m       [31m[1m^[0m
+  [90m112 |[0m         {
+  [90m113 |[0m           name: demand.citizen.name,
+  [90m114 |[0m           phone: demand.citizen.phone,
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/infrastructure/repositories/SupabaseDemandRepository.ts [Client Component Browser]
+    ./src/components/demand-form.tsx [Client Component Browser]
+    ./src/components/demand-form.tsx [Server Component]
+    ./src/app/solicitar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/infrastructure/repositories/SupabaseDemandRepository.ts [Client Component SSR]
+    ./src/components/demand-form.tsx [Client Component SSR]
+    ./src/components/demand-form.tsx [Server Component]
+    ./src/app/solicitar/page.tsx [Server Component]
+
+
+[browser] ./src/infrastructure/repositories/SupabaseDemandRepository.ts:111:7
+Expression expected
+  109 |   }
+  110 | }
+> 111 |       .upsert(
+      |       ^
+  112 |         {
+  113 |           name: demand.citizen.name,
+  114 |           phone: demand.citizen.phone,
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/infrastructure/repositories/SupabaseDemandRepository.ts [Client Component Browser]
+    ./src/components/demand-form.tsx [Client Component Browser]
+    ./src/components/demand-form.tsx [Server Component]
+    ./src/app/solicitar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/infrastructure/repositories/SupabaseDemandRepository.ts [Client Component SSR]
+    ./src/components/demand-form.tsx [Client Component SSR]
+    ./src/components/demand-form.tsx [Server Component]
+    ./src/app/solicitar/page.tsx [Server Component] 
+    at handleErrors (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
+    at processMessage (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13914:21)
+    at WebSocket.handleMessage (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13358:52) (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
+[browser] ./src/infrastructure/repositories/SupabaseDemandRepository.ts:111:7
+Expression expected
+  109 |   }
+  110 | }
+> 111 |       .upsert(
+      |       ^
+  112 |         {
+  113 |           name: demand.citizen.name,
+  114 |           phone: demand.citizen.phone,
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/infrastructure/repositories/SupabaseDemandRepository.ts [Client Component Browser]
+    ./src/components/demand-form.tsx [Client Component Browser]
+    ./src/components/demand-form.tsx [Server Component]
+    ./src/app/solicitar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/infrastructure/repositories/SupabaseDemandRepository.ts [Client Component SSR]
+    ./src/components/demand-form.tsx [Client Component SSR]
+    ./src/components/demand-form.tsx [Server Component]
+    ./src/app/solicitar/page.tsx [Server Component] 
+    at handleErrors (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
+    at processMessage (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13914:21)
+    at WebSocket.handleMessage (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13358:52) (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
+[browser] ./src/infrastructure/repositories/SupabaseDemandRepository.ts:111:7
+Expression expected
+  109 |   }
+  110 | }
+> 111 |       .upsert(
+      |       ^
+  112 |         {
+  113 |           name: demand.citizen.name,
+  114 |           phone: demand.citizen.phone,
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/infrastructure/repositories/SupabaseDemandRepository.ts [Client Component Browser]
+    ./src/components/demand-form.tsx [Client Component Browser]
+    ./src/components/demand-form.tsx [Server Component]
+    ./src/app/solicitar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/infrastructure/repositories/SupabaseDemandRepository.ts [Client Component SSR]
+    ./src/components/demand-form.tsx [Client Component SSR]
+    ./src/components/demand-form.tsx [Server Component]
+    ./src/app/solicitar/page.tsx [Server Component] 
+    at handleErrors (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
+    at processMessage (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13914:21)
+    at WebSocket.handleMessage (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13358:52) (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
+[browser] ./src/infrastructure/repositories/SupabaseDemandRepository.ts:111:7
+Expression expected
+  109 |   }
+  110 | }
+> 111 |       .upsert(
+      |       ^
+  112 |         {
+  113 |           name: demand.citizen.name,
+  114 |           phone: demand.citizen.phone,
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/infrastructure/repositories/SupabaseDemandRepository.ts [Client Component Browser]
+    ./src/components/demand-form.tsx [Client Component Browser]
+    ./src/components/demand-form.tsx [Server Component]
+    ./src/app/solicitar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/infrastructure/repositories/SupabaseDemandRepository.ts [Client Component SSR]
+    ./src/components/demand-form.tsx [Client Component SSR]
+    ./src/components/demand-form.tsx [Server Component]
+    ./src/app/solicitar/page.tsx [Server Component] 
+    at handleErrors (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
+    at processMessage (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13914:21)
+    at WebSocket.handleMessage (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13358:52) (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
+⨯ ./src/infrastructure/repositories/SupabaseDemandRepository.ts:111:7
+Expression expected
+  [90m109 |[0m   }
+  [90m110 |[0m }
+[31m[1m>[0m [90m111 |[0m       .upsert(
+  [90m    |[0m       [31m[1m^[0m
+  [90m112 |[0m         {
+  [90m113 |[0m           name: demand.citizen.name,
+  [90m114 |[0m           phone: demand.citizen.phone,
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/infrastructure/repositories/SupabaseDemandRepository.ts [Client Component Browser]
+    ./src/components/demand-form.tsx [Client Component Browser]
+    ./src/components/demand-form.tsx [Server Component]
+    ./src/app/solicitar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/infrastructure/repositories/SupabaseDemandRepository.ts [Client Component SSR]
+    ./src/components/demand-form.tsx [Client Component SSR]
+    ./src/components/demand-form.tsx [Server Component]
+    ./src/app/solicitar/page.tsx [Server Component]
+
+
+[browser] ./src/infrastructure/repositories/SupabaseDemandRepository.ts:111:7
+Expression expected
+  109 |   }
+  110 | }
+> 111 |       .upsert(
+      |       ^
+  112 |         {
+  113 |           name: demand.citizen.name,
+  114 |           phone: demand.citizen.phone,
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/infrastructure/repositories/SupabaseDemandRepository.ts [Client Component Browser]
+    ./src/components/demand-form.tsx [Client Component Browser]
+    ./src/components/demand-form.tsx [Server Component]
+    ./src/app/solicitar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/infrastructure/repositories/SupabaseDemandRepository.ts [Client Component SSR]
+    ./src/components/demand-form.tsx [Client Component SSR]
+    ./src/components/demand-form.tsx [Server Component]
+    ./src/app/solicitar/page.tsx [Server Component] 
+    at handleErrors (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
+    at processMessage (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13914:21)
+    at WebSocket.handleMessage (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13358:52) (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13851:21)
+[browser] Uncaught Error: ./src/infrastructure/repositories/SupabaseDemandRepository.ts:111:7
+Expression expected
+  109 |   }
+  110 | }
+> 111 |       .upsert(
+      |       ^
+  112 |         {
+  113 |           name: demand.citizen.name,
+  114 |           phone: demand.citizen.phone,
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/infrastructure/repositories/SupabaseDemandRepository.ts [Client Component Browser]
+    ./src/components/demand-form.tsx [Client Component Browser]
+    ./src/components/demand-form.tsx [Server Component]
+    ./src/app/solicitar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/infrastructure/repositories/SupabaseDemandRepository.ts [Client Component SSR]
+    ./src/components/demand-form.tsx [Client Component SSR]
+    ./src/components/demand-form.tsx [Server Component]
+    ./src/app/solicitar/page.tsx [Server Component]
+
+
+    at <unknown> (Error: ./src/infrastructure/repositories/SupabaseDemandRepository.ts:111:7)
+    at <unknown> (Error: (./src/infrastructure/repositories/SupabaseDemandRepository.ts:111:7)
+[browser] Uncaught Error: ./src/infrastructure/repositories/SupabaseDemandRepository.ts:111:7
+Expression expected
+  109 |   }
+  110 | }
+> 111 |       .upsert(
+      |       ^
+  112 |         {
+  113 |           name: demand.citizen.name,
+  114 |           phone: demand.citizen.phone,
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/infrastructure/repositories/SupabaseDemandRepository.ts [Client Component Browser]
+    ./src/components/demand-form.tsx [Client Component Browser]
+    ./src/components/demand-form.tsx [Server Component]
+    ./src/app/solicitar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/infrastructure/repositories/SupabaseDemandRepository.ts [Client Component SSR]
+    ./src/components/demand-form.tsx [Client Component SSR]
+    ./src/components/demand-form.tsx [Server Component]
+    ./src/app/solicitar/page.tsx [Server Component]
+
+
+    at <unknown> (Error: ./src/infrastructure/repositories/SupabaseDemandRepository.ts:111:7)
+    at <unknown> (Error: (./src/infrastructure/repositories/SupabaseDemandRepository.ts:111:7)
+[browser] ./src/infrastructure/repositories/SupabaseDemandRepository.ts:111:7
+Expression expected
+  109 |   }
+  110 | }
+> 111 |       .upsert(
+      |       ^
+  112 |         {
+  113 |           name: demand.citizen.name,
+  114 |           phone: demand.citizen.phone,
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/infrastructure/repositories/SupabaseDemandRepository.ts [Client Component Browser]
+    ./src/components/demand-form.tsx [Client Component Browser]
+    ./src/components/demand-form.tsx [Server Component]
+    ./src/app/solicitar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/infrastructure/repositories/SupabaseDemandRepository.ts [Client Component SSR]
+    ./src/components/demand-form.tsx [Client Component SSR]
+    ./src/components/demand-form.tsx [Server Component]
+    ./src/app/solicitar/page.tsx [Server Component] 
+    at handleErrors (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2774:21)
+    at processMessage (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2835:28)
+    at <unknown> (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2680:13)
+    at WebSocket.handleMessage (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2325:17) (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2774:21)
+[browser] ./src/infrastructure/repositories/SupabaseDemandRepository.ts:111:7
+Expression expected
+  109 |   }
+  110 | }
+> 111 |       .upsert(
+      |       ^
+  112 |         {
+  113 |           name: demand.citizen.name,
+  114 |           phone: demand.citizen.phone,
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/infrastructure/repositories/SupabaseDemandRepository.ts [Client Component Browser]
+    ./src/components/demand-form.tsx [Client Component Browser]
+    ./src/components/demand-form.tsx [Server Component]
+    ./src/app/solicitar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/infrastructure/repositories/SupabaseDemandRepository.ts [Client Component SSR]
+    ./src/components/demand-form.tsx [Client Component SSR]
+    ./src/components/demand-form.tsx [Server Component]
+    ./src/app/solicitar/page.tsx [Server Component] 
+    at handleErrors (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2774:21)
+    at processMessage (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2835:28)
+    at <unknown> (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2680:13)
+    at WebSocket.handleMessage (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2325:17) (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2774:21)
+[browser] ./src/infrastructure/repositories/SupabaseDemandRepository.ts:111:7
+Expression expected
+  109 |   }
+  110 | }
+> 111 |       .upsert(
+      |       ^
+  112 |         {
+  113 |           name: demand.citizen.name,
+  114 |           phone: demand.citizen.phone,
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/infrastructure/repositories/SupabaseDemandRepository.ts [Client Component Browser]
+    ./src/components/demand-form.tsx [Client Component Browser]
+    ./src/components/demand-form.tsx [Server Component]
+    ./src/app/solicitar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/infrastructure/repositories/SupabaseDemandRepository.ts [Client Component SSR]
+    ./src/components/demand-form.tsx [Client Component SSR]
+    ./src/components/demand-form.tsx [Server Component]
+    ./src/app/solicitar/page.tsx [Server Component] 
+    at handleErrors (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2774:21)
+    at processMessage (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2835:28)
+    at <unknown> (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2680:13)
+    at WebSocket.handleMessage (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2325:17) (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2774:21)
+[browser] ./src/infrastructure/repositories/SupabaseDemandRepository.ts:111:7
+Expression expected
+  109 |   }
+  110 | }
+> 111 |       .upsert(
+      |       ^
+  112 |         {
+  113 |           name: demand.citizen.name,
+  114 |           phone: demand.citizen.phone,
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/infrastructure/repositories/SupabaseDemandRepository.ts [Client Component Browser]
+    ./src/components/demand-form.tsx [Client Component Browser]
+    ./src/components/demand-form.tsx [Server Component]
+    ./src/app/solicitar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/infrastructure/repositories/SupabaseDemandRepository.ts [Client Component SSR]
+    ./src/components/demand-form.tsx [Client Component SSR]
+    ./src/components/demand-form.tsx [Server Component]
+    ./src/app/solicitar/page.tsx [Server Component] 
+    at handleErrors (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2774:21)
+    at processMessage (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2835:28)
+    at <unknown> (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2680:13)
+    at WebSocket.handleMessage (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2325:17) (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2774:21)
+[browser] ./src/infrastructure/repositories/SupabaseDemandRepository.ts:111:7
+Expression expected
+  109 |   }
+  110 | }
+> 111 |       .upsert(
+      |       ^
+  112 |         {
+  113 |           name: demand.citizen.name,
+  114 |           phone: demand.citizen.phone,
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/infrastructure/repositories/SupabaseDemandRepository.ts [Client Component Browser]
+    ./src/components/demand-form.tsx [Client Component Browser]
+    ./src/components/demand-form.tsx [Server Component]
+    ./src/app/solicitar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/infrastructure/repositories/SupabaseDemandRepository.ts [Client Component SSR]
+    ./src/components/demand-form.tsx [Client Component SSR]
+    ./src/components/demand-form.tsx [Server Component]
+    ./src/app/solicitar/page.tsx [Server Component] 
+    at handleErrors (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2774:21)
+    at processMessage (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2835:28)
+    at <unknown> (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2680:13)
+    at WebSocket.handleMessage (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2325:17) (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2774:21)
+[browser] ./src/infrastructure/repositories/SupabaseDemandRepository.ts:111:7
+Expression expected
+  109 |   }
+  110 | }
+> 111 |       .upsert(
+      |       ^
+  112 |         {
+  113 |           name: demand.citizen.name,
+  114 |           phone: demand.citizen.phone,
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./src/infrastructure/repositories/SupabaseDemandRepository.ts [Client Component Browser]
+    ./src/components/demand-form.tsx [Client Component Browser]
+    ./src/components/demand-form.tsx [Server Component]
+    ./src/app/solicitar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/infrastructure/repositories/SupabaseDemandRepository.ts [Client Component SSR]
+    ./src/components/demand-form.tsx [Client Component SSR]
+    ./src/components/demand-form.tsx [Server Component]
+    ./src/app/solicitar/page.tsx [Server Component] 
+    at handleErrors (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2774:21)
+    at processMessage (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2835:28)
+    at <unknown> (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2680:13)
+    at WebSocket.handleMessage (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2325:17) (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_client_0pe1dg-._.js:2774:21)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Error: Gabinete Error: Could not find the function public.get_public_gabinete_id without parameters in the schema cache
+    at SupabaseDemandRepository.getPublicGabineteId (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/_0.zwd-d._.js:55:19)
+    at async SupabaseDemandRepository.create (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/_0.zwd-d._.js:64:28)
+    at async handleSubmit (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/_0.zwd-d._.js:272:28) (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/_0.zwd-d._.js:290:21)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Error: Citizen Error: new row violates row-level security policy for table "cidadaos"
+    at SupabaseDemandRepository.create (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/_0.zwd-d._.js:83:33)
+    at async handleSubmit (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/_0.zwd-d._.js:272:28) (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/_0.zwd-d._.js:290:21)
+[browser] Error: Citizen Error: new row violates row-level security policy for table "cidadaos"
+    at SupabaseDemandRepository.create (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/_0.zwd-d._.js:83:33)
+    at async handleSubmit (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/_0.zwd-d._.js:272:28) (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/_0.zwd-d._.js:290:21)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Error: Citizen Error: new row violates row-level security policy for table "cidadaos"
+    at SupabaseDemandRepository.create (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/_0.zwd-d._.js:83:33)
+    at async handleSubmit (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/_0.zwd-d._.js:272:28) (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/_0.zwd-d._.js:290:21)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] Profile not found in usuarios table; using auth metadata fallback. c75df06e-45c6-40bd-b2a3-146e3f896bc0 (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. (file://C:/Users/Eber Freitas/Documents/Projetos/Gabinete Conectado/.next/dev/static/chunks/node_modules_next_dist_115brz8._.js:2477:13)
+Error: Turbopack build failed with 1 errors:
+./src/app
+Error: Next.js inferred your workspace root, but it may not be correct.
+    We couldn't find the Next.js package (next/package.json) from the project directory: C:\Users\Eber Freitas\Documents\Projetos\Gabinete Conectado\src\app
+     To fix this, set turbopack.root in your Next.js config, or ensure the Next.js package is resolvable from this directory.
+    Note: For security and performance reasons, files outside of the project directory will not be compiled.
+    See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+
+    at ignore-listed frames

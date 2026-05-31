@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { FolderOpen, Sparkles, FileText, Download, Upload, Plus, Search, Copy, Check, Printer, Trash2, FileCode, Clock, Building, ArrowRight, Loader2, Tag, Eye, X, Lock, Zap } from 'lucide-react';
-import type { PlanType } from '../configuracoes/page';
+import { FolderOpen, Sparkles, FileText, Download, Upload, Search, Copy, Check, Printer, Trash2, FileCode, Clock, Building, ArrowRight, Loader2, X, Lock, Zap, Eye } from 'lucide-react';
+import { supabase } from '@/infrastructure/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
 
 type DocumentItem = {
   id: string;
@@ -15,81 +16,17 @@ type DocumentItem = {
   size: string;
   contentSnippet: string;
   fullContent: string;
+  url: string;
 };
 
-const initialDocuments: DocumentItem[] = [
-  {
-    id: '1',
-    code: 'IND-045/2026',
-    title: 'Pavimentação Asfáltica e Drenagem na Gleba A',
-    category: 'Indicação',
-    date: '15/05/2026',
-    status: 'Aprovado',
-    recipient: 'Mesa Diretora / SEINFRA',
-    size: '240 KB',
-    contentSnippet: 'Indica ao Chefe do Poder Executivo Municipal a necessidade imperiosa de recapeamento asfáltico e desobstrução da rede de águas pluviais na Rua Principal da Gleba A.',
-    fullContent: `ESTADO DA BAHIA\nCÂMARA MUNICIPAL DE CAMAÇARI\nGabinete Parlamentar\n\nINDICAÇÃO Nº 045/2026\n\nSenhor Presidente,\nSenhores Vereadores,\n\nO Vereador que esta subscreve, no uso de suas atribuições regimentais e amparado pelo Regimento Interno desta Casa Legislativa, INDICA ao Excelentíssimo Senhor Prefeito Municipal, com cópia para a Secretaria de Infraestrutura (SEINFRA), a imediata realização de obras de pavimentação asfáltica, recapeamento e desobstrução completa da rede de águas pluviais na Rua Principal do bairro Gleba A.\n\nJUSTIFICATIVA\n\nA presente solicitação atende a um clamor urgente dos moradores e comerciantes da referida localidade. Durante o período de chuvas, a via fica intransitável devido ao acúmulo de água e buracos extensos, causando prejuízos aos veículos e colocando em risco a integridade física de pedestres e idosos.\n\nA execução desta obra restaurará a dignidade da comunidade, promovendo mobilidade urbana segura e salubridade pública.\n\nSala das Sessões, Camaçari - BA, 15 de Maio de 2026.\n\n____________________________________\nGabinete Conectado de Camaçari`,
-  },
-  {
-    id: '2',
-    code: 'OF-112/2026',
-    title: 'Solicitação de Insumos Médicos - UPA Arembepe',
-    category: 'Ofício',
-    date: '14/05/2026',
-    status: 'Aguardando Resposta',
-    recipient: 'Secretaria de Saúde (SESAU)',
-    size: '512 KB',
-    contentSnippet: 'Cumprimentando-o cordialmente, sirvo-me do presente para solicitar a normalização imediata do fornecimento de soro fisiológico e antibióticos pediátricos na UPA de Arembepe.',
-    fullContent: `ESTADO DA BAHIA\nCÂMARA MUNICIPAL DE CAMAÇARI\nGabinete Parlamentar\n\nOFÍCIO Nº 112/2026\nCamaçari - BA, 14 de Maio de 2026.\n\nAo Ilustríssimo Senhor Secretário Municipal de Saúde,\nSecretaria de Saúde (SESAU) - Camaçari/BA\n\nAssunto: Solicitação Institucional de Insumos Médicos em Caráter de Urgência\n\nCumprimentando-o cordialmente, sirvo-me do presente expediente para levar ao conhecimento desta respeitável Secretaria a grave situação relatada por eleitores e confirmada por nossa equipe de fiscalização na UPA de Arembepe.\n\nConstatou-se a escassez crítica de insumos básicos de atendimento de urgência, notadamente soro fisiológico, seringas e antibióticos da grade pediátrica. Tal situação compromete o atendimento humanizado à população costeira de nosso município.\n\nDiante do exposto, solicitamos a imediata recomposição dos estoques da referida unidade de saúde, garantindo a continuidade do serviço público essencial de saúde.\n\nNa certeza de contarmos com a vossa habitual presteza e sensibilidade com a saúde pública, reiteramos protestos de elevada estima e distinta consideração.\n\nAtenciosamente,\n\n____________________________________\nGabinete Conectado de Camaçari`,
-  },
-  {
-    id: '3',
-    code: 'PL-018/2026',
-    title: 'Programa Municipal de Inclusão Digital nas Escolas',
-    category: 'Projeto de Lei',
-    date: '10/05/2026',
-    status: 'Enviado',
-    recipient: 'Comissão de Constituição e Justiça',
-    size: '1.2 MB',
-    contentSnippet: 'Institui a política de acesso gratuito à internet de alta velocidade e distribuição de tablets educacionais para alunos da rede pública municipal de ensino.',
-    fullContent: `PROJETO DE LEI Nº 018/2026\n\nInstitui o Programa Municipal de Inclusão Digital na Rede Pública de Ensino de Camaçari e dá outras providências.\n\nA CÂMARA MUNICIPAL DE CAMAÇARI APROVA:\n\nArt. 1º - Fica instituído o Programa Municipal de Inclusão Digital, com o objetivo de assegurar acesso universal e gratuito à internet de banda larga em todas as unidades escolares da rede municipal.\n\nArt. 2º - O Poder Executivo garantirá a distribuição de equipamentos tecnológicos (tablets educacionais) aos alunos matriculados no Ensino Fundamental II, mediante critérios socioeconômicos.\n\nArt. 3º - As despesas decorrentes da execução desta Lei correrão por conta de dotações orçamentárias próprias da Secretaria Municipal de Educação (SEDUC).\n\nArt. 4º - Esta Lei entra em vigor na data de sua publicação.\n\nSala das Sessões, 10 de Maio de 2026.`,
-  },
-  {
-    id: '4',
-    code: 'MOC-009/2026',
-    title: 'Aplausos aos Profissionais de Limpeza Urbana',
-    category: 'Moção',
-    date: '02/05/2026',
-    status: 'Aprovado',
-    recipient: 'Câmara Municipal de Camaçari',
-    size: '180 KB',
-    contentSnippet: 'Requer que conste nos anais desta Casa Legislativa Votos de Congratulações e Aplausos a todos os garis e margaridas pelos serviços de excelência prestados no município.',
-    fullContent: `MOÇÃO DE CONGRATULAÇÕES E APLAUSOS Nº 009/2026\n\nA Câmara Municipal de Camaçari, no uso de suas prerrogativas regimentais, faz constar nos anais desta Casa Legislativa Votos de Congratulações e Aplausos a todos os garis e profissionais de limpeza urbana que atuam em nosso município.\n\nJUSTIFICATIVA\n\nO trabalho contínuo, incansável e essencial realizado por estes valorosos trabalhadores mantém a nossa cidade limpa, organizada e higienizada. Mesmo sob intempéries e desafios diários, demonstram dedicação exemplar e espírito comunitário que merecem o profundo reconhecimento do Poder Legislativo.\n\nDê-se ciência desta Moção às associações representativas da categoria.\n\nSala das Sessões, 02 de Maio de 2026.`,
-  },
-];
-
 export default function DocumentosIAPage() {
+  const { profile } = useAuth();
   const [activeTab, setActiveTab] = useState<'cofre' | 'ia'>('cofre');
-  const [documents, setDocuments] = useState<DocumentItem[]>(initialDocuments);
+  const [documents, setDocuments] = useState<DocumentItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [uploading, setUploading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterCategory, setFilterCategory] = useState('Todos');
-  const [currentPlan, setCurrentPlan] = useState<PlanType>('essencial');
-
-  useEffect(() => {
-    const checkPlan = () => {
-      const savedPlan = localStorage.getItem('gabinete_plan') as PlanType;
-      if (savedPlan === 'essencial' || savedPlan === 'inteligente' || savedPlan === 'enterprise') {
-        setCurrentPlan(savedPlan);
-      }
-    };
-    checkPlan();
-    window.addEventListener('planChanged', checkPlan);
-    return () => window.removeEventListener('planChanged', checkPlan);
-  }, []);
-
-  // Vault Modals
-  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
-  const [selectedDoc, setSelectedDoc] = useState<DocumentItem | null>(null);
 
   // IA Generator State
   const [aiDocType, setAiDocType] = useState<'Indicação' | 'Ofício' | 'Requerimento' | 'Moção'>('Indicação');
@@ -99,6 +36,11 @@ export default function DocumentosIAPage() {
   const [aiGenerating, setAiGenerating] = useState(false);
   const [generatedContent, setGeneratedContent] = useState('');
   const [copied, setCopied] = useState(false);
+  const [savingIA, setSavingIA] = useState(false);
+
+  // Vault Modals
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [selectedDoc, setSelectedDoc] = useState<DocumentItem | null>(null);
 
   const categories = ['Todos', 'Indicação', 'Ofício', 'Projeto de Lei', 'Moção', 'Requerimento'];
 
@@ -117,23 +59,139 @@ export default function DocumentosIAPage() {
     'Aguardando Resposta': 'bg-amber-100 text-amber-800 font-bold animate-pulse',
   };
 
-  const filteredDocs = documents.filter(doc => {
-    const matchesSearch = doc.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          doc.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          doc.recipient.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = filterCategory === 'Todos' || doc.category === filterCategory;
-    return matchesSearch && matchesCategory;
-  });
+  const formatBytes = (bytes: number, decimals = 2) => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+  };
+
+  const mapCategoryFromExt = (ext: string): any => {
+    const e = ext.toLowerCase();
+    if (['doc', 'docx'].includes(e)) return 'Ofício';
+    if (['pdf'].includes(e)) return 'Indicação';
+    if (['xls', 'xlsx', 'csv'].includes(e)) return 'Requerimento';
+    return 'Ofício';
+  };
+
+  const fetchDocuments = async () => {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('documentos')
+        .select('*')
+        .order('data_upload', { ascending: false });
+
+      if (error) throw error;
+
+      if (data) {
+        const mapped = data.map((d: any) => ({
+          id: d.id,
+          code: `DOC-${d.id.substring(0, 5).toUpperCase()}`,
+          title: d.titulo,
+          category: (d.tipo || 'Ofício') as any,
+          date: new Date(d.data_upload).toLocaleDateString('pt-BR'),
+          status: 'Enviado' as const,
+          recipient: 'Gabinete / Nuvem',
+          size: formatBytes(d.tamanho_bytes || 0),
+          contentSnippet: 'Arquivo armazenado com segurança no cofre digital do gabinete.',
+          fullContent: `Este é um documento binário enviado ao Storage.\nVocê pode fazer o download e visualizá-lo diretamente pelo link abaixo:\n\nLink: ${d.url_arquivo}`,
+          url: d.url_arquivo
+        }));
+        setDocuments(mapped);
+      }
+    } catch (err: any) {
+      console.error('Erro ao carregar documentos:', err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchDocuments();
+  }, []);
+
+  const handleUploadFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random()}-${Date.now()}.${fileExt}`;
+      const filePath = `${profile?.gabinete_id || 'geral'}/${fileName}`;
+
+      // 1. Upload to Supabase Storage
+      const { error: storageError } = await supabase.storage
+        .from('documentos')
+        .upload(filePath, file, {
+          cacheControl: '3600',
+          upsert: false
+        });
+
+      if (storageError) {
+        throw new Error(`Erro no Storage: ${storageError.message}. Certifique-se de criar o bucket público "documentos" no console do Supabase.`);
+      }
+
+      // 2. Get Public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('documentos')
+        .getPublicUrl(filePath);
+
+      // 3. Save reference in the database
+      const { error: dbError } = await supabase
+        .from('documentos')
+        .insert({
+          titulo: file.name,
+          url_arquivo: publicUrl,
+          tipo: mapCategoryFromExt(fileExt || ''),
+          tamanho_bytes: file.size,
+          gabinete_id: profile?.gabinete_id
+        });
+
+      if (dbError) throw dbError;
+
+      alert('Documento enviado e salvo no cofre digital com sucesso!');
+      fetchDocuments();
+    } catch (err: any) {
+      alert(err.message);
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const handleOpenDoc = (doc: DocumentItem) => {
     setSelectedDoc(doc);
     setIsViewModalOpen(true);
   };
 
-  const handleDeleteDoc = (id: string, e: React.MouseEvent) => {
+  const handleDeleteDoc = async (doc: DocumentItem, e: React.MouseEvent) => {
     e.stopPropagation();
-    if (window.confirm('Tem certeza que deseja excluir este documento do repositório?')) {
-      setDocuments(documents.filter(d => d.id !== id));
+    if (window.confirm(`Tem certeza que deseja excluir permanentemente o documento "${doc.title}"?`)) {
+      try {
+        const { error: dbError } = await supabase
+          .from('documentos')
+          .delete()
+          .eq('id', doc.id);
+
+        if (dbError) throw dbError;
+
+        if (doc.url) {
+          const parts = doc.url.split('/documentos/');
+          if (parts.length > 1) {
+            const storagePath = parts[1];
+            await supabase.storage.from('documentos').remove([storagePath]);
+          }
+        }
+
+        fetchDocuments();
+        setIsViewModalOpen(false);
+        alert('Documento excluído com sucesso.');
+      } catch (err: any) {
+        alert('Erro ao excluir documento: ' + err.message);
+      }
     }
   };
 
@@ -195,28 +253,69 @@ export default function DocumentosIAPage() {
     printWindow.document.close();
   };
 
-  const handleSaveToVault = () => {
+  const handleSaveToVault = async () => {
     if (!generatedContent) return;
-    const newDoc: DocumentItem = {
-      id: Math.random().toString(),
-      code: `${aiDocType.substring(0, 3).toUpperCase()}-${Math.floor(100 + Math.random() * 900)}/2026`,
-      title: aiTopic.substring(0, 50) + (aiTopic.length > 50 ? '...' : ''),
-      category: aiDocType === 'Requerimento' ? 'Requerimento' : aiDocType === 'Moção' ? 'Moção' : aiDocType,
-      date: new Date().toLocaleDateString('pt-BR'),
-      status: 'Rascunho',
-      recipient: aiRecipient,
-      size: '120 KB',
-      contentSnippet: generatedContent.substring(0, 200) + '...',
-      fullContent: generatedContent,
-    };
-    setDocuments([newDoc, ...documents]);
-    alert('Documento gerado pela IA salvo no Cofre com sucesso!');
-    setActiveTab('cofre');
+    setSavingIA(true);
+
+    try {
+      const fileName = `${aiDocType.toLowerCase()}_${Date.now()}.txt`;
+      const blob = new Blob([generatedContent], { type: 'text/plain' });
+      const file = new File([blob], fileName, { type: 'text/plain' });
+      const filePath = `${profile?.gabinete_id || 'geral'}/${fileName}`;
+
+      // 1. Upload to Supabase Storage
+      const { error: storageError } = await supabase.storage
+        .from('documentos')
+        .upload(filePath, file, {
+          cacheControl: '3600',
+          upsert: false
+        });
+
+      if (storageError) {
+        throw new Error(`Erro no Storage: ${storageError.message}. Certifique-se de criar o bucket público "documentos" no painel do Supabase.`);
+      }
+
+      // 2. Get Public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('documentos')
+        .getPublicUrl(filePath);
+
+      // 3. Save reference in the database
+      const { error: dbError } = await supabase
+        .from('documentos')
+        .insert({
+          titulo: `${aiDocType} - ${aiTopic.substring(0, 40)}`,
+          url_arquivo: publicUrl,
+          tipo: aiDocType === 'Requerimento' ? 'Requerimento' : aiDocType === 'Moção' ? 'Moção' : aiDocType,
+          tamanho_bytes: blob.size,
+          gabinete_id: profile?.gabinete_id
+        });
+
+      if (dbError) throw dbError;
+
+      alert('Documento gerado pela IA salvo no Cofre Digital com sucesso!');
+      fetchDocuments();
+      setActiveTab('cofre');
+    } catch (err: any) {
+      alert('Erro ao salvar no cofre: ' + err.message);
+    } finally {
+      setSavingIA(false);
+    }
   };
+
+  const filteredDocs = documents.filter(doc => {
+    const matchesSearch = doc.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      doc.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      doc.recipient.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = filterCategory === 'Todos' || doc.category === filterCategory;
+    return matchesSearch && matchesCategory;
+  });
+
+  const currentPlan = profile?.gabinete_plano || 'Essencial';
 
   return (
     <div className="space-y-6 animate-in fade-in duration-500 pb-12">
-      
+
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
@@ -225,7 +324,7 @@ export default function DocumentosIAPage() {
           </h1>
           <p className="text-gray-500 mt-1">Repositório em nuvem de ofícios e assistente inteligente de redação legislativa.</p>
         </div>
-        
+
         {/* Navigation Tabs */}
         <div className="bg-gray-100 p-1 rounded-2xl flex items-center gap-1.5 shadow-inner self-start md:self-auto border border-gray-200/80">
           <button
@@ -273,126 +372,129 @@ export default function DocumentosIAPage() {
             </div>
 
             <label className="bg-gray-900 text-white px-5 py-2.5 rounded-xl font-bold hover:bg-gray-800 transition-colors shadow-sm flex items-center gap-2 text-sm cursor-pointer self-end md:self-auto">
-              <Upload className="w-4 h-4 text-emerald-400" /> Upload de Arquivo
-              <input type="file" className="hidden" onChange={() => alert('Simulação de upload de arquivo concluída com sucesso.')} />
+              {uploading ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin text-emerald-400" /> Enviando...
+                </>
+              ) : (
+                <>
+                  <Upload className="w-4 h-4 text-emerald-400" /> Upload de Arquivo
+                </>
+              )}
+              <input type="file" className="hidden" disabled={uploading} onChange={handleUploadFile} />
             </label>
           </div>
 
-          {/* Vault Documents List */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {filteredDocs.map(doc => (
-              <div 
-                key={doc.id} 
-                onClick={() => handleOpenDoc(doc)}
-                className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md hover:border-emerald-500 transition-all cursor-pointer flex flex-col justify-between group"
-              >
-                <div>
-                  <div className="flex items-center justify-between gap-2 mb-3">
-                    <div className="flex items-center gap-2">
-                      <span className="font-mono text-xs font-black text-gray-500 bg-gray-100 px-2.5 py-1 rounded-lg">
-                        {doc.code}
-                      </span>
-                      <span className={`text-xs font-bold px-3 py-1 rounded-full border ${categoryBadges[doc.category]}`}>
-                        {doc.category}
+          {loading ? (
+            <div className="flex flex-col items-center justify-center py-20 gap-3">
+              <Loader2 className="w-10 h-10 text-emerald-600 animate-spin" />
+              <span className="text-gray-500 font-medium text-sm">Carregando cofre digital...</span>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {filteredDocs.map(doc => (
+                <div
+                  key={doc.id}
+                  onClick={() => handleOpenDoc(doc)}
+                  className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md hover:border-emerald-500 transition-all cursor-pointer flex flex-col justify-between group text-left"
+                >
+                  <div>
+                    <div className="flex items-center justify-between gap-2 mb-3">
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono text-xs font-black text-gray-500 bg-gray-100 px-2.5 py-1 rounded-lg">
+                          {doc.code}
+                        </span>
+                        <span className={`text-xs font-bold px-3 py-1 rounded-full border ${categoryBadges[doc.category]}`}>
+                          {doc.category}
+                        </span>
+                      </div>
+                      <span className={`text-[11px] font-extrabold px-3 py-1 rounded-full shadow-xs ${statusColors[doc.status]}`}>
+                        {doc.status}
                       </span>
                     </div>
-                    <span className={`text-[11px] font-extrabold px-3 py-1 rounded-full shadow-xs ${statusColors[doc.status]}`}>
-                      {doc.status}
+
+                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-emerald-700 transition-colors">
+                      {doc.title}
+                    </h3>
+                    <p className="text-sm text-gray-600 font-medium mb-4 line-clamp-2">
+                      {doc.contentSnippet}
+                    </p>
+
+                    <div className="flex items-center gap-4 text-xs font-semibold text-gray-500 bg-gray-50 p-3 rounded-xl border border-gray-100">
+                      <div className="flex items-center gap-1.5"><Clock className="w-4 h-4 text-emerald-600" /> {doc.date}</div>
+                      <div className="flex items-center gap-1.5"><Building className="w-4 h-4 text-violet-600" /> {doc.recipient}</div>
+                      <div className="flex items-center gap-1.5 ml-auto font-mono text-gray-400">{doc.size}</div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between pt-4 mt-4 border-t border-gray-100">
+                    <span className="text-xs font-extrabold text-emerald-600 group-hover:translate-x-1 transition-transform flex items-center gap-1.5">
+                      <Eye className="w-4 h-4" /> Visualizar Documento <ArrowRight className="w-3.5 h-3.5" />
                     </span>
-                  </div>
-
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-emerald-700 transition-colors">
-                    {doc.title}
-                  </h3>
-                  <p className="text-sm text-gray-600 font-medium mb-4 line-clamp-2">
-                    {doc.contentSnippet}
-                  </p>
-
-                  <div className="flex items-center gap-4 text-xs font-semibold text-gray-500 bg-gray-50 p-3 rounded-xl border border-gray-100">
-                    <div className="flex items-center gap-1.5"><Clock className="w-4 h-4 text-emerald-600" /> {doc.date}</div>
-                    <div className="flex items-center gap-1.5"><Building className="w-4 h-4 text-violet-600" /> {doc.recipient}</div>
-                    <div className="flex items-center gap-1.5 ml-auto font-mono text-gray-400">{doc.size}</div>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between pt-4 mt-4 border-t border-gray-100">
-                  <span className="text-xs font-extrabold text-emerald-600 group-hover:translate-x-1 transition-transform flex items-center gap-1.5">
-                    <Eye className="w-4 h-4" /> Ler Documento Oficial <ArrowRight className="w-3.5 h-3.5" />
-                  </span>
-                  <div className="flex gap-2">
-                    <button 
-                      onClick={e => { e.stopPropagation(); alert('Iniciando download do arquivo PDF...'); }}
-                      className="p-2 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors" title="Download"
-                    >
-                      <Download className="w-4 h-4" />
-                    </button>
-                    <button 
-                      onClick={e => handleDeleteDoc(doc.id, e)}
-                      className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Excluir"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={e => { e.stopPropagation(); window.open(doc.url, '_blank'); }}
+                        className="p-2 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors" title="Download"
+                      >
+                        <Download className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={e => handleDeleteDoc(doc, e)}
+                        className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Excluir"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
 
-            {filteredDocs.length === 0 && (
-              <div className="col-span-full py-16 text-center text-gray-500 font-bold bg-white rounded-2xl border border-gray-200">
-                Nenhum documento encontrado no cofre digital.
-              </div>
-            )}
-          </div>
+              {filteredDocs.length === 0 && (
+                <div className="col-span-full py-16 text-center text-gray-500 font-bold bg-white rounded-2xl border border-gray-200">
+                  Nenhum documento encontrado no cofre digital.
+                </div>
+              )}
+            </div>
+          )}
         </div>
       )}
 
       {/* TAB 2: IA ASSISTENTE DE REDAÇÃO LEGISLATIVA */}
       {activeTab === 'ia' && (
         <div className="animate-in fade-in duration-300">
-          {currentPlan === 'essencial' ? (
+          {currentPlan === 'Essencial' ? (
             /* Premium Feature Lock Banner */
             <div className="bg-gradient-to-br from-violet-950 via-indigo-950 to-slate-900 text-white rounded-3xl p-10 text-center shadow-2xl relative overflow-hidden max-w-4xl mx-auto my-8 border border-violet-500/30">
               <div className="absolute top-0 right-0 w-80 h-80 bg-violet-600/20 rounded-full blur-3xl"></div>
               <div className="absolute bottom-0 left-0 w-80 h-80 bg-blue-600/20 rounded-full blur-3xl"></div>
-              
+
               <div className="relative z-10 space-y-6 flex flex-col items-center">
                 <div className="w-20 h-20 rounded-3xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 shadow-inner">
                   <Lock className="w-10 h-10 animate-bounce" />
                 </div>
 
                 <div className="inline-block bg-amber-400/10 border border-amber-400/30 px-4 py-1.5 rounded-full text-amber-300 text-xs font-extrabold uppercase tracking-widest">
-                  🔒 Recurso Exclusivo dos Planos Inteligente e Mandato Total
+                  🔒 Recurso Exclusivo dos Planos Inteligente e Enterprise
                 </div>
 
                 <h3 className="text-3xl sm:text-4xl font-black text-white max-w-2xl">
                   Inteligência Artificial Redatora de Peças Oficiais
                 </h3>
-                
+
                 <p className="text-gray-300 text-base max-w-xl mx-auto font-medium leading-relaxed">
-                  A redação autônoma de Projetos de Lei, Indicações, Ofícios e Requerimentos com adequação regimental automática à Lei Orgânica de Camaçari requer o Plano Inteligente (R$ 337/mês) ou superior.
+                  A redação autônoma de Projetos de Lei, Indicações, Ofícios e Requerimentos com adequação regimental automática à Lei Orgânica de Camaçari requer o Plano Inteligente ou superior.
                 </p>
 
-                <div className="pt-4 w-full max-w-md">
-                  <button 
-                    onClick={() => {
-                      localStorage.setItem('gabinete_plan', 'inteligente');
-                      setCurrentPlan('inteligente');
-                      window.dispatchEvent(new Event('planChanged'));
-                      alert('Upgrade simulado realizado com sucesso para o Plano Inteligente! IA Legislativa desbloqueada.');
-                    }}
-                    className="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-gray-950 font-black py-4 px-8 rounded-2xl shadow-xl transition-all transform hover:scale-[1.03] flex items-center justify-center gap-2 text-base"
-                  >
-                    <Zap className="w-5 h-5 fill-gray-950 text-gray-950" /> Desbloquear com Plano Inteligente
-                  </button>
-                </div>
-                <p className="text-xs text-gray-400">Upgrade imediato para teste sem cobrança em ambiente de demonstração.</p>
+                <p className="text-xs text-amber-300 bg-amber-950/60 border border-amber-500/30 px-4 py-2.5 rounded-xl font-bold max-w-md">
+                  Acesse as configurações do sistema para mudar o plano do gabinete para Inteligente ou Enterprise e testar a IA!
+                </p>
               </div>
             </div>
           ) : (
             /* AI Generator Interface */
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               {/* Form Options (5 cols) */}
-              <div className="lg:col-span-5 bg-white border border-gray-200 rounded-3xl p-7 shadow-lg self-start">
+              <div className="lg:col-span-5 bg-white border border-gray-200 rounded-3xl p-7 shadow-lg self-start text-left">
                 <div className="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
                   <div className="w-10 h-10 rounded-2xl bg-violet-100 text-violet-700 flex items-center justify-center font-bold">
                     <Sparkles className="w-5 h-5 text-violet-600" />
@@ -481,7 +583,7 @@ export default function DocumentosIAPage() {
               </div>
 
               {/* Generated Preview Output (7 cols) */}
-              <div className="lg:col-span-7 flex flex-col h-full">
+              <div className="lg:col-span-7 flex flex-col h-full text-left">
                 <div className="bg-gray-900 text-white rounded-t-3xl p-4 sm:p-6 border-b border-gray-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xl">
                   <div className="flex items-center gap-3">
                     <FileCode className="w-6 h-6 text-emerald-400" />
@@ -490,7 +592,7 @@ export default function DocumentosIAPage() {
                       <p className="text-xs text-gray-400">Edição livre e formatação automática</p>
                     </div>
                   </div>
-                  
+
                   {generatedContent && (
                     <div className="flex items-center gap-2 self-end sm:self-auto">
                       <button
@@ -511,10 +613,11 @@ export default function DocumentosIAPage() {
                       </button>
                       <button
                         onClick={handleSaveToVault}
-                        className="bg-emerald-600 text-white px-4 py-2 rounded-xl font-bold text-xs hover:bg-emerald-700 transition-colors flex items-center gap-1.5 shadow-sm"
+                        disabled={savingIA}
+                        className="bg-emerald-600 text-white px-4 py-2 rounded-xl font-bold text-xs hover:bg-emerald-700 transition-colors flex items-center gap-1.5 shadow-sm disabled:opacity-75"
                         title="Salvar no Cofre"
                       >
-                        <Upload className="w-4 h-4" />
+                        {savingIA ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
                         <span className="hidden sm:inline">Salvar no Cofre</span>
                       </button>
                     </div>
@@ -565,7 +668,7 @@ export default function DocumentosIAPage() {
         <div className="fixed inset-0 bg-gray-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in">
           <div className="bg-white rounded-3xl p-8 w-full max-w-3xl shadow-2xl animate-in zoom-in-95 duration-200 border border-gray-100 max-h-[90vh] flex flex-col">
             <div className="flex justify-between items-start mb-6 border-b border-gray-100 pb-4">
-              <div>
+              <div className="text-left">
                 <div className="flex items-center gap-2 mb-1.5">
                   <span className="font-mono text-xs font-black text-gray-500 bg-gray-100 px-2.5 py-1 rounded-lg">
                     {selectedDoc.code}
@@ -584,7 +687,7 @@ export default function DocumentosIAPage() {
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto space-y-6 py-2 pr-2">
+            <div className="flex-1 overflow-y-auto space-y-6 py-2 pr-2 text-left">
               <div className="grid grid-cols-2 gap-4 text-sm font-semibold bg-gray-50 p-4 rounded-2xl border border-gray-100">
                 <div>
                   <span className="text-xs text-gray-500 block mb-0.5">Destinatário / Órgão:</span>
@@ -614,10 +717,10 @@ export default function DocumentosIAPage() {
                   <Printer className="w-4 h-4" /> Imprimir Cópia
                 </button>
                 <button
-                  onClick={() => { alert('Download do arquivo PDF concluído com sucesso!'); }}
+                  onClick={() => { window.open(selectedDoc.url, '_blank'); }}
                   className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-xl transition-colors flex items-center gap-2 text-sm shadow-sm"
                 >
-                  <Download className="w-4 h-4" /> Baixar Arquivo PDF
+                  <Download className="w-4 h-4" /> Baixar Arquivo
                 </button>
               </div>
             </div>

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Sidebar from '@/components/admin/sidebar';
 import { Menu, Loader2 } from 'lucide-react';
-import { supabase } from '@/infrastructure/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function AdminLayout({
   children,
@@ -13,29 +13,15 @@ export default function AdminLayout({
 }) {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [checking, setChecking] = useState(true);
+  const { user, loading } = useAuth();
 
   useEffect(() => {
-    // Verifica sessão ativa
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!session) {
-        router.replace('/login');
-      } else {
-        setChecking(false);
-      }
-    });
+    if (!loading && !user) {
+      router.replace('/login');
+    }
+  }, [user, loading, router]);
 
-    // Escuta mudanças de autenticação (logout em outra aba, expiração de token)
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (!session) {
-        router.replace('/login');
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, [router]);
-
-  if (checking) {
+  if (loading || !user) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">

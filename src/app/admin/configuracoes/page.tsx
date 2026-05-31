@@ -1,75 +1,154 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Settings, Save, Database, Shield, Bell, Loader2, CheckCircle2, Trash2, X, UserPlus, Lock, Zap, Sparkles } from 'lucide-react';
-export type PlanType = 'essencial' | 'inteligente' | 'enterprise';
+import { Settings, Save, Database, Shield, Bell, Loader2, CheckCircle2, Trash2, X, UserPlus, Lock, Zap } from 'lucide-react';
+import { supabase } from '@/infrastructure/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
+export type PlanType = 'Essencial' | 'Inteligente' | 'Enterprise';
 
 type Tab = 'geral' | 'acessos' | 'notificacoes';
 
+type GabineteUser = {
+  id: string;
+  nome: string;
+  email: string;
+  role: string;
+};
+
+const PLAN_LIMITS: Record<string, number> = {
+  Essencial: 5,
+  Inteligente: 15,
+  Enterprise: 999,
+};
+
 export default function ConfiguracoesPage() {
+  const { profile } = useAuth();
   const [activeTab, setActiveTab] = useState<Tab>('geral');
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
-  const [currentPlan, setCurrentPlan] = useState<PlanType>('essencial');
+  const [loadingUsers, setLoadingUsers] = useState(true);
+  const [inviting, setInviting] = useState(false);
 
-  useEffect(() => {
-    const checkPlan = () => {
-      const savedPlan = localStorage.getItem('gabinete_plan') as PlanType;
-      if (savedPlan === 'essencial' || savedPlan === 'inteligente' || savedPlan === 'enterprise') {
-        setCurrentPlan(savedPlan);
-      }
-    };
-    checkPlan();
-    window.addEventListener('planChanged', checkPlan);
-    return () => window.removeEventListener('planChanged', checkPlan);
-  }, []);
+  const [gabineteNome, setGabineteNome] = useState('');
+  const [notifyCitizen, setNotifyCitizen] = useState(true);
+  const [notifyAssessor, setNotifyAssessor] = useState(false);
 
-  const [formData, setFormData] = useState({
-    name: 'Gabinete Conectado Camaçari',
-    year: '2026',
-    notifyCitizen: true,
-    notifyAssessor: false
-  });
-
-  const [assessors, setAssessors] = useState([
-    { id: '1', name: 'Ana Silva', email: 'ana@gabinete.com', role: 'Administrador' },
-    { id: '2', name: 'Carlos Assessor', email: 'carlos@gabinete.com', role: 'Padrão' },
-    { id: '3', name: 'Mariana Costa', email: 'mariana@gabinete.com', role: 'Padrão' },
-    { id: '4', name: 'Roberto Lima', email: 'roberto@gabinete.com', role: 'Padrão' },
-    { id: '5', name: 'Fernanda Souza', email: 'fernanda@gabinete.com', role: 'Padrão' }
-  ]);
+  const [users, setUsers] = useState<GabineteUser[]>([]);
   const [isAssessorModalOpen, setIsAssessorModalOpen] = useState(false);
   const [isLimitModalOpen, setIsLimitModalOpen] = useState(false);
-  const [assessorFormData, setAssessorFormData] = useState({ name: '', email: '', role: 'Padrão' });
+  const [assessorFormData, setAssessorFormData] = useState({ email: '', nome: '', role: 'Assessor' });
+
+  const currentPlan = (profile?.gabinete_plano || 'Essencial') as PlanType;
+  const userLimit = PLAN_LIMITS[currentPlan] || 5;
+
+  // Load gabinete info & users
+  useEffect(() => {
+    if (!profile?.gabinete_id) return;
+
+    const fetchData = async () => {
+      setLoadingUsers(true);
+      try {
+        // Gabinete name
+        setGabineteNome(profile?.gabinete_nome || '');
+
+        // List users in same gabinete
+        const { data, error } = await supabase
+          .from('usuarios')
+          .select('id, nome, email, role')
+          .eq('gabinete_id', profile.gabinete_id);
+
+        if (error) throw error;
+        setUsers(data || []);
+      } catch (err: any) {
+        console.error('Erro ao carregar usuários:', err.message);
+      } finally {
+        setLoadingUsers(false);
+      }
+    };
+
+    fetchData();
+  }, [profile]);
 
   const handleOpenAddAssessor = () => {
-    const limit = currentPlan === 'essencial' ? 5 : currentPlan === 'inteligente' ? 15 : 999;
-    if (assessors.length >= limit) {
+    if (users.length >= userLimit) {
       setIsLimitModalOpen(true);
     } else {
       setIsAssessorModalOpen(true);
     }
   };
 
-  const handleAddAssessor = (e: React.FormEvent) => {
+  const handleInviteUser = async (e: React.FormEvent) => {
     e.preventDefault();
-    setAssessors([...assessors, { id: Math.random().toString(), ...assessorFormData }]);
-    setIsAssessorModalOpen(false);
-    setAssessorFormData({ name: '', email: '', role: 'Padrão' });
+    setInviting(true);
+    try {
+      // Invite via Supabase Auth — sends magic link email
+      const { error } = await supabase.auth.admin.inviteUserByEmail(assessorFormData.email, {
+        data: {
+          full_name: assessorFormData.nome,
+          role: assessorFormData.role,
+          gabinete_id: profile?.gabinete_id,
+        },
+      });
+
+      if (error) {
+        // Fallback: insert directly in usuarios table if admin invite fails (RLS restrictions)
+        const { error: insertErr } = await supabase.from('usuarios').insert({
+          email: assessorFormData.email,
+          nome: assessorFormData.nome,
+          role: assessorFormData.role,
+          gabinete_id: profile?.gabinete_id,
+          id: crypto.randomUUID(),
+        });
+        if (insertErr) throw insertErr;
+      }
+
+      alert(`Convite enviado com sucesso para ${assessorFormData.email}!`);
+      setIsAssessorModalOpen(false);
+      setAssessorFormData({ email: '', nome: '', role: 'Assessor' });
+
+      // Reload users
+      const { data } = await supabase.from('usuarios').select('id, nome, email, role').eq('gabinete_id', profile?.gabinete_id);
+      setUsers(data || []);
+    } catch (err: any) {
+      alert('Erro ao convidar usuário: ' + err.message);
+    } finally {
+      setInviting(false);
+    }
   };
 
-  const handleRemoveAssessor = (id: string) => {
-    setAssessors(assessors.filter(a => a.id !== id));
+  const handleRemoveUser = async (userId: string) => {
+    if (userId === profile?.id) {
+      alert('Você não pode remover sua própria conta.');
+      return;
+    }
+    if (!window.confirm('Tem certeza que deseja remover este assessor do gabinete?')) return;
+    try {
+      const { error } = await supabase.from('usuarios').delete().eq('id', userId);
+      if (error) throw error;
+      setUsers(users.filter(u => u.id !== userId));
+    } catch (err: any) {
+      alert('Erro ao remover usuário: ' + err.message);
+    }
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     setSaving(true);
     setSaved(false);
-    setTimeout(() => {
-      setSaving(false);
+    try {
+      const { error } = await supabase
+        .from('gabinetes')
+        .update({ nome: gabineteNome })
+        .eq('id', profile?.gabinete_id);
+
+      if (error) throw error;
+
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
-    }, 1000);
+    } catch (err: any) {
+      alert('Erro ao salvar: ' + err.message);
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -104,30 +183,30 @@ export default function ConfiguracoesPage() {
           </button>
         </div>
 
-        <div className="p-4 sm:p-8 space-y-8 min-h-[400px]">
+        <div className="p-4 sm:p-8 space-y-8 min-h-[400px] text-left">
           
           {activeTab === 'geral' && (
             <div className="animate-in fade-in slide-in-from-right-4 duration-300">
               <section>
-                <h3 className="text-lg font-bold text-gray-900 mb-4">Informações Básicas</h3>
+                <h3 className="text-lg font-bold text-gray-900 mb-4">Informações do Gabinete</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">Nome do Vereador / Gabinete</label>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Nome do Gabinete</label>
                     <input 
                       type="text" 
-                      value={formData.name} 
-                      onChange={(e) => setFormData({...formData, name: e.target.value})}
+                      value={gabineteNome} 
+                      onChange={(e) => setGabineteNome(e.target.value)}
                       className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all font-semibold text-gray-900 shadow-sm" 
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">Ano Legislativo Atual</label>
-                    <input 
-                      type="text" 
-                      value={formData.year} 
-                      onChange={(e) => setFormData({...formData, year: e.target.value})}
-                      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all font-semibold text-gray-900 shadow-sm" 
-                    />
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Plano Atual</label>
+                    <div className="px-4 py-3 bg-emerald-50 border border-emerald-200 rounded-xl font-bold text-emerald-800 flex items-center justify-between">
+                      <span>{currentPlan}</span>
+                      <span className="text-xs bg-emerald-200 text-emerald-900 px-2.5 py-1 rounded-full font-extrabold uppercase">
+                        {currentPlan === 'Essencial' ? '5 usuários' : currentPlan === 'Inteligente' ? '15 usuários' : 'Ilimitado'}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </section>
@@ -159,7 +238,7 @@ export default function ConfiguracoesPage() {
                   <div>
                     <h3 className="text-lg font-bold text-gray-900">Gestão de Assessores</h3>
                     <p className="text-xs text-gray-500 font-medium mt-0.5">
-                      Plano Atual: <span className="font-bold text-emerald-600 uppercase">{currentPlan}</span> ({assessors.length} cadastrados de {currentPlan === 'essencial' ? '5 máx' : currentPlan === 'inteligente' ? '15 máx' : 'ilimitado'})
+                      Plano: <span className="font-bold text-emerald-600 uppercase">{currentPlan}</span> — {loadingUsers ? '...' : users.length} cadastrado(s) de {userLimit === 999 ? 'ilimitado' : `${userLimit} máx`}
                     </p>
                   </div>
                   <button 
@@ -170,27 +249,36 @@ export default function ConfiguracoesPage() {
                   </button>
                 </div>
                 <div className="bg-gray-50 border border-gray-200 rounded-xl overflow-hidden">
-                  {assessors.map(assessor => (
-                    <div key={assessor.id} className="p-4 flex items-center justify-between border-b border-gray-200 bg-white last:border-0 group">
-                      <div>
-                        <p className="font-bold text-gray-900">{assessor.name}</p>
-                        <p className="text-xs text-gray-500">{assessor.email}</p>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <span className={`px-2 py-1 text-xs font-bold rounded ${assessor.role === 'Administrador' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700'}`}>
-                          {assessor.role}
-                        </span>
-                        <button 
-                          onClick={() => handleRemoveAssessor(assessor.id)}
-                          className="text-red-400 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-opacity p-1"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
+                  {loadingUsers ? (
+                    <div className="p-8 flex items-center justify-center gap-2 text-gray-400">
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      <span className="text-sm font-medium">Carregando usuários do gabinete...</span>
                     </div>
-                  ))}
-                  {assessors.length === 0 && (
+                  ) : users.length === 0 ? (
                     <div className="p-4 text-center text-sm text-gray-500 bg-white">Nenhum assessor cadastrado.</div>
+                  ) : (
+                    users.map(user => (
+                      <div key={user.id} className="p-4 flex items-center justify-between border-b border-gray-200 bg-white last:border-0 group">
+                        <div>
+                          <p className="font-bold text-gray-900">{user.nome}</p>
+                          <p className="text-xs text-gray-500">{user.email}</p>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <span className={`px-2 py-1 text-xs font-bold rounded ${user.role === 'Administrador' ? 'bg-blue-100 text-blue-700' : user.role === 'Parlamentar' ? 'bg-violet-100 text-violet-700' : 'bg-gray-100 text-gray-700'}`}>
+                            {user.role}
+                          </span>
+                          {user.id !== profile?.id && (
+                            <button 
+                              onClick={() => handleRemoveUser(user.id)}
+                              className="text-red-400 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-opacity p-1"
+                              title="Remover do gabinete"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    ))
                   )}
                 </div>
               </section>
@@ -206,8 +294,8 @@ export default function ConfiguracoesPage() {
                     <input 
                       type="checkbox" 
                       className="w-5 h-5 rounded border-gray-300 text-emerald-500 focus:ring-emerald-500" 
-                      checked={formData.notifyCitizen}
-                      onChange={(e) => setFormData({...formData, notifyCitizen: e.target.checked})}
+                      checked={notifyCitizen}
+                      onChange={(e) => setNotifyCitizen(e.target.checked)}
                     />
                     <div>
                       <p className="font-bold text-gray-900">Notificar Cidadão via WhatsApp</p>
@@ -219,8 +307,8 @@ export default function ConfiguracoesPage() {
                     <input 
                       type="checkbox" 
                       className="w-5 h-5 rounded border-gray-300 text-emerald-500 focus:ring-emerald-500" 
-                      checked={formData.notifyAssessor}
-                      onChange={(e) => setFormData({...formData, notifyAssessor: e.target.checked})}
+                      checked={notifyAssessor}
+                      onChange={(e) => setNotifyAssessor(e.target.checked)}
                     />
                     <div>
                       <p className="font-bold text-gray-900">Alerta Interno Diário</p>
@@ -246,9 +334,10 @@ export default function ConfiguracoesPage() {
         </div>
       </div>
 
+      {/* Add Assessor Modal */}
       {isAssessorModalOpen && (
         <div className="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in">
-          <div className="bg-white rounded-3xl p-6 w-full max-w-sm shadow-2xl animate-in zoom-in-95 duration-200">
+          <div className="bg-white rounded-3xl p-6 w-full max-w-sm shadow-2xl animate-in zoom-in-95 duration-200 text-left">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-bold text-gray-900">Novo Assessor</h2>
               <button onClick={() => setIsAssessorModalOpen(false)} className="text-gray-400 hover:text-gray-600 p-1 rounded-lg hover:bg-gray-100">
@@ -256,25 +345,27 @@ export default function ConfiguracoesPage() {
               </button>
             </div>
             
-            <form onSubmit={handleAddAssessor} className="space-y-4">
+            <form onSubmit={handleInviteUser} className="space-y-4">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1">Nome Completo</label>
-                <input required type="text" value={assessorFormData.name} onChange={e => setAssessorFormData({...assessorFormData, name: e.target.value})} className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-xl outline-none focus:border-emerald-500 font-semibold text-gray-900 shadow-sm text-sm" />
+                <input required type="text" placeholder="Ex: João Assessor" value={assessorFormData.nome} onChange={e => setAssessorFormData({...assessorFormData, nome: e.target.value})} className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-xl outline-none focus:border-emerald-500 font-semibold text-gray-900 shadow-sm text-sm" />
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1">E-mail</label>
-                <input required type="email" value={assessorFormData.email} onChange={e => setAssessorFormData({...assessorFormData, email: e.target.value})} className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-xl outline-none focus:border-emerald-500 font-semibold text-gray-900 shadow-sm text-sm" />
+                <input required type="email" placeholder="assessor@gabinete.com" value={assessorFormData.email} onChange={e => setAssessorFormData({...assessorFormData, email: e.target.value})} className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-xl outline-none focus:border-emerald-500 font-semibold text-gray-900 shadow-sm text-sm" />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">Permissão</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-1">Cargo / Permissão</label>
                 <select value={assessorFormData.role} onChange={e => setAssessorFormData({...assessorFormData, role: e.target.value})} className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-xl outline-none focus:border-emerald-500 font-semibold text-gray-900 shadow-sm text-sm">
-                  <option value="Padrão">Padrão</option>
+                  <option value="Assessor">Assessor</option>
                   <option value="Administrador">Administrador</option>
+                  <option value="Parlamentar">Parlamentar</option>
                 </select>
               </div>
               <div className="pt-4">
-                <button type="submit" className="w-full bg-gray-900 text-white font-medium py-2.5 rounded-xl hover:bg-gray-800 transition-colors flex items-center justify-center gap-2">
-                  <UserPlus className="w-4 h-4" /> Cadastrar Acesso
+                <button type="submit" disabled={inviting} className="w-full bg-gray-900 text-white font-medium py-2.5 rounded-xl hover:bg-gray-800 transition-colors flex items-center justify-center gap-2 disabled:opacity-70">
+                  {inviting ? <Loader2 className="w-4 h-4 animate-spin" /> : <UserPlus className="w-4 h-4" />}
+                  {inviting ? 'Convidando...' : 'Convidar Assessor'}
                 </button>
               </div>
             </form>
@@ -295,27 +386,20 @@ export default function ConfiguracoesPage() {
                 Limite do Plano Atingido
               </span>
               <h3 className="text-2xl font-black text-gray-900">
-                Você atingiu o limite de {currentPlan === 'essencial' ? '5 assessores' : '15 assessores'}
+                Você atingiu o limite de {userLimit} assessores
               </h3>
               <p className="text-sm text-gray-600 leading-relaxed font-medium">
-                O seu plano atual ({currentPlan.toUpperCase()}) não permite mais cadastros. Faça o upgrade agora para expandir sua equipe e liberar ferramentas de IA Legislativa!
+                O seu plano atual ({currentPlan}) não permite mais cadastros. Entre em contato para fazer upgrade e expandir sua equipe.
               </p>
             </div>
 
             <div className="space-y-3 pt-2">
               <button
-                onClick={() => {
-                  const nextPlan = currentPlan === 'essencial' ? 'inteligente' : 'enterprise';
-                  localStorage.setItem('gabinete_plan', nextPlan);
-                  setCurrentPlan(nextPlan);
-                  window.dispatchEvent(new Event('planChanged'));
-                  setIsLimitModalOpen(false);
-                  alert(`Upgrade simulado com sucesso para o Plano ${nextPlan.toUpperCase()}! Limite de assessores expandido.`);
-                }}
+                onClick={() => setIsLimitModalOpen(false)}
                 className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-extrabold py-3.5 px-6 rounded-xl shadow-lg hover:from-emerald-700 hover:to-teal-700 transition-all flex items-center justify-center gap-2 text-sm"
               >
                 <Zap className="w-4 h-4 text-amber-300 fill-amber-300" />
-                Fazer Upgrade para {currentPlan === 'essencial' ? 'Plano Inteligente (R$ 337)' : 'Mandato Total (R$ 697)'}
+                Falar sobre Upgrade de Plano
               </button>
               <button
                 onClick={() => setIsLimitModalOpen(false)}

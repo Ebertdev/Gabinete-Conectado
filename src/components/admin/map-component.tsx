@@ -24,16 +24,16 @@ const getCoordsForNeighborhood = (n: string, i: number) => {
   for (const [k, v] of Object.entries(neighborhoodCoords)) {
     if (key.includes(k)) {
       // Pequeno deslocamento no entorno para não encavalar os pinos no mesmo metro quadrado
-      return { 
-        lat: v.lat + (i % 5) * 0.001 - 0.002, 
-        lng: v.lng + (i % 3) * 0.001 - 0.001 
+      return {
+        lat: v.lat + (i % 5) * 0.001 - 0.002,
+        lng: v.lng + (i % 3) * 0.001 - 0.001
       };
     }
   }
   // Se for um bairro não cadastrado, distribui no centro expandido de Camaçari
-  return { 
-    lat: -12.6975 + (i % 7) * 0.003 - 0.009, 
-    lng: -38.3241 + (i % 6) * 0.003 - 0.009 
+  return {
+    lat: -12.6975 + (i % 7) * 0.003 - 0.009,
+    lng: -38.3241 + (i % 6) * 0.003 - 0.009
   };
 };
 
@@ -65,13 +65,13 @@ const statusBadges: Record<string, { bg: string, text: string }> = {
 
 // Gerador robusto de DivIcon (HTML nativo)
 const getCustomDivIcon = (type: string) => {
-  const bgColor = 
-    type === 'Saúde' ? '#ef4444' : 
-    type === 'Infraestrutura' ? '#f59e0b' : 
-    type === 'Educação' ? '#8b5cf6' : 
-    type === 'Segurança' ? '#a855f7' : 
-    type === 'Limpeza Urbana' ? '#10b981' : 
-    type === 'Iluminação' ? '#3b82f6' : '#6b7280';
+  const bgColor =
+    type === 'Saúde' ? '#ef4444' :
+      type === 'Infraestrutura' ? '#f59e0b' :
+        type === 'Educação' ? '#8b5cf6' :
+          type === 'Segurança' ? '#a855f7' :
+            type === 'Limpeza Urbana' ? '#10b981' :
+              type === 'Iluminação' ? '#3b82f6' : '#6b7280';
 
   const markerHtml = `
     <div style="
@@ -150,7 +150,7 @@ export default function MapComponent() {
             };
           });
           setDemandsList(mappedWithGeo);
-        } catch (e) {}
+        } catch (e) { }
       }
     };
 
@@ -161,9 +161,9 @@ export default function MapComponent() {
 
   const filteredDemands = demandsList.filter(item => {
     const matchesSearch = item.protocol.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          item.citizen.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          item.neighborhood.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          item.description.toLowerCase().includes(searchTerm.toLowerCase());
+      item.citizen.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.neighborhood.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === 'Todas' || item.type === selectedCategory;
     return matchesSearch && matchesCategory;
   });
@@ -174,10 +174,10 @@ export default function MapComponent() {
 
   return (
     <div className="flex flex-col lg:flex-row gap-6 h-[800px] lg:h-[720px] w-full rounded-3xl overflow-hidden bg-white border border-gray-200 shadow-xl relative z-0">
-      
+
       {/* Sidebar de Controle Geoespacial */}
       <div className="w-full lg:w-96 bg-gray-50/95 border-b lg:border-b-0 lg:border-r border-gray-200 p-6 flex flex-col h-[350px] lg:h-full z-10 overflow-hidden shadow-lg">
-        
+
         <div className="flex items-center justify-between mb-5">
           <div>
             <h3 className="text-xl font-black text-gray-900 flex items-center gap-2 mb-1">
@@ -185,7 +185,7 @@ export default function MapComponent() {
             </h3>
             <p className="text-xs text-gray-500 font-medium">Sincronizado com a Caixa de Demandas</p>
           </div>
-          <button 
+          <button
             onClick={resetMapCenter}
             className="p-2.5 bg-white rounded-xl border border-gray-200 text-gray-600 hover:text-emerald-600 hover:border-emerald-300 transition-colors shadow-sm"
             title="Restaurar visualização central"
@@ -197,9 +197,9 @@ export default function MapComponent() {
         {/* Search */}
         <div className="relative mb-4">
           <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
-          <input 
-            type="text" 
-            placeholder="Buscar protocolo, bairro ou cidadão..." 
+          <input
+            type="text"
+            placeholder="Buscar protocolo, bairro ou cidadão..."
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-300 rounded-xl outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 text-xs font-semibold text-gray-900 placeholder:text-gray-400 shadow-xs transition-all"
@@ -212,11 +212,10 @@ export default function MapComponent() {
             <button
               key={cat}
               onClick={() => { setSelectedCategory(cat); setActivePopupId(null); }}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
-                selectedCategory === cat 
-                  ? 'bg-emerald-600 text-white shadow-md scale-105 font-black' 
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${selectedCategory === cat
+                  ? 'bg-emerald-600 text-white shadow-md scale-105 font-black'
                   : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-100'
-              }`}
+                }`}
             >
               {cat}
             </button>
@@ -226,12 +225,11 @@ export default function MapComponent() {
         {/* Demands List */}
         <div className="flex-1 overflow-y-auto space-y-3 pr-2">
           {filteredDemands.map(demand => (
-            <div 
+            <div
               key={demand.id}
               onClick={() => setActivePopupId(demand.id)}
-              className={`p-4 bg-white rounded-2xl border transition-all cursor-pointer ${
-                activePopupId === demand.id ? 'border-emerald-500 ring-2 ring-emerald-500/20 bg-emerald-50/40 shadow-md' : 'border-gray-200 hover:border-gray-300 shadow-xs'
-              }`}
+              className={`p-4 bg-white rounded-2xl border transition-all cursor-pointer ${activePopupId === demand.id ? 'border-emerald-500 ring-2 ring-emerald-500/20 bg-emerald-50/40 shadow-md' : 'border-gray-200 hover:border-gray-300 shadow-xs'
+                }`}
             >
               <div className="flex items-center justify-between mb-2">
                 <span className="font-mono text-xs font-black text-gray-900">{demand.protocol}</span>
@@ -276,22 +274,22 @@ export default function MapComponent() {
 
       {/* Container Principal do Mapa Leaflet */}
       <div className="flex-1 h-[450px] lg:h-full w-full relative z-0">
-        <MapContainer 
-          center={centerCenter} 
-          zoom={12} 
-          style={{ height: '100%', width: '100%' }} 
+        <MapContainer
+          center={centerCenter}
+          zoom={12}
+          style={{ height: '100%', width: '100%' }}
           className="z-0 h-full w-full"
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          
+
           <MapUpdater activePopupId={activePopupId} demands={filteredDemands} defaultCenter={centerCenter} />
 
           {filteredDemands.map(demand => (
-            <Marker 
-              key={demand.id} 
+            <Marker
+              key={demand.id}
               position={[demand.lat, demand.lng]}
               icon={getCustomDivIcon(demand.type)}
               eventHandlers={{
@@ -309,7 +307,7 @@ export default function MapComponent() {
 
                   <h4 className="font-extrabold text-gray-900 text-sm mb-1">{demand.type}</h4>
                   <p className="text-xs text-gray-600 mb-3 leading-tight font-medium">{demand.description}</p>
-                  
+
                   <div className="text-[11px] text-gray-600 space-y-1 bg-gray-50 p-3 rounded-xl border border-gray-200">
                     <p><span className="font-extrabold text-gray-900">Eleitor:</span> {demand.citizen}</p>
                     <p><span className="font-extrabold text-gray-900">Bairro/Região:</span> {demand.neighborhood}</p>

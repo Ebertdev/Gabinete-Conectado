@@ -2,33 +2,26 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { 
-  LayoutDashboard, 
-  FileText, 
-  Calendar, 
-  FolderOpen, 
-  BarChart3, 
-  MapPin, 
-  Users, 
-  Settings, 
-  Check, 
-  ArrowRight, 
-  Sparkles, 
-  Zap, 
-  Building2, 
-  ShieldCheck, 
-  Menu, 
-  X, 
+import {
+  LayoutDashboard,
+  FileText,
+  Calendar,
+  MapPin,
+  Users,
+  Check,
+  ArrowRight,
+  Sparkles,
+  ShieldCheck,
+  Menu,
+  X,
   MessageSquare,
   ChevronRight,
-  TrendingUp,
-  Clock,
-  Printer
+  TrendingUp
 } from 'lucide-react';
 import { Logo } from '@/components/logo';
 
 // Eber's WhatsApp Contact Number
-const WHATSAPP_PHONE = '5571993211494';
+const WHATSAPP_PHONE = '5571983829313';
 
 export default function MarketingLandingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -38,19 +31,20 @@ export default function MarketingLandingPage() {
     {
       id: 'essencial',
       name: 'Plano Essencial',
-      badge: 'Iniciante',
-      price: '247',
-      desc: 'Estrutura sólida para gabinetes que estão iniciando na digitalização.',
+      badge: 'Para começar',
+      price: '337',
+      desc: 'Para gabinetes que precisam sair das planilhas e organizar atendimento, agenda e documentos em uma rotina clara.',
       features: [
-        'Até 5 Contas de Assessores',
-        'Cadastro de Cidadãos e Lideranças',
-        'Caixa de Entrada de Demandas',
-        'Agenda Parlamentar Mensal',
+        'Até 5.000 cidadãos cadastrados',
+        'Até 5 usuários no gabinete',
+        'Até 100 notificações por WhatsApp',
+        'Demandas, agenda e CRM de cidadãos',
+        'Cofre digital de documentos',
+        'Dashboard e estatísticas essenciais',
       ],
       lockedFeatures: [
-        'Redação de Ofícios/PLs com IA',
-        'Relatórios de Bairros (BI e Geo)',
-        'Automação de WhatsApp',
+        'IA Legislativa para peças oficiais',
+        'Limites ampliados de cidadãos e WhatsApp',
       ],
       color: 'border-gray-200 hover:border-gray-300',
       btnColor: 'bg-gray-900 hover:bg-gray-800 text-white',
@@ -59,41 +53,42 @@ export default function MarketingLandingPage() {
     {
       id: 'inteligente',
       name: 'Plano Inteligente',
-      badge: 'Popular',
-      price: '337',
-      desc: 'O favorito dos gabinetes modernos. Libera o assistente de IA Legislativa e BI.',
+      badge: 'Mais escolhido',
+      price: '537',
+      desc: 'O melhor custo-benefício para gabinetes com equipe ativa, alto volume de demandas e necessidade de relatórios.',
       features: [
-        'IA Redatora de Projetos e Ofícios',
-        'Até 15 Contas de Assessores',
-        'Mapa Geoespacial de Cidadãos',
-        'BI e Gráficos de Demandas por Bairro',
-        'Esteira Kanban de Atendimento',
-        'Notificações Diretas WhatsApp',
+        'Até 10.000 cidadãos cadastrados',
+        'Até 15 usuários no gabinete',
+        'Até 3.000 notificações por WhatsApp',
+        'IA Legislativa para indicações, ofícios, requerimentos e moções',
+        'Cofre digital com upload e geração de documentos',
+        'Mapa de demandas e relatórios por bairro',
+        'Gestão de equipe e permissões',
       ],
       lockedFeatures: [],
       color: 'border-emerald-500/40 ring-4 ring-emerald-500/10 shadow-emerald-950/20 bg-slate-900/60 scale-[1.02]',
       btnColor: 'bg-emerald-500 hover:bg-emerald-600 text-white shadow-emerald-500/20 shadow-lg',
       recommended: true,
-      msg: 'Olá! Gostaria de saber mais sobre o Plano Inteligente do Gabinete Conectado e iniciar o teste de 14 dias.'
+      msg: 'Olá! Gostaria de saber mais sobre o Plano Inteligente do Gabinete Conectado e iniciar o teste de 30 dias.'
     },
     {
       id: 'enterprise',
-      name: 'Mandato Total',
-      badge: 'VIP / Líder',
-      price: '697',
-      desc: 'Para vereadores e deputados com equipes amplas e máxima capilaridade.',
+      name: 'Plano Personalizado',
+      badge: 'Operação grande',
+      price: 'Sob consulta',
+      desc: 'Para operações maiores que precisam de implantação dedicada, múltiplos gabinetes, integrações e governança avançada.',
       features: [
-        'Tudo do Plano Inteligente',
-        'Assessores e Lideranças Ilimitados',
-        'Automação Completa via WhatsApp API',
-        'Cofre Digital Ilimitado em Nuvem',
-        'Exportação de Relatórios para Prestação',
-        'Suporte VIP 24/7 com Gerente Dedicado',
+        'Cidadãos ilimitados',
+        'Usuários e assessores ilimitados',
+        'Notificações por WhatsApp ilimitadas',
+        'Todos os módulos do Plano Inteligente',
+        'Configuração assistida do gabinete',
+        'Suporte prioritário para operação',
       ],
       lockedFeatures: [],
       color: 'border-violet-500/40 hover:border-violet-400/60',
       btnColor: 'bg-violet-600 hover:bg-violet-700 text-white',
-      msg: 'Olá! Gostaria de saber mais sobre o Plano Mandato Total do Gabinete Conectado.'
+      msg: 'Olá! Gostaria de saber mais sobre o Plano Personalizado do Gabinete Conectado.'
     }
   ];
 
@@ -261,7 +256,7 @@ export default function MarketingLandingPage() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-gray-300 font-sans selection:bg-emerald-500 selection:text-slate-950">
-      
+
       {/* Dynamic Background Gradients */}
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-emerald-500/5 rounded-full blur-3xl -z-10 pointer-events-none" />
       <div className="absolute top-1/3 right-1/4 w-[600px] h-[600px] bg-violet-600/5 rounded-full blur-3xl -z-10 pointer-events-none" />
@@ -283,16 +278,16 @@ export default function MarketingLandingPage() {
           </nav>
 
           <div className="hidden md:flex items-center gap-4">
-            <Link 
-              href="/login" 
+            <Link
+              href="/login"
               className="text-sm font-bold text-gray-300 hover:text-white transition-colors px-4 py-2"
             >
               Acessar Painel
             </Link>
-            <Link 
-              href="mailto:suporte.gabineteinteligente@gmail.com" 
-              target="_blank" 
-              rel="noopener noreferrer" 
+            <Link
+              href="mailto:suporte.gabineteinteligente@gmail.com"
+              target="_blank"
+              rel="noopener noreferrer"
               className="bg-emerald-500 text-slate-950 text-sm font-black px-5 py-2.5 rounded-xl hover:bg-emerald-400 transition-all hover:scale-[1.02] shadow-emerald-500/10 shadow-lg"
             >
               Entrar em contato
@@ -300,7 +295,7 @@ export default function MarketingLandingPage() {
           </div>
 
           {/* Mobile Menu Button */}
-          <button 
+          <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="md:hidden p-2 text-gray-400 hover:text-white"
           >
@@ -311,29 +306,29 @@ export default function MarketingLandingPage() {
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
           <div className="md:hidden bg-slate-950 border-b border-slate-900 px-6 py-6 space-y-4 animate-in slide-in-from-top duration-200">
-            <a 
-              href="#como-funciona" 
+            <a
+              href="#como-funciona"
               onClick={() => setMobileMenuOpen(false)}
               className="block text-base font-semibold text-gray-400 hover:text-white"
             >
               Como Funciona
             </a>
-            <a 
-              href="#telas" 
+            <a
+              href="#telas"
               onClick={() => setMobileMenuOpen(false)}
               className="block text-base font-semibold text-gray-400 hover:text-white"
             >
               Telas do Software
             </a>
-            <a 
-              href="#recursos" 
+            <a
+              href="#recursos"
               onClick={() => setMobileMenuOpen(false)}
               className="block text-base font-semibold text-gray-400 hover:text-white"
             >
               Recursos
             </a>
-            <a 
-              href="#planos" 
+            <a
+              href="#planos"
               onClick={() => setMobileMenuOpen(false)}
               className="block text-base font-semibold text-gray-400 hover:text-white"
             >
@@ -341,15 +336,15 @@ export default function MarketingLandingPage() {
             </a>
             <hr className="border-slate-900 my-4" />
             <div className="flex flex-col gap-3">
-              <Link 
-                href="/login" 
+              <Link
+                href="/login"
                 className="w-full text-center py-3 border border-slate-800 rounded-xl font-bold text-gray-300 hover:text-white"
               >
                 Acessar Painel
               </Link>
-              <a 
-                href="mailto:suporte.gabineteinteligente@gmail.com" 
-                target="_blank" 
+              <a
+                href="mailto:suporte.gabineteinteligente@gmail.com"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="w-full text-center py-3 bg-emerald-500 text-slate-950 rounded-xl font-black"
               >
@@ -363,32 +358,32 @@ export default function MarketingLandingPage() {
       {/* HERO SECTION */}
       <section className="relative pt-12 pb-20 sm:pb-28">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
+
           {/* Hero text (7 cols) */}
           <div className="lg:col-span-7 space-y-6 text-left">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-emerald-400 text-xs font-extrabold uppercase tracking-wider">
               <Sparkles className="w-3.5 h-3.5" /> Mandato Legislativo de Alta Performance
             </div>
-            
+
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-white">
               Substitua planilhas improvisadas por <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-violet-400 bg-clip-text text-transparent">Governança Digital</span>
             </h1>
-            
+
             <p className="text-gray-400 text-base sm:text-lg max-w-xl font-medium leading-relaxed">
               O Gabinete Conectado é a ferramenta definitiva para parlamentares gerenciarem as demandas da população, mapearem focos geoespaciais, redigirem peças com IA e organizarem atendimentos sem burocracia.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <a 
+              <a
                 href="#planos"
                 className="bg-emerald-500 text-slate-950 font-black px-8 py-4 rounded-xl hover:bg-emerald-400 transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/15"
               >
                 Ver Planos & Preços <ArrowRight className="w-4 h-4" />
               </a>
-              <Link 
-                href="mailto:suporte.gabineteinteligente@gmail.com" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <Link
+                href="mailto:suporte.gabineteinteligente@gmail.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bg-slate-900 border border-slate-800 text-gray-200 font-bold px-8 py-4 rounded-xl hover:bg-slate-800 transition-all flex items-center justify-center gap-2"
               >
                 <MessageSquare className="w-4 h-4 text-emerald-500" /> Entrar em contato
@@ -405,7 +400,7 @@ export default function MarketingLandingPage() {
           </div>
 
           {/* Hero interactive screen preview mockup (5 cols) */}
-          
+
           <div className="lg:col-span-5 relative mt-6 lg:mt-0">
             <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-500 to-violet-600 rounded-3xl blur opacity-20 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
             <div className="relative bg-slate-900 border border-slate-800/80 rounded-3xl p-6 shadow-2xl text-left space-y-4">
@@ -417,7 +412,7 @@ export default function MarketingLandingPage() {
                 </div>
                 <span className="text-[10px] font-mono text-gray-500">gabineteconectado.com.br/admin</span>
               </div>
-              
+
               <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-white">Visualização Rápida</span>
@@ -435,8 +430,8 @@ export default function MarketingLandingPage() {
               </div>
 
               <div className="pt-2 text-center">
-                <Link 
-                  href="/login" 
+                <Link
+                  href="/login"
                   className="inline-flex items-center gap-1.5 text-xs text-emerald-400 hover:text-emerald-300 font-extrabold hover:underline"
                 >
                   Fazer login demonstrativo <ChevronRight className="w-4 h-4" />
@@ -465,7 +460,7 @@ export default function MarketingLandingPage() {
               </div>
               <h3 className="text-lg font-bold text-white">Cidadão Solicita</h3>
               <p className="text-sm text-gray-400 leading-relaxed font-medium">
-                O eleitor preenche o formulário online personalizado do gabinete ("Voz da Cidade") enviando fotos, localização e detalhes sem precisar instalar nada.
+                O eleitor preenche o formulário online personalizado do gabinete &quot;Voz da Cidade&quot; enviando fotos, localização e detalhes sem precisar instalar nada.
               </p>
             </div>
 
@@ -495,7 +490,7 @@ export default function MarketingLandingPage() {
       {/* TELAS DO SISTEMA (INTERACTIVE CAROUSEL GRID) */}
       <section id="telas" className="py-20 relative">
         <div className="max-w-7xl mx-auto px-6 text-center space-y-12">
-          
+
           <div className="max-w-2xl mx-auto space-y-4">
             <h2 className="text-3xl sm:text-4xl font-black text-white">Gerenciamento Integrado</h2>
             <p className="text-gray-400 text-sm sm:text-base font-medium">
@@ -505,21 +500,20 @@ export default function MarketingLandingPage() {
 
           {/* Screen Tabs Selector */}
           <div className="flex border-b border-slate-900 overflow-x-auto gap-2 pb-px justify-start lg:justify-center">
-            {Object.keys(screenDetails).map((key) => {
-              const Icon = screenDetails[key as keyof typeof screenDetails].icon;
+            {(Object.keys(screenDetails) as Array<keyof typeof screenDetails>).map((key) => {
+              const Icon = screenDetails[key].icon;
               const isActive = activeScreenTab === key;
               return (
                 <button
                   key={key}
-                  onClick={() => setActiveScreenTab(key as any)}
-                  className={`flex items-center gap-2 px-5 py-4 border-b-2 font-bold text-xs uppercase tracking-wider transition-colors shrink-0 ${
-                    isActive 
-                      ? 'border-emerald-500 text-emerald-400 bg-emerald-500/5' 
+                  onClick={() => setActiveScreenTab(key)}
+                  className={`flex items-center gap-2 px-5 py-4 border-b-2 font-bold text-xs uppercase tracking-wider transition-colors shrink-0 ${isActive
+                      ? 'border-emerald-500 text-emerald-400 bg-emerald-500/5'
                       : 'border-transparent text-gray-500 hover:text-gray-300'
-                  }`}
+                    }`}
                 >
                   <Icon className="w-4 h-4" />
-                  {screenDetails[key as keyof typeof screenDetails].title.split(' ')[0]}
+                  {screenDetails[key].title.split(' ')[0]}
                 </button>
               );
             })}
@@ -552,7 +546,7 @@ export default function MarketingLandingPage() {
               </ul>
 
               <div className="pt-2">
-                <Link 
+                <Link
                   href="/login"
                   className="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-black uppercase tracking-wider px-5 py-3 rounded-xl transition-all shadow-md"
                 >
@@ -573,7 +567,7 @@ export default function MarketingLandingPage() {
       {/* RECURSOS */}
       <section id="recursos" className="py-20 bg-slate-950/60 border-y border-slate-900">
         <div className="max-w-7xl mx-auto px-6 text-center space-y-12">
-          
+
           <div className="max-w-2xl mx-auto space-y-4">
             <h2 className="text-3xl sm:text-4xl font-black text-white">Recursos de Inteligência e Conformidade</h2>
             <p className="text-gray-400 text-sm sm:text-base font-medium">
@@ -612,17 +606,17 @@ export default function MarketingLandingPage() {
       {/* PLANOS E PREÇOS */}
       <section id="planos" className="py-20 relative">
         <div className="max-w-7xl mx-auto px-6 text-center space-y-12">
-          
+
           <div className="max-w-2xl mx-auto space-y-4">
             <h2 className="text-3xl sm:text-4xl font-black text-white">Escolha o Plano Ideal para seu Mandato</h2>
             <p className="text-gray-400 text-sm sm:text-base font-medium">
-              Todos os planos incluem 14 dias de teste grátis. Escolha o ideal e entre em contato via e‑mail para ativar.
+              Planos diretos para começar rápido, escalar a operação e manter o gabinete sob controle.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch max-w-5xl mx-auto">
             {plans.map((plan) => (
-              <div 
+              <div
                 key={plan.id}
                 className={`bg-slate-900/30 border-2 rounded-3xl p-8 flex flex-col justify-between relative transition-all duration-300 ${plan.color}`}
               >
@@ -643,12 +637,18 @@ export default function MarketingLandingPage() {
                   </p>
 
                   <div className="my-6 py-4 border-y border-slate-900">
-                    <div className="text-3xl sm:text-4xl font-black text-white flex items-baseline justify-center">
-                      <span className="text-lg font-bold text-gray-500 mr-1">R$</span>
-                      {plan.price}
-                      <span className="text-xs font-semibold text-gray-400 ml-1">/mês</span>
-                    </div>
-                    <span className="text-[10px] text-emerald-400 font-extrabold block mt-1">14 dias de teste gratuito</span>
+                    {plan.price === 'Sob consulta' ? (
+                      <div className="text-3xl sm:text-4xl font-black text-white text-center">
+                        Sob consulta
+                      </div>
+                    ) : (
+                      <div className="text-3xl sm:text-4xl font-black text-white flex items-baseline justify-center">
+                        <span className="text-lg font-bold text-gray-500 mr-1">R$</span>
+                        {plan.price}
+                        <span className="text-xs font-semibold text-gray-400 ml-1">/mês</span>
+                      </div>
+                    )}
+                    <span className="text-[10px] text-emerald-400 font-extrabold block mt-1">Implantação assistida</span>
                   </div>
 
                   <ul className="space-y-3.5 text-xs sm:text-sm font-semibold text-left mb-8">
@@ -667,14 +667,14 @@ export default function MarketingLandingPage() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4 pt-2">
-                  <a 
-                  href={`https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(plan.msg)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`w-full py-3.5 rounded-xl font-black text-xs uppercase tracking-wider text-center transition-all hover:scale-[1.02] block ${plan.btnColor}`}
-                >
-                  Contratar no WhatsApp
-                </a>
+                  <a
+                    href={`https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(plan.msg)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`w-full py-3.5 rounded-xl font-black text-xs uppercase tracking-wider text-center transition-all hover:scale-[1.02] block ${plan.btnColor}`}
+                  >
+                    Contratar no WhatsApp
+                  </a>
                 </div>
               </div>
             ))}
@@ -686,9 +686,9 @@ export default function MarketingLandingPage() {
               Nossa equipe faz uma importação assistida de seus dados atuais (planilhas, PDFs, contatos) para dentro do sistema sem custo adicional. Fale agora com a equipe.
             </p>
             <div className="pt-2">
-              <Link 
-                href="mailto:suporte.gabineteinteligente@gmail.com" 
-                target="_blank" 
+              <Link
+                href="mailto:suporte.gabineteinteligente@gmail.com"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="bg-slate-800 text-white font-black px-6 py-3 rounded-xl hover:bg-slate-700 transition-all text-xs uppercase tracking-wider inline-flex items-center gap-1.5"
               >

@@ -1,22 +1,29 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import { LayoutDashboard, Users, FileText, Settings, LogOut, MapPin, BarChart3, Calendar, FolderOpen, X, ShieldCheck } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import { LayoutDashboard, Users, FileText, Settings, LogOut, MapPin, BarChart3, Calendar, FolderOpen, X, ShieldCheck, type LucideIcon } from 'lucide-react';
 import { Logo } from '@/components/logo';
-import { supabase } from '@/infrastructure/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
 
-const navItems = [
+interface NavItem {
+  icon: LucideIcon;
+  label: string;
+  href: string;
+  permission?: string;
+}
+
+const navItems: NavItem[] = [
   { icon: LayoutDashboard, label: 'Dashboard', href: '/admin' },
-  { icon: FileText, label: 'Demandas', href: '/admin/demandas' },
+  { icon: FileText, label: 'Demandas', href: '/admin/demandas', permission: 'view_demands' },
   { icon: Calendar, label: 'Agenda', href: '/admin/agenda' },
-  { icon: FolderOpen, label: 'Documentos & IA', href: '/admin/documentos' },
-  { icon: BarChart3, label: 'Estatísticas', href: '/admin/estatisticas' },
+  { icon: FolderOpen, label: 'Documentos & IA', href: '/admin/documentos', permission: 'view_documents' },
+  { icon: BarChart3, label: 'Estatísticas', href: '/admin/estatisticas', permission: 'view_reports' },
   { icon: MapPin, label: 'Mapa', href: '/admin/mapa' },
-  { icon: Users, label: 'Cidadãos', href: '/admin/cidadaos' },
-  { icon: ShieldCheck, label: 'Usuários', href: '/admin/usuarios' },
-  { icon: Settings, label: 'Configurações', href: '/admin/configuracoes' },
+  { icon: Users, label: 'Cidadãos', href: '/admin/cidadaos', permission: 'view_citizens' },
+  { icon: ShieldCheck, label: 'Usuários', href: '/admin/usuarios', permission: 'manage_users' },
+  { icon: Settings, label: 'Configurações', href: '/admin/configuracoes', permission: 'manage_plans' },
 ];
 
 interface SidebarProps {
@@ -26,15 +33,18 @@ interface SidebarProps {
 
 export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
   const pathname = usePathname();
-  const router = useRouter();
+  const { profile, can, signOut } = useAuth();
+
+  const filteredNavItems = useMemo(() => {
+    return navItems.filter(item => !item.permission || can(item.permission));
+  }, [can]);
 
   useEffect(() => {
     if (onClose) onClose();
   }, [pathname]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
-    router.push('/login');
+    await signOut();
   };
 
   return (
@@ -57,8 +67,9 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
       </div>
 
       <nav className="flex-1 p-4 space-y-1.5 overflow-y-auto">
-        {navItems.map((item) => {
+        {filteredNavItems.map((item) => {
           const isActive = pathname === item.href;
+          const Icon = item.icon;
           return (
             <Link
               key={item.href}
@@ -66,7 +77,7 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
               className={`flex items-center justify-between px-4 py-3.5 rounded-xl transition-all group ${isActive ? 'bg-gradient-to-r from-emerald-600/20 to-violet-600/20 text-white font-bold border-l-4 border-emerald-500 shadow-sm' : 'text-gray-400 hover:bg-gray-800/80 hover:text-gray-200'}`}
             >
               <div className="flex items-center gap-3">
-                <item.icon className={`w-5 h-5 transition-colors ${isActive ? 'text-emerald-400' : 'text-gray-500 group-hover:text-gray-300'}`} />
+                <Icon className={`w-5 h-5 transition-colors ${isActive ? 'text-emerald-400' : 'text-gray-500 group-hover:text-gray-300'}`} />
                 <span className="font-medium">{item.label}</span>
               </div>
               {isActive && <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse"></span>}
@@ -76,16 +87,22 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
       </nav>
 
       <div className="p-4 border-t border-gray-800/80 flex items-center justify-between">
-        <div className="flex items-center gap-3 pl-2">
-          <Logo dark showText={false} className="h-7 w-7 flex-shrink-0" />
-          <div className="leading-tight text-left">
-            <span className="text-xs font-extrabold text-white block">Gabinete</span>
-            <span className="text-[10px] text-gray-400 font-semibold block">Conectado Pro</span>
+        <div className="flex items-center gap-3 pl-2 truncate w-48">
+          <div className="w-8 h-8 rounded-full bg-emerald-600/20 border border-emerald-500/50 flex items-center justify-center flex-shrink-0 text-emerald-400 font-bold text-sm">
+            {profile?.nome?.charAt(0) || 'U'}
+          </div>
+          <div className="leading-tight text-left truncate">
+            <span className="text-xs font-extrabold text-white block truncate" title={profile?.gabinete_nome || 'Gabinete Conectado'}>
+              {profile?.gabinete_nome || 'Gabinete Conectado'}
+            </span>
+            <span className="text-[10px] text-emerald-400 font-semibold block truncate">
+              {profile?.gabinete_plano || 'Pro'} • {profile?.role || 'User'}
+            </span>
           </div>
         </div>
         <button
           onClick={handleLogout}
-          className="p-2.5 rounded-xl hover:bg-red-500/10 text-gray-400 hover:text-red-400 transition-colors group"
+          className="p-2.5 rounded-xl hover:bg-red-500/10 text-gray-400 hover:text-red-400 transition-colors group flex-shrink-0"
           title="Sair do sistema"
         >
           <LogOut className="w-5 h-5 group-hover:text-red-400 transition-colors" />

@@ -1,18 +1,9 @@
 'use client';
 
-import { useState } from 'react';
-import { Search, Filter, Eye, Edit, Trash2, MoreVertical, Archive, X, Save, FileText, Share2, Printer, Loader2, Upload, MessageSquare, Send, Kanban, Table, ChevronRight } from 'lucide-react';
-
-// Mock estendido
-const initialDemands = [
-  { id: '1', protocol: 'CAM-2026-0001', citizen: 'João da Silva', phone: '(71) 99999-1111', type: 'Infraestrutura', neighborhood: 'Vila de Abrantes', status: 'Em Análise', date: 'Hoje, 09:30', isArchived: false },
-  { id: '2', protocol: 'CAM-2026-0002', citizen: 'Maria Souza', phone: '(71) 99999-2222', type: 'Saúde', neighborhood: 'Centro', status: 'Registrada', date: 'Hoje, 11:15', isArchived: false },
-  { id: '3', protocol: 'CAM-2026-0003', citizen: 'Carlos Almeida', phone: '(71) 99999-3333', type: 'Limpeza Urbana', neighborhood: 'Gleba A', status: 'Resolvida', date: 'Ontem, 14:20', isArchived: false },
-  { id: '4', protocol: 'CAM-2026-0004', citizen: 'Ana Paula', phone: '(71) 99999-4444', type: 'Segurança', neighborhood: 'Ponto Certo', status: 'Encaminhada', date: 'Ontem, 16:45', isArchived: false },
-  { id: '5', protocol: 'CAM-2026-0005', citizen: 'Rui Costa', phone: '(71) 99999-5555', type: 'Educação', neighborhood: 'Phoc II', status: 'Registrada', date: '15 Mai, 10:00', isArchived: false },
-  { id: '6', protocol: 'CAM-2026-0006', citizen: 'Beto Silva', phone: '(71) 99999-6666', type: 'Infraestrutura', neighborhood: 'Arembepe', status: 'Resolvida', date: '14 Mai, 08:30', isArchived: false },
-  { id: '7', protocol: 'CAM-2026-0007', citizen: 'Lúcia Pereira', phone: '(71) 99999-7777', type: 'Saúde', neighborhood: 'Gleba E', status: 'Resolvida', date: '01 Mai, 11:00', isArchived: true },
-];
+import { useState, useEffect } from 'react';
+import { Search, Filter, Eye, Edit, Trash2, MoreVertical, Archive, X, Save, FileText, Share2, Printer, Loader2, Upload, MessageSquare, Kanban, Table, ChevronRight } from 'lucide-react';
+import { supabase } from '@/infrastructure/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
 
 const statusColors: Record<string, string> = {
   'Registrada': 'bg-gray-100 text-gray-700',
@@ -32,11 +23,14 @@ const categoryColors: Record<string, string> = {
 };
 
 export default function DemandasList() {
-  const [demands, setDemands] = useState(initialDemands);
+  const { profile } = useAuth();
+  const [demands, setDemands] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('Todos');
   const [viewMode, setViewMode] = useState<'ativas' | 'arquivadas'>('ativas');
-  const [displayMode, setDisplayMode] = useState<'table' | 'kanban'>('kanban'); // Default to Kanban for high visual impact
+  const [displayMode, setDisplayMode] = useState<'table' | 'kanban'>('kanban');
 
   const [isDemandModalOpen, setIsDemandModalOpen] = useState(false);
   const [selectedDemand, setSelectedDemand] = useState<any>(null);
@@ -52,6 +46,45 @@ export default function DemandasList() {
     neighborhood: '',
   });
   const [cepLoading, setCepLoading] = useState(false);
+
+  const fetchDemands = async () => {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('demandas')
+        .select('*')
+        .order('data_criacao', { ascending: false });
+
+      if (error) throw error;
+
+      if (data) {
+        const mapped = data.map((d: any) => ({
+          id: d.id,
+          protocol: d.protocolo,
+          citizen: d.nome_cidadao || 'Desconhecido',
+          phone: d.telefone_cidadao || '',
+          type: d.tipo || 'Outros',
+          neighborhood: d.bairro || 'Centro',
+          status: d.status || 'Registrada',
+          date: new Date(d.data_criacao).toLocaleString('pt-BR'),
+          isArchived: d.arquivado ?? false,
+          address: d.endereco || '',
+          cep: d.cep || '',
+          cidadao_id: d.cidadao_id,
+          description: d.descricao || ''
+        }));
+        setDemands(mapped);
+      }
+    } catch (err: any) {
+      console.error('Erro ao buscar demandas:', err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchDemands();
+  }, []);
 
   const handleCepLookup = async (rawCep: string) => {
     const cleanCep = rawCep.replace(/\D/g, '');
@@ -89,25 +122,71 @@ export default function DemandasList() {
     }
   };
 
-  const handleCreateDemand = (e: React.FormEvent) => {
+  const handleCreateDemand = async (e: React.FormEvent) => {
     e.preventDefault();
-    const fullAddress = newDemandFormData.address
-      ? `${newDemandFormData.address}${newDemandFormData.cep ? ` (CEP: ${newDemandFormData.cep})` : ''}`
-      : '';
-    const newDemand = {
-      id: Date.now().toString(),
-      protocol: `CAM-2026-${Math.floor(1000 + Math.random() * 9000)}`,
-      citizen: newDemandFormData.citizen,
-      phone: newDemandFormData.phone,
-      type: newDemandFormData.type,
-      neighborhood: newDemandFormData.neighborhood || 'Centro',
-      status: 'Registrada',
-      date: 'Hoje, ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      isArchived: false,
-    };
-    setDemands([newDemand, ...demands]);
-    setIsNewDemandModalOpen(false);
-    setNewDemandFormData({ citizen: '', phone: '', cep: '', address: '', type: 'Infraestrutura', neighborhood: '' });
+    setSaving(true);
+    try {
+      // 1. Procurar ou criar cidadão com esse telefone no gabinete
+      let citizenId = null;
+      const cleanPhone = newDemandFormData.phone.replace(/\D/g, '');
+      if (cleanPhone) {
+        const { data: existingCitizen } = await supabase
+          .from('cidadaos')
+          .select('id')
+          .eq('telefone', cleanPhone)
+          .maybeSingle();
+
+        if (existingCitizen) {
+          citizenId = existingCitizen.id;
+        } else {
+          // Criar novo cidadão automaticamente
+          const { data: newCitizen, error: createCitError } = await supabase
+            .from('cidadaos')
+            .insert({
+              nome: newDemandFormData.citizen,
+              telefone: cleanPhone,
+              bairro: newDemandFormData.neighborhood || 'Centro',
+              endereco: newDemandFormData.address || '',
+              gabinete_id: profile?.gabinete_id,
+              anotacoes: [{ id: 'n-init', date: new Date().toLocaleDateString('pt-BR'), author: profile?.nome || 'Sistema', content: 'Cidadão cadastrado automaticamente via abertura de demanda.' }]
+            })
+            .select('id')
+            .single();
+
+          if (createCitError) throw createCitError;
+          if (newCitizen) citizenId = newCitizen.id;
+        }
+      }
+
+      // 2. Criar protocolo único
+      const protocolo = `CAM-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+
+      // 3. Inserir demanda
+      const { error: demError } = await supabase
+        .from('demandas')
+        .insert({
+          protocolo,
+          nome_cidadao: newDemandFormData.citizen,
+          telefone_cidadao: newDemandFormData.phone,
+          tipo: newDemandFormData.type,
+          bairro: newDemandFormData.neighborhood || 'Centro',
+          endereco: newDemandFormData.address || '',
+          cep: newDemandFormData.cep || '',
+          status: 'Registrada',
+          gabinete_id: profile?.gabinete_id,
+          cidadao_id: citizenId
+        });
+
+      if (demError) throw demError;
+
+      setIsNewDemandModalOpen(false);
+      setNewDemandFormData({ citizen: '', phone: '', cep: '', address: '', type: 'Infraestrutura', neighborhood: '' });
+      fetchDemands();
+    } catch (err: any) {
+      alert('Erro ao criar demanda: ' + err.message);
+    } finally {
+      setSaving(false);
+    }
   };
 
   const openDemandModal = (demand: any) => {
@@ -116,14 +195,43 @@ export default function DemandasList() {
     setOpenDropdownId(null);
   };
 
-  const saveDemandChanges = (e: React.FormEvent) => {
+  const saveDemandChanges = async (e: React.FormEvent) => {
     e.preventDefault();
-    setDemands(demands.map(d => d.id === selectedDemand.id ? selectedDemand : d));
-    setIsDemandModalOpen(false);
+    setSaving(true);
+    try {
+      const { error } = await supabase
+        .from('demandas')
+        .update({
+          status: selectedDemand.status,
+          descricao: selectedDemand.description
+        })
+        .eq('id', selectedDemand.id);
+
+      if (error) throw error;
+
+      setIsDemandModalOpen(false);
+      fetchDemands();
+    } catch (err: any) {
+      alert('Erro ao salvar alterações da demanda: ' + err.message);
+    } finally {
+      setSaving(false);
+    }
   };
 
-  const handleArchiveResolved = () => {
-    setDemands(demands.map(d => d.status === 'Resolvida' ? { ...d, isArchived: true } : d));
+  const handleArchiveResolved = async () => {
+    try {
+      const { error } = await supabase
+        .from('demandas')
+        .update({ arquivado: true })
+        .eq('status', 'Resolvida')
+        .eq('arquivado', false);
+
+      if (error) throw error;
+      fetchDemands();
+      alert('Demandas resolvidas arquivadas com sucesso.');
+    } catch (err: any) {
+      alert('Erro ao arquivar demandas: ' + err.message);
+    }
   };
 
   const toggleDropdown = (id: string) => {
@@ -151,7 +259,7 @@ export default function DemandasList() {
               .title { font-size: 24px; font-weight: bold; }
               .protocol { font-size: 32px; font-family: monospace; font-weight: bold; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; text-align: center; margin: 20px 0; }
               .info { margin-bottom: 12px; font-size: 16px; border-bottom: 1px solid #f3f4f6; padding-bottom: 8px; }
-              .label { font-weight: bold; color: #6b7280; display: inline-block; w-32; }
+              .label { font-weight: bold; color: #6b7280; display: inline-block; width: 120px; }
             </style>
           </head>
           <body>
@@ -180,14 +288,24 @@ export default function DemandasList() {
     setOpenDropdownId(null);
   };
 
-  const handleDeleteDemand = (id: string) => {
+  const handleDeleteDemand = async (id: string) => {
     if (window.confirm("Tem certeza que deseja excluir permanentemente esta demanda?")) {
-      setDemands(demands.filter(d => d.id !== id));
+      try {
+        const { error } = await supabase
+          .from('demandas')
+          .delete()
+          .eq('id', id);
+
+        if (error) throw error;
+        fetchDemands();
+      } catch (err: any) {
+        alert('Erro ao excluir demanda: ' + err.message);
+      }
     }
     setOpenDropdownId(null);
   };
 
-  const handleNotifyStatusWhatsApp = (demand: typeof selectedDemand) => {
+  const handleNotifyStatusWhatsApp = (demand: any) => {
     if (!demand) return;
 
     let statusMsg = '';
@@ -208,7 +326,7 @@ export default function DemandasList() {
     window.open(url, '_blank');
   };
 
-  const handleAdvanceStatus = (id: string, currentStatus: string, e: React.MouseEvent) => {
+  const handleAdvanceStatus = async (id: string, currentStatus: string, e: React.MouseEvent) => {
     e.stopPropagation();
     let nextStatus = 'Registrada';
     if (currentStatus === 'Registrada') nextStatus = 'Em Análise';
@@ -216,15 +334,25 @@ export default function DemandasList() {
     else if (currentStatus === 'Encaminhada') nextStatus = 'Resolvida';
     else return;
 
-    setDemands(demands.map(d => d.id === id ? { ...d, status: nextStatus } : d));
+    try {
+      const { error } = await supabase
+        .from('demandas')
+        .update({ status: nextStatus })
+        .eq('id', id);
+
+      if (error) throw error;
+      fetchDemands();
+    } catch (err: any) {
+      alert('Erro ao avançar status: ' + err.message);
+    }
   };
 
-  const handleImportCSV = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImportCSV = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     const reader = new FileReader();
-    reader.onload = (event) => {
+    reader.onload = async (event) => {
       const text = event.target?.result as string;
       if (!text) return;
 
@@ -248,27 +376,34 @@ export default function DemandasList() {
           const type = cols.length > 3 ? cleanStr(cols[3]) : 'Outros';
           const neighborhood = cols.length > 4 ? cleanStr(cols[4]) : 'Centro';
           const statusRaw = cols.length > 5 ? cleanStr(cols[5]) : 'Registrada';
-          const date = cols.length > 6 ? cleanStr(cols[6]) : 'Hoje, 12:00';
-
           const validStatus = ['Registrada', 'Em Análise', 'Encaminhada', 'Resolvida'].includes(statusRaw) ? statusRaw : 'Registrada';
 
           importedDemands.push({
-            id: `imported-${Date.now()}-${i}`,
-            protocol,
-            citizen,
-            phone: '(71) 99999-0000',
-            type,
-            neighborhood,
+            protocolo: protocol,
+            nome_cidadao: citizen,
+            telefone_cidadao: '5571999990000',
+            tipo: type,
+            bairro: neighborhood,
             status: validStatus,
-            date,
-            isArchived: false,
+            arquivado: false,
+            gabinete_id: profile?.gabinete_id
           });
         }
       }
 
       if (importedDemands.length > 0) {
-        setDemands(prev => [...importedDemands, ...prev]);
-        alert(`Sucesso! ${importedDemands.length} demandas importadas e adicionadas ao topo da tabela.`);
+        try {
+          const { error } = await supabase
+            .from('demandas')
+            .insert(importedDemands);
+
+          if (error) throw error;
+
+          alert(`Sucesso! ${importedDemands.length} demandas importadas com sucesso.`);
+          fetchDemands();
+        } catch (err: any) {
+          alert('Erro ao salvar demandas importadas: ' + err.message);
+        }
       } else {
         alert('Não foi possível processar o arquivo. Certifique-se de que o CSV tenha colunas separadas por ponto e vírgula (;).');
       }
@@ -320,7 +455,6 @@ export default function DemandasList() {
       </div>
 
       <div className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
-
         {/* Navigation Tabs and Display Toggle */}
         <div className="flex flex-col sm:flex-row border-b border-gray-100 justify-between items-start sm:items-center px-4 bg-gray-50/20 gap-3 py-3 sm:py-0">
           <div className="flex w-full sm:w-auto border-b sm:border-b-0 border-gray-100">
@@ -378,13 +512,15 @@ export default function DemandasList() {
               <option value="Encaminhada">Encaminhada</option>
               <option value="Resolvida">Resolvida</option>
             </select>
-            <button className="flex items-center justify-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors font-medium text-sm shadow-sm">
-              <Filter className="w-4 h-4" />
-            </button>
           </div>
         </div>
 
-        {displayMode === 'kanban' ? (
+        {loading ? (
+          <div className="flex flex-col items-center justify-center py-20 gap-3">
+            <Loader2 className="w-10 h-10 text-emerald-600 animate-spin" />
+            <span className="text-gray-500 font-medium text-sm">Carregando demandas...</span>
+          </div>
+        ) : displayMode === 'kanban' ? (
           /* Kanban Board View */
           <div className="p-6 bg-gray-50/50 overflow-x-auto min-h-[500px]">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 min-w-[1000px]">
@@ -408,7 +544,7 @@ export default function DemandasList() {
                       {colDocs.map(item => (
                         <div
                           key={item.id}
-                          onClick={() => { setSelectedDemand(item); setIsDemandModalOpen(true); }}
+                          onClick={() => openDemandModal(item)}
                           className="bg-white border border-gray-200 hover:border-emerald-500 rounded-xl p-4 shadow-xs hover:shadow-md transition-all cursor-pointer group flex flex-col justify-between"
                         >
                           <div>
@@ -432,7 +568,7 @@ export default function DemandasList() {
                           <div className="flex items-center justify-between pt-3 border-t border-gray-100">
                             <button
                               type="button"
-                              onClick={e => { e.stopPropagation(); handleNotifyStatusWhatsApp(item as any); }}
+                              onClick={e => { e.stopPropagation(); handleNotifyStatusWhatsApp(item); }}
                               className="text-emerald-600 hover:text-emerald-800 p-1.5 rounded-lg hover:bg-emerald-50 transition-colors"
                               title="Notificar WhatsApp"
                             >
@@ -502,20 +638,20 @@ export default function DemandasList() {
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <button
-                          onClick={() => { setSelectedDemand(demand); setIsDemandModalOpen(true); }}
+                          onClick={() => openDemandModal(demand)}
                           className="p-2 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors" title="Ver Detalhes"
                         >
                           <Eye className="w-4 h-4" />
                         </button>
                         <button
-                          onClick={() => { setSelectedDemand(demand); setIsDemandModalOpen(true); }}
+                          onClick={() => openDemandModal(demand)}
                           className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Editar"
                         >
                           <Edit className="w-4 h-4" />
                         </button>
                         <div className="relative">
                           <button
-                            onClick={() => { setOpenDropdownId(openDropdownId === demand.id ? null : demand.id); }}
+                            onClick={() => toggleDropdown(demand.id)}
                             className={`p-2 rounded-lg transition-colors ${openDropdownId === demand.id ? 'bg-gray-100 text-gray-900' : 'text-gray-400 hover:text-gray-900'}`}
                           >
                             <MoreVertical className="w-4 h-4" />
@@ -523,20 +659,20 @@ export default function DemandasList() {
                           {openDropdownId === demand.id && (
                             <div className="absolute right-0 top-full mt-1 w-48 bg-white border border-gray-100 shadow-xl rounded-xl z-10 py-2 animate-in zoom-in-95 duration-100">
                               <button
-                                onClick={() => { handleShare(demand); setOpenDropdownId(null); }}
+                                onClick={() => handleShare(demand)}
                                 className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
                               >
                                 <Share2 className="w-4 h-4 text-gray-400" /> Compartilhar
                               </button>
                               <button
-                                onClick={() => { handlePrintProtocol(demand); setOpenDropdownId(null); }}
+                                onClick={() => handlePrintProtocol(demand)}
                                 className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
                               >
                                 <Printer className="w-4 h-4 text-gray-400" /> Imprimir Protocolo
                               </button>
                               <div className="h-px bg-gray-100 my-1"></div>
                               <button
-                                onClick={() => { handleDeleteDemand(demand.id); setOpenDropdownId(null); }}
+                                onClick={() => handleDeleteDemand(demand.id)}
                                 className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"
                               >
                                 <Trash2 className="w-4 h-4 text-red-400" /> Excluir Demanda
@@ -550,7 +686,7 @@ export default function DemandasList() {
                 )) : (
                   <tr>
                     <td colSpan={6} className="px-6 py-12 text-center text-gray-500 font-bold">
-                      Nenhuma demanda encontrada com esses filtros.
+                      Nenhuma demanda encontrada.
                     </td>
                   </tr>
                 )}
@@ -561,10 +697,6 @@ export default function DemandasList() {
 
         <div className="p-4 border-t border-gray-100 flex items-center justify-between text-sm text-gray-500 bg-gray-50/30">
           <span>Mostrando {filteredDemands.length} de {demands.length} resultados</span>
-          <div className="flex gap-1">
-            <button className="px-3 py-1 border border-gray-200 rounded-md bg-white hover:bg-gray-50 disabled:opacity-50" disabled>Anterior</button>
-            <button className="px-3 py-1 border border-gray-200 rounded-md bg-white hover:bg-gray-50 disabled:opacity-50" disabled>Próxima</button>
-          </div>
         </div>
       </div>
 
@@ -588,33 +720,35 @@ export default function DemandasList() {
                 </div>
                 <div className="p-3 bg-gray-50 rounded-xl border border-gray-100">
                   <p className="text-xs text-gray-500 font-semibold mb-1">Data</p>
-                  <p className="font-medium text-gray-900">{selectedDemand.date}</p>
+                  <p className="font-medium text-gray-900 text-xs">{selectedDemand.date}</p>
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1">Cidadão</label>
-                <input type="text" readOnly value={`${selectedDemand.citizen} - ${selectedDemand.phone}`} className="w-full px-4 py-2.5 bg-gray-100 border border-gray-200 rounded-xl outline-none text-sm text-gray-600" />
+                <input type="text" readOnly value={`${selectedDemand.citizen} - ${selectedDemand.phone}`} className="w-full px-4 py-2.5 bg-gray-100 border border-gray-200 rounded-xl outline-none text-sm text-gray-600 font-medium" />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-1">Categoria</label>
-                  <input type="text" readOnly value={selectedDemand.type} className="w-full px-4 py-2.5 bg-gray-100 border border-gray-200 rounded-xl outline-none text-sm text-gray-600" />
+                  <input type="text" readOnly value={selectedDemand.type} className="w-full px-4 py-2.5 bg-gray-100 border border-gray-200 rounded-xl outline-none text-sm text-gray-600 font-medium" />
                 </div>
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-1">Bairro</label>
-                  <input type="text" readOnly value={selectedDemand.neighborhood} className="w-full px-4 py-2.5 bg-gray-100 border border-gray-200 rounded-xl outline-none text-sm text-gray-600" />
+                  <input type="text" readOnly value={selectedDemand.neighborhood} className="w-full px-4 py-2.5 bg-gray-100 border border-gray-200 rounded-xl outline-none text-sm text-gray-600 font-medium" />
                 </div>
               </div>
 
-              <div className="pt-4">
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Fotos / Evidências</label>
-                <div className="flex gap-3 overflow-x-auto pb-2">
-                  <div className="w-24 h-24 rounded-xl border border-gray-200 shadow-sm flex-shrink-0 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&q=80&w=200')" }}></div>
-                  <div className="w-24 h-24 rounded-xl border border-gray-200 shadow-sm flex-shrink-0 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1584464457692-7f2f11e3b5ed?auto=format&fit=crop&q=80&w=200')" }}></div>
-                </div>
-                <p className="text-xs text-gray-500 mt-1">Imagens anexadas pelo cidadão (Mock demonstrativo).</p>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-1">Descrição</label>
+                <textarea
+                  value={selectedDemand.description}
+                  onChange={e => setSelectedDemand({ ...selectedDemand, description: e.target.value })}
+                  rows={3}
+                  className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-xl outline-none focus:border-emerald-500 font-medium text-sm text-gray-800"
+                  placeholder="Descreva os detalhes da demanda..."
+                />
               </div>
 
               <div className="pt-2">
@@ -622,7 +756,7 @@ export default function DemandasList() {
                 <select
                   value={selectedDemand.status}
                   onChange={e => setSelectedDemand({ ...selectedDemand, status: e.target.value })}
-                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl outline-none focus:border-emerald-500 font-medium text-gray-900 shadow-sm"
+                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl outline-none focus:border-emerald-500 font-semibold text-gray-900 shadow-sm text-sm"
                 >
                   <option value="Registrada">Registrada (Aguardando Análise)</option>
                   <option value="Em Análise">Em Análise (Equipe Verificando)</option>
@@ -632,14 +766,13 @@ export default function DemandasList() {
               </div>
 
               <div className="pt-6 border-t border-gray-100 flex flex-col sm:flex-row gap-3">
-                <button type="submit" className="flex-1 bg-emerald-600 text-white font-bold py-3 px-4 rounded-xl hover:bg-emerald-700 transition-colors flex items-center justify-center gap-2 shadow-sm text-sm">
-                  <Save className="w-5 h-5 flex-shrink-0" /> Salvar Alterações
+                <button type="submit" disabled={saving} className="flex-1 bg-emerald-600 text-white font-bold py-3 px-4 rounded-xl hover:bg-emerald-700 transition-colors flex items-center justify-center gap-2 shadow-sm text-sm disabled:opacity-70">
+                  {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5 flex-shrink-0" />} Salvar Alterações
                 </button>
                 <button
                   type="button"
                   onClick={() => handleNotifyStatusWhatsApp(selectedDemand)}
                   className="bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold py-3 px-4 rounded-xl hover:bg-emerald-100 hover:text-emerald-950 transition-colors flex items-center justify-center gap-2 shadow-sm text-sm"
-                  title="Abre WhatsApp com a atualização do status pronta"
                 >
                   <MessageSquare className="w-5 h-5 text-emerald-600 flex-shrink-0" /> Notificar Status (WhatsApp)
                 </button>
@@ -704,8 +837,8 @@ export default function DemandasList() {
               </div>
 
               <div className="pt-6 border-t border-gray-100">
-                <button type="submit" className="w-full bg-emerald-600 text-white font-bold py-3 rounded-xl hover:bg-emerald-700 transition-colors flex items-center justify-center gap-2 shadow-sm">
-                  <Save className="w-4 h-4" /> Cadastrar Solicitação
+                <button type="submit" disabled={saving} className="w-full bg-emerald-600 text-white font-bold py-3 rounded-xl hover:bg-emerald-700 transition-colors flex items-center justify-center gap-2 shadow-sm disabled:opacity-75">
+                  {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} Cadastrar Solicitação
                 </button>
               </div>
             </form>

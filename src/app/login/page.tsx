@@ -179,9 +179,8 @@ export default function LoginPage() {
                       className="w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all text-gray-800 font-semibold text-sm appearance-none"
                     >
                       <option value="Assessor">Assessor Parlamentar</option>
-                      <option value="Chefe de Gabinete">Chefe de Gabinete</option>
-                      <option value="Vereador">Vereador(a)</option>
-                      <option value="Liderança">Liderança Comunitária</option>
+                      <option value="Administrador">Administrador</option>
+                      <option value="Parlamentar">Parlamentar</option>
                     </select>
                   </div>
                 </div>
