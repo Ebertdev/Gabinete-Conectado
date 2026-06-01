@@ -7,6 +7,7 @@ CREATE TABLE users (
   email TEXT UNIQUE NOT NULL,
   password TEXT NOT NULL,
   role TEXT NOT NULL DEFAULT 'assessor', -- 'vereador', 'assessor'
+  permissions JSONB DEFAULT NULL,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
 );
 

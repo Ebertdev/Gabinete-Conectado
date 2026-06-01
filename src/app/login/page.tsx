@@ -81,7 +81,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-[100dvh] bg-gray-50 flex">
       {/* Left Column - Branding */}
       <div className="hidden lg:flex lg:w-1/2 relative bg-gradient-to-br from-gray-900 to-gray-800 p-12 items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
@@ -124,7 +124,7 @@ export default function LoginPage() {
       </div>
 
       {/* Right Column - Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-white">
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-8 bg-white min-h-[100dvh] lg:min-h-screen">
         <div className="w-full max-w-md animate-in slide-in-from-bottom-8 fade-in duration-700">
 
           {/* Mobile Logo */}

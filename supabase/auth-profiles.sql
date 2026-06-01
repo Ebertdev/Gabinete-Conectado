@@ -1,4 +1,4 @@
--- Execute no SQL Editor do Supabase para corrigir perfis de usuário
+-- Execute no SQL Editor do Supabase para corrigir perfis de usuario
 
 CREATE TABLE IF NOT EXISTS gabinetes (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
   email TEXT NOT NULL,
   nome TEXT NOT NULL DEFAULT '',
   role TEXT NOT NULL DEFAULT 'Assessor',
+  permissions JSONB DEFAULT NULL,
   gabinete_id UUID REFERENCES gabinetes(id),
   created_at TIMESTAMPTZ DEFAULT now()
 );
@@ -43,12 +44,13 @@ SECURITY DEFINER
 SET search_path = public
 AS $$
 BEGIN
-  INSERT INTO public.usuarios (id, email, nome, role)
+  INSERT INTO public.usuarios (id, email, nome, role, permissions)
   VALUES (
     NEW.id,
     COALESCE(NEW.email, ''),
-    COALESCE(NEW.raw_user_meta_data->>'full_name', split_part(COALESCE(NEW.email, ''), '@', 1), 'Usuário'),
-    COALESCE(NEW.raw_user_meta_data->>'role', 'Assessor')
+    COALESCE(NEW.raw_user_meta_data->>'full_name', split_part(COALESCE(NEW.email, ''), '@', 1), 'Usuario'),
+    COALESCE(NEW.raw_user_meta_data->>'role', 'Assessor'),
+    NULL
   )
   ON CONFLICT (id) DO NOTHING;
 

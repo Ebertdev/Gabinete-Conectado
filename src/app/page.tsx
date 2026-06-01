@@ -264,7 +264,7 @@ export default function MarketingLandingPage() {
 
       {/* Header / Navbar */}
       <header className="sticky top-0 bg-slate-950/80 backdrop-blur-md border-b border-slate-900 z-50 transition-all">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Logo dark className="h-9 scale-110" />
           </div>
@@ -357,7 +357,7 @@ export default function MarketingLandingPage() {
 
       {/* HERO SECTION */}
       <section className="relative pt-12 pb-20 sm:pb-28">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
 
           {/* Hero text (7 cols) */}
           <div className="lg:col-span-7 space-y-6 text-left">
@@ -390,7 +390,7 @@ export default function MarketingLandingPage() {
               </Link>
             </div>
 
-            <div className="flex items-center gap-6 pt-6 border-t border-slate-900 text-xs text-gray-500 font-semibold">
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-6 border-t border-slate-900 text-xs text-gray-500 font-semibold">
               <span className="flex items-center gap-1.5"><ShieldCheck className="w-4 h-4 text-emerald-500" /> 100% Adequado à LGPD</span>
               <span>•</span>
               <span>14 Dias de Teste Grátis</span>
@@ -403,7 +403,7 @@ export default function MarketingLandingPage() {
 
           <div className="lg:col-span-5 relative mt-6 lg:mt-0">
             <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-500 to-violet-600 rounded-3xl blur opacity-20 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
-            <div className="relative bg-slate-900 border border-slate-800/80 rounded-3xl p-6 shadow-2xl text-left space-y-4">
+            <div className="relative bg-slate-900 border border-slate-800/80 rounded-3xl p-5 sm:p-6 shadow-2xl text-left space-y-4">
               <div className="flex items-center justify-between border-b border-slate-800 pb-3">
                 <div className="flex gap-1.5">
                   <span className="w-3 h-3 rounded-full bg-red-500/80 block"></span>
@@ -445,7 +445,7 @@ export default function MarketingLandingPage() {
 
       {/* COMO FUNCIONA */}
       <section id="como-funciona" className="py-20 bg-slate-950/60 border-y border-slate-900 relative">
-        <div className="max-w-7xl mx-auto px-6 text-center space-y-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center space-y-12">
           <div className="max-w-2xl mx-auto space-y-4">
             <h2 className="text-3xl sm:text-4xl font-black text-white">Como Funciona a Operação</h2>
             <p className="text-gray-400 text-sm sm:text-base font-medium">
@@ -453,7 +453,7 @@ export default function MarketingLandingPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
             <div className="bg-slate-900/40 border border-slate-800/60 rounded-2xl p-8 text-left space-y-4 hover:border-slate-800 transition-colors">
               <div className="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center font-bold text-lg">
                 1
@@ -489,7 +489,7 @@ export default function MarketingLandingPage() {
 
       {/* TELAS DO SISTEMA (INTERACTIVE CAROUSEL GRID) */}
       <section id="telas" className="py-20 relative">
-        <div className="max-w-7xl mx-auto px-6 text-center space-y-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center space-y-12">
 
           <div className="max-w-2xl mx-auto space-y-4">
             <h2 className="text-3xl sm:text-4xl font-black text-white">Gerenciamento Integrado</h2>
@@ -520,7 +520,7 @@ export default function MarketingLandingPage() {
           </div>
 
           {/* Selected Screen Tab Showcase */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center bg-slate-900/30 border border-slate-900 rounded-3xl p-8 sm:p-12 text-left shadow-xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center bg-slate-900/30 border border-slate-900 rounded-3xl p-6 sm:p-8 lg:p-12 text-left shadow-xl">
             {/* Info Column (6 cols) */}
             <div className="lg:col-span-6 space-y-6">
               <div className="flex items-center gap-3">
@@ -575,7 +575,7 @@ export default function MarketingLandingPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 text-left">
             <div className="bg-slate-900/30 border border-slate-900 rounded-2xl p-8 space-y-3">
               <Sparkles className="w-8 h-8 text-violet-400" />
               <h4 className="text-lg font-bold text-white">IA Legislativa Inteligente</h4>
@@ -605,7 +605,7 @@ export default function MarketingLandingPage() {
 
       {/* PLANOS E PREÇOS */}
       <section id="planos" className="py-20 relative">
-        <div className="max-w-7xl mx-auto px-6 text-center space-y-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center space-y-12">
 
           <div className="max-w-2xl mx-auto space-y-4">
             <h2 className="text-3xl sm:text-4xl font-black text-white">Escolha o Plano Ideal para seu Mandato</h2>
@@ -614,11 +614,11 @@ export default function MarketingLandingPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 items-stretch max-w-5xl mx-auto">
             {plans.map((plan) => (
               <div
                 key={plan.id}
-                className={`bg-slate-900/30 border-2 rounded-3xl p-8 flex flex-col justify-between relative transition-all duration-300 ${plan.color}`}
+                className={`bg-slate-900/30 border-2 rounded-3xl p-6 sm:p-8 flex flex-col justify-between relative transition-all duration-300 ${plan.color}`}
               >
                 {plan.recommended && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-emerald-500 text-slate-950 text-[10px] font-black px-4 py-1 rounded-full uppercase tracking-widest shadow-md">
@@ -702,7 +702,7 @@ export default function MarketingLandingPage() {
 
       {/* FOOTER */}
       <footer className="bg-slate-950 border-t border-slate-900 py-12">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-2">
             <Logo dark className="h-7" />
           </div>

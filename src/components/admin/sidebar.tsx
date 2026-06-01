@@ -49,7 +49,7 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
 
   return (
     <aside
-      className={`w-64 bg-gray-900 text-gray-300 flex flex-col h-screen fixed top-0 left-0 shadow-2xl z-50 transition-transform duration-300 ease-in-out lg:translate-x-0 ${
+      className={`w-[85vw] max-w-64 bg-gray-900 text-gray-300 flex flex-col h-[100dvh] fixed top-0 left-0 shadow-2xl z-50 transition-transform duration-300 ease-in-out lg:translate-x-0 ${
         isOpen ? 'translate-x-0' : '-translate-x-full'
       }`}
     >
@@ -66,7 +66,7 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
         )}
       </div>
 
-      <nav className="flex-1 p-4 space-y-1.5 overflow-y-auto">
+      <nav className="flex-1 p-4 space-y-1.5 overflow-y-auto overscroll-contain">
         {filteredNavItems.map((item) => {
           const isActive = pathname === item.href;
           const Icon = item.icon;
@@ -86,8 +86,8 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
         })}
       </nav>
 
-      <div className="p-4 border-t border-gray-800/80 flex items-center justify-between">
-        <div className="flex items-center gap-3 pl-2 truncate w-48">
+      <div className="p-4 border-t border-gray-800/80 flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3 pl-2 truncate min-w-0 flex-1">
           <div className="w-8 h-8 rounded-full bg-emerald-600/20 border border-emerald-500/50 flex items-center justify-center flex-shrink-0 text-emerald-400 font-bold text-sm">
             {profile?.nome?.charAt(0) || 'U'}
           </div>

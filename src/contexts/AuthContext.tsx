@@ -1,9 +1,16 @@
 'use client';
 
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { supabase } from '@/infrastructure/supabase/client';
 import { User } from '@supabase/supabase-js';
-import { Role, Plan, hasPermission } from '@/utils/permissions';
+import { supabase } from '@/infrastructure/supabase/client';
+import {
+  Permission,
+  Plan,
+  Role,
+  getAllowedPermissionsSet,
+  getDefaultPermissionsForRole,
+  normalizePermissions,
+} from '@/utils/permissions';
 
 export interface UserProfile {
   id: string;
@@ -13,6 +20,7 @@ export interface UserProfile {
   gabinete_id: string;
   gabinete_nome?: string;
   gabinete_plano?: Plan;
+  permissions?: Permission[] | null;
 }
 
 interface AuthContextProps {
@@ -28,7 +36,7 @@ const AuthContext = createContext<AuthContextProps>({
   profile: null,
   loading: true,
   can: () => false,
-  signOut: async () => { },
+  signOut: async () => {},
 });
 
 function normalizeRole(value: unknown): Role {
@@ -43,9 +51,10 @@ function buildProfileFromAuth(user: User): UserProfile {
   return {
     id: user.id,
     email,
-    nome: (user.user_metadata?.full_name as string) || email.split('@')[0] || 'Usuário',
+    nome: (user.user_metadata?.full_name as string) || email.split('@')[0] || 'Usuario',
     role: normalizeRole(user.user_metadata?.role),
     gabinete_id: (user.user_metadata?.gabinete_id as string) ?? '',
+    permissions: null,
   };
 }
 
@@ -55,6 +64,7 @@ type ProfileRow = {
   nome: string;
   role: string | null;
   gabinete_id: string | null;
+  permissions: unknown;
   gabinetes: { nome: string | null; plano: string | null } | { nome: string | null; plano: string | null }[] | null;
 };
 
@@ -68,7 +78,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const { data, error } = await supabase
         .from('usuarios')
         .select(`
-          id, email, nome, role, gabinete_id,
+          id, email, nome, role, gabinete_id, permissions,
           gabinetes (nome, plano)
         `)
         .eq('id', authUser.id)
@@ -87,6 +97,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const profileRow = data as ProfileRow;
       const gabRaw = profileRow.gabinetes;
       const gab = Array.isArray(gabRaw) ? gabRaw[0] : gabRaw;
+      const explicitPermissions = normalizePermissions(profileRow.permissions);
+
       return {
         id: profileRow.id,
         email: profileRow.email,
@@ -95,13 +107,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         gabinete_id: profileRow.gabinete_id ?? '',
         gabinete_nome: gab?.nome ?? undefined,
         gabinete_plano: gab?.plano as Plan,
+        permissions: profileRow.permissions === null || profileRow.permissions === undefined ? null : explicitPermissions,
       };
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Unknown error';
-      const code =
-        err && typeof err === 'object' && 'code' in err ? String(err.code) : undefined;
-      const details =
-        err && typeof err === 'object' && 'details' in err ? String(err.details) : undefined;
+      const code = err && typeof err === 'object' && 'code' in err ? String(err.code) : undefined;
+      const details = err && typeof err === 'object' && 'details' in err ? String(err.details) : undefined;
       console.error('Error fetching profile:', message, code, details);
       return buildProfileFromAuth(authUser);
     }
@@ -114,7 +125,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (mounted) updater();
     };
 
-    const applyUser = (authUser: User | null) => {
+    const applyUser = async (authUser: User | null) => {
       if (!authUser) {
         safeSetState(() => {
           setUser(null);
@@ -128,9 +139,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setProfile(buildProfileFromAuth(authUser));
       });
 
-      void fetchProfile(authUser).then(nextProfile => {
-        safeSetState(() => setProfile(nextProfile));
-      });
+      const nextProfile = await fetchProfile(authUser);
+      safeSetState(() => setProfile(nextProfile));
     };
 
     const loadUserAndProfile = async () => {
@@ -139,7 +149,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         data: { session },
       } = await supabase.auth.getSession();
 
-      applyUser(session?.user ?? null);
+      await applyUser(session?.user ?? null);
       safeSetState(() => setLoading(false));
     };
 
@@ -147,8 +157,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'INITIAL_SESSION') return;
-      applyUser(session?.user ?? null);
-      safeSetState(() => setLoading(false));
+      void (async () => {
+        safeSetState(() => setLoading(true));
+        await applyUser(session?.user ?? null);
+        safeSetState(() => setLoading(false));
+      })();
     });
 
     return () => {
@@ -164,8 +177,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const can = useCallback((permission: string) => {
-    return hasPermission(profile?.role, permission);
-  }, [profile?.role]);
+    if (!profile) return false;
+
+    const allowedByPlan = getAllowedPermissionsSet(profile.gabinete_plano);
+    const basePermissions =
+      profile.permissions === null
+        ? getDefaultPermissionsForRole(profile.role, profile.gabinete_plano)
+        : normalizePermissions(profile.permissions);
+
+    return allowedByPlan.has(permission as Permission) && basePermissions.includes(permission as Permission);
+  }, [profile]);
 
   const value = useMemo(
     () => ({ user, profile, loading, can, signOut }),
