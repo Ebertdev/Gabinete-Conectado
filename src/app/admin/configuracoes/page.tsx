@@ -152,7 +152,7 @@ export default function ConfiguracoesPage() {
   };
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-500 max-w-4xl relative">
+    <div className="space-y-8 animate-in fade-in duration-500 w-full max-w-full relative">
       <div>
         <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
           <Settings className="w-8 h-8 text-gray-500" /> Configurações do Gabinete

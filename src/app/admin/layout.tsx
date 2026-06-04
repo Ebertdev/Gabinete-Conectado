@@ -60,8 +60,8 @@ export default function AdminLayout({
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* Main Content Area */}
-      <main className="flex-1 lg:ml-64 w-full max-w-full p-3 sm:p-6 lg:p-8 transition-all duration-300 min-w-0 overflow-x-hidden">
-        <div className="w-full max-w-7xl min-w-0 mx-auto">
+      <main className="flex-1 lg:ml-64 w-full lg:w-[calc(100%-16rem)] max-w-full p-3 sm:p-6 lg:p-8 transition-all duration-300 min-w-0 overflow-x-hidden">
+        <div className="w-full min-w-0">
           {children}
         </div>
       </main>
