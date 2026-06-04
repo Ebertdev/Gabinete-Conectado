@@ -255,7 +255,7 @@ export default function MarketingLandingPage() {
   const SelectedIcon = screenDetails[activeScreenTab].icon;
 
   return (
-    <div className="min-h-screen bg-slate-950 text-gray-300 font-sans selection:bg-emerald-500 selection:text-slate-950">
+    <div className="relative min-h-screen w-full max-w-full overflow-x-hidden bg-slate-950 text-gray-300 font-sans selection:bg-emerald-500 selection:text-slate-950">
 
       {/* Dynamic Background Gradients */}
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-emerald-500/5 rounded-full blur-3xl -z-10 pointer-events-none" />

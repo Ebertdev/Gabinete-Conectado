@@ -81,7 +81,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-[100dvh] bg-gray-50 flex">
+    <div className="min-h-[100dvh] w-full max-w-full overflow-x-hidden bg-gray-50 flex">
       {/* Left Column - Branding */}
       <div className="hidden lg:flex lg:w-1/2 relative bg-gradient-to-br from-gray-900 to-gray-800 p-12 items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>

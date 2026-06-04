@@ -2,7 +2,7 @@ import DemandForm from '@/components/demand-form';
 
 export default function SolicitarPage() {
   return (
-    <main className="min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-50/60 via-gray-50 to-white flex flex-col items-center justify-center p-4 md:p-8">
+    <main className="relative min-h-screen w-full max-w-full overflow-x-hidden bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-50/60 via-gray-50 to-white flex flex-col items-center justify-center p-4 md:p-8">
       <div className="absolute top-0 w-full h-[350px] bg-gradient-to-b from-emerald-500/10 via-violet-500/5 to-transparent -z-10 pointer-events-none" />
 
       <div className="w-full max-w-5xl mx-auto flex flex-col items-center">

@@ -33,7 +33,7 @@ export default function AdminLayout({
   }
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen bg-gray-50">
+    <div className="flex flex-col lg:flex-row min-h-screen w-full max-w-full overflow-x-hidden bg-gray-50">
       {/* Mobile Top Bar */}
       <header className="lg:hidden bg-gray-900 text-gray-300 flex items-center justify-between px-6 py-4 border-b border-gray-800 sticky top-0 z-40 shadow-md">
         <div className="flex items-center gap-3">
@@ -60,8 +60,8 @@ export default function AdminLayout({
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* Main Content Area */}
-      <main className="flex-1 lg:ml-64 p-3 sm:p-6 lg:p-8 transition-all duration-300 min-w-0">
-        <div className="max-w-7xl mx-auto">
+      <main className="flex-1 lg:ml-64 w-full max-w-full p-3 sm:p-6 lg:p-8 transition-all duration-300 min-w-0 overflow-x-hidden">
+        <div className="w-full max-w-7xl min-w-0 mx-auto">
           {children}
         </div>
       </main>
