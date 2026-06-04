@@ -459,7 +459,7 @@ export default function UsuariosPage() {
       {editingUser && (
         <div className="fixed inset-0 bg-gray-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl w-full max-w-4xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
-            <div className="p-6 border-b border-gray-100 flex items-start justify-between gap-4">
+            <div className="p-4 sm:p-6 border-b border-gray-100 flex flex-col sm:flex-row sm:items-start justify-between gap-4">
               <div>
                 <h2 className="text-xl font-bold text-gray-900">Editar permissoes</h2>
                 <p className="text-sm text-gray-500 mt-1">
@@ -468,7 +468,7 @@ export default function UsuariosPage() {
               </div>
               <button
                 onClick={closePermissionEditor}
-                className="text-gray-400 hover:text-gray-600 p-1 rounded-lg hover:bg-gray-100"
+                className="self-end sm:self-auto text-gray-400 hover:text-gray-600 p-1 rounded-lg hover:bg-gray-100"
                 aria-label="Fechar editor"
               >
                 <X className="w-5 h-5" />
@@ -476,7 +476,7 @@ export default function UsuariosPage() {
             </div>
 
             <form onSubmit={handleSavePermissions} className="flex flex-col flex-1 min-h-0">
-              <div className="p-6 border-b border-gray-100 grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="p-4 sm:p-6 border-b border-gray-100 grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="md:col-span-1">
                   <label className="block text-sm font-semibold text-gray-700 mb-1">Papel</label>
                   <select
@@ -490,7 +490,7 @@ export default function UsuariosPage() {
                   </select>
                 </div>
 
-                <div className="md:col-span-2 grid grid-cols-2 gap-3">
+                <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="rounded-2xl border border-gray-200 bg-gray-50 p-4">
                     <p className="text-xs uppercase tracking-wider font-bold text-gray-500">Plano atual</p>
                     <p className="text-lg font-black text-gray-900 mt-1">{currentPlan}</p>
@@ -502,18 +502,18 @@ export default function UsuariosPage() {
                 </div>
               </div>
 
-              <div className="px-6 pt-5 pb-3 flex flex-wrap items-center gap-3 border-b border-gray-100">
+              <div className="px-4 sm:px-6 pt-5 pb-3 flex flex-wrap items-center gap-3 border-b border-gray-100">
                 <button
                   type="button"
                   onClick={setRoleDefaults}
-                  className="px-4 py-2 rounded-xl bg-gray-900 text-white font-bold text-sm hover:bg-gray-800 transition-colors flex items-center gap-2"
+                  className="w-full sm:w-auto px-4 py-2 rounded-xl bg-gray-900 text-white font-bold text-sm hover:bg-gray-800 transition-colors flex items-center justify-center gap-2"
                 >
                   <Check className="w-4 h-4" /> Aplicar padrao do papel
                 </button>
                 <button
                   type="button"
                   onClick={setAllAvailablePermissions}
-                  className="px-4 py-2 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold text-sm hover:bg-emerald-100 transition-colors flex items-center gap-2"
+                  className="w-full sm:w-auto px-4 py-2 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold text-sm hover:bg-emerald-100 transition-colors flex items-center justify-center gap-2"
                 >
                   <Check className="w-4 h-4" /> Liberar tudo do plano
                 </button>
@@ -529,7 +529,7 @@ export default function UsuariosPage() {
 
                   return (
                     <section key={group.id} className="space-y-3">
-                      <div className="flex items-end justify-between gap-4">
+                      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 sm:gap-4">
                         <div>
                           <h3 className="text-lg font-bold text-gray-900">{group.label}</h3>
                           <p className="text-sm text-gray-500">{group.description}</p>

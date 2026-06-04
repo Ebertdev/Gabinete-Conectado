@@ -64,6 +64,7 @@ export class SupabaseDemandRepository implements DemandRepository {
         status: demand.status || 'Registrada',
         descricao: demand.description,
         endereco: demand.location.address || demand.citizen.address || '',
+        anexos: demand.attachments || [],
         arquivado: false,
       });
 

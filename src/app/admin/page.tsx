@@ -160,22 +160,22 @@ export default function AdminDashboard() {
     <div className="space-y-8 animate-in fade-in duration-500">
 
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div className="flex flex-col sm:flex-row justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Dashboard de Demandas</h1>
           <p className="text-gray-500 mt-1">Visão geral e acompanhamento das solicitações da população.</p>
         </div>
-        <div className="flex gap-3 w-full sm:w-auto">
+        <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
           <button
             onClick={exportToCSV}
-            className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-white border border-gray-200 text-gray-700 px-4 py-2.5 rounded-xl font-medium hover:bg-gray-50 transition-colors shadow-sm"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 bg-white border border-gray-200 text-gray-700 px-4 py-2.5 rounded-xl font-medium hover:bg-gray-50 transition-colors shadow-sm"
           >
             <FileSpreadsheet className="w-4 h-4 text-emerald-600" />
             CSV
           </button>
           <button
             onClick={exportToPDF}
-            className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-gray-900 text-white px-4 py-2.5 rounded-xl font-medium hover:bg-gray-800 transition-colors shadow-sm"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 bg-gray-900 text-white px-4 py-2.5 rounded-xl font-medium hover:bg-gray-800 transition-colors shadow-sm"
           >
             <FileText className="w-4 h-4 text-red-400" />
             PDF
@@ -191,8 +191,8 @@ export default function AdminDashboard() {
       ) : (
         <>
           {/* KPI Cards */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
-            <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-start gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+            <div className="bg-white p-5 sm:p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col sm:flex-row items-start gap-4">
               <div className="w-12 h-12 rounded-xl bg-violet-50 flex items-center justify-center flex-shrink-0 border border-violet-200">
                 <Activity className="w-6 h-6 text-violet-600" />
               </div>
@@ -203,7 +203,7 @@ export default function AdminDashboard() {
               </div>
             </div>
 
-            <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-start gap-4">
+            <div className="bg-white p-5 sm:p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col sm:flex-row items-start gap-4">
               <div className="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center flex-shrink-0 border border-amber-200">
                 <Clock className="w-6 h-6 text-amber-500" />
               </div>
@@ -214,7 +214,7 @@ export default function AdminDashboard() {
               </div>
             </div>
 
-            <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-start gap-4">
+            <div className="bg-white p-5 sm:p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col sm:flex-row items-start gap-4">
               <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center flex-shrink-0 border border-emerald-200">
                 <CheckCircle className="w-6 h-6 text-emerald-500" />
               </div>
@@ -227,7 +227,7 @@ export default function AdminDashboard() {
               </div>
             </div>
 
-            <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-start gap-4">
+            <div className="bg-white p-5 sm:p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col sm:flex-row items-start gap-4">
               <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0 border border-blue-200">
                 <Users className="w-6 h-6 text-blue-500" />
               </div>
@@ -243,7 +243,7 @@ export default function AdminDashboard() {
           <div className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
 
             {/* Toolbar */}
-            <div className="p-6 border-b border-gray-100 flex flex-col md:flex-row gap-4 justify-between items-center bg-gray-50/50">
+            <div className="p-4 sm:p-6 border-b border-gray-100 flex flex-col md:flex-row gap-4 justify-between items-center bg-gray-50/50">
               <h2 className="text-lg font-bold text-gray-900">Demandas Recentes</h2>
 
               <div className="flex gap-3 w-full md:w-auto">

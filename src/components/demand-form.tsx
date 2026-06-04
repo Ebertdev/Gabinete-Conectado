@@ -5,6 +5,7 @@ import { MapPin, Camera, Send, Loader2, CheckCircle, X } from 'lucide-react';
 // In a real app we'd use the use-case with DI, but for simplicity we directly instantiate or use a Server Action.
 import { CreateDemandUseCase } from '@/application/use-cases/CreateDemandUseCase';
 import { SupabaseDemandRepository } from '@/infrastructure/repositories/SupabaseDemandRepository';
+import { supabase } from '@/infrastructure/supabase/client';
 
 const demandTypes = [
   'Infraestrutura',
@@ -129,17 +130,25 @@ export default function DemandForm() {
       const uploadedImageUrls: string[] = [];
 
       for (const photo of photos) {
-        /*
-        const fileExt = photo.name.split('.').pop();
-        const fileName = `${Math.random()}.${fileExt}`;
-        const { error: uploadError } = await supabase.storage.from('demand-photos').upload(fileName, photo);
-        if (!uploadError) {
-           const { data } = supabase.storage.from('demand-photos').getPublicUrl(fileName);
-           uploadedImageUrls.push(data.publicUrl);
+        const fileExt = photo.name.split('.').pop() || 'jpg';
+        const uniqueId = crypto.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+        const fileName = `${uniqueId}.${fileExt}`;
+        const filePath = `public/${new Date().getFullYear()}/${fileName}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from('demand-photos')
+          .upload(filePath, photo, {
+            cacheControl: '3600',
+            upsert: false,
+            contentType: photo.type,
+          });
+
+        if (uploadError) {
+          throw new Error(`Erro ao enviar foto: ${uploadError.message}`);
         }
-        */
-        // Simulating upload for UI demonstration
-        uploadedImageUrls.push('https://placeholder.supabase.co/storage/v1/object/public/demand-photos/simulated.jpg');
+
+        const { data } = supabase.storage.from('demand-photos').getPublicUrl(filePath);
+        uploadedImageUrls.push(data.publicUrl);
       }
 
       // Initialize the Clean Arch use case

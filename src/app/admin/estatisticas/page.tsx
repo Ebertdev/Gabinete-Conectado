@@ -203,13 +203,13 @@ export default function EstatisticasPage() {
           <h1 className="text-3xl font-bold text-gray-900">Estatísticas e Inteligência</h1>
           <p className="text-gray-500 mt-1">Análise de dados reais do gabinete para tomada de decisão estratégica.</p>
         </div>
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="inline-flex bg-gray-100 p-1 rounded-xl">
+        <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 w-full md:w-auto">
+          <div className="inline-flex bg-gray-100 p-1 rounded-xl w-full sm:w-auto justify-between">
             {['1M', '3M', '6M', '1A'].map(range => (
               <button
                 key={range}
                 onClick={() => setTimeRange(range)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${timeRange === range ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900'}`}
+                className={`flex-1 sm:flex-none px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${timeRange === range ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900'}`}
               >
                 {range}
               </button>
@@ -219,7 +219,7 @@ export default function EstatisticasPage() {
           <div className="relative">
             <button
               onClick={() => setShowExportMenu(!showExportMenu)}
-              className="flex items-center gap-2 bg-emerald-600 text-white px-4 py-2.5 rounded-xl font-bold text-sm hover:bg-emerald-700 transition-colors shadow-sm"
+              className="flex items-center justify-center gap-2 bg-emerald-600 text-white px-4 py-2.5 rounded-xl font-bold text-sm hover:bg-emerald-700 transition-colors shadow-sm w-full sm:w-auto"
             >
               <Download className="w-4 h-4" /> Exportar Relatório <ChevronDown className="w-4 h-4 ml-1" />
             </button>
@@ -296,12 +296,12 @@ export default function EstatisticasPage() {
 
             {/* Area Chart: Monthly Evolution */}
             <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm lg:col-span-2">
-              <div className="flex justify-between items-center mb-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
                 <div>
                   <h3 className="text-lg font-bold text-gray-900">Evolução de Solicitações (Últimos {timeRange})</h3>
                   <p className="text-xs text-gray-500 font-medium">Comparativo entre demandas recebidas e resolvidas</p>
                 </div>
-                <div className="flex items-center gap-4 text-xs font-bold">
+                <div className="flex flex-wrap items-center gap-4 text-xs font-bold">
                   <span className="flex items-center gap-1.5 text-violet-700">
                     <span className="w-3 h-3 rounded-full bg-violet-600"></span> Recebidas
                   </span>
@@ -377,7 +377,7 @@ export default function EstatisticasPage() {
                     </ResponsiveContainer>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-3 pt-2 border-t border-gray-100">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-gray-100">
                     {categoryData.map(item => (
                       <div key={item.name} className="flex items-center gap-2">
                         <span className="w-3 h-3 rounded-full flex-shrink-0 shadow-xs" style={{ backgroundColor: item.color }}></span>
@@ -393,7 +393,7 @@ export default function EstatisticasPage() {
 
           {/* Bar Chart: Neighborhood Distribution */}
           <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
               <div>
                 <h3 className="text-lg font-bold text-gray-900">Bairros com Maior Incidência</h3>
                 <p className="text-xs text-gray-500 font-medium">Mapeamento de foco de atenção na cidade</p>

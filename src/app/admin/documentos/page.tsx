@@ -326,17 +326,17 @@ export default function DocumentosIAPage() {
         </div>
 
         {/* Navigation Tabs */}
-        <div className="bg-gray-100 p-1 rounded-2xl flex items-center gap-1.5 shadow-inner self-start md:self-auto border border-gray-200/80">
+        <div className="bg-gray-100 p-1 rounded-2xl flex flex-col sm:flex-row items-stretch sm:items-center gap-1.5 shadow-inner self-start md:self-auto border border-gray-200/80 w-full sm:w-auto">
           <button
             onClick={() => setActiveTab('cofre')}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm transition-all shadow-xs ${activeTab === 'cofre' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}
+            className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl font-bold text-sm transition-all shadow-xs ${activeTab === 'cofre' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}
           >
             <FolderOpen className={`w-4 h-4 ${activeTab === 'cofre' ? 'text-emerald-600' : 'text-gray-400'}`} />
             Cofre Digital ({documents.length})
           </button>
           <button
             onClick={() => setActiveTab('ia')}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm transition-all shadow-xs ${activeTab === 'ia' ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-md' : 'text-gray-500 hover:text-gray-900'}`}
+            className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl font-bold text-sm transition-all shadow-xs ${activeTab === 'ia' ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-md' : 'text-gray-500 hover:text-gray-900'}`}
           >
             <Sparkles className={`w-4 h-4 ${activeTab === 'ia' ? 'text-amber-300 animate-spin' : 'text-gray-400'}`} />
             IA Legislativa
@@ -348,7 +348,7 @@ export default function DocumentosIAPage() {
       {activeTab === 'cofre' && (
         <div className="space-y-6 animate-in fade-in duration-300">
           {/* Toolbar */}
-          <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6 flex flex-col md:flex-row gap-4 justify-between items-center">
+          <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-4 sm:p-6 flex flex-col md:flex-row gap-4 justify-between items-stretch md:items-center">
             <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto flex-1 max-w-xl">
               <div className="relative flex-1">
                 <Search className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -371,7 +371,7 @@ export default function DocumentosIAPage() {
               </select>
             </div>
 
-            <label className="bg-gray-900 text-white px-5 py-2.5 rounded-xl font-bold hover:bg-gray-800 transition-colors shadow-sm flex items-center gap-2 text-sm cursor-pointer self-end md:self-auto">
+            <label className="bg-gray-900 text-white px-5 py-2.5 rounded-xl font-bold hover:bg-gray-800 transition-colors shadow-sm flex items-center justify-center gap-2 text-sm cursor-pointer self-end md:self-auto w-full sm:w-auto">
               {uploading ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin text-emerald-400" /> Enviando...
@@ -420,14 +420,14 @@ export default function DocumentosIAPage() {
                       {doc.contentSnippet}
                     </p>
 
-                    <div className="flex items-center gap-4 text-xs font-semibold text-gray-500 bg-gray-50 p-3 rounded-xl border border-gray-100">
+                    <div className="flex flex-wrap items-center gap-3 text-xs font-semibold text-gray-500 bg-gray-50 p-3 rounded-xl border border-gray-100">
                       <div className="flex items-center gap-1.5"><Clock className="w-4 h-4 text-emerald-600" /> {doc.date}</div>
                       <div className="flex items-center gap-1.5"><Building className="w-4 h-4 text-violet-600" /> {doc.recipient}</div>
-                      <div className="flex items-center gap-1.5 ml-auto font-mono text-gray-400">{doc.size}</div>
+                      <div className="flex items-center gap-1.5 ml-0 sm:ml-auto font-mono text-gray-400">{doc.size}</div>
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between pt-4 mt-4 border-t border-gray-100">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pt-4 mt-4 border-t border-gray-100 gap-3">
                     <span className="text-xs font-extrabold text-emerald-600 group-hover:translate-x-1 transition-transform flex items-center gap-1.5">
                       <Eye className="w-4 h-4" /> Visualizar Documento <ArrowRight className="w-3.5 h-3.5" />
                     </span>
@@ -624,7 +624,7 @@ export default function DocumentosIAPage() {
                   )}
                 </div>
 
-                <div className="bg-white border-x border-b border-gray-200 rounded-b-3xl p-8 shadow-xl flex-1 min-h-[500px]">
+                <div className="bg-white border-x border-b border-gray-200 rounded-b-3xl p-5 sm:p-8 shadow-xl flex-1 min-h-[500px]">
                   {aiGenerating ? (
                     <div className="h-full min-h-[400px] flex flex-col items-center justify-center text-center space-y-4 animate-in fade-in duration-300">
                       <div className="w-16 h-16 rounded-full bg-violet-100 text-violet-600 flex items-center justify-center shadow-inner">
@@ -666,7 +666,7 @@ export default function DocumentosIAPage() {
       {/* Vault View Document Modal */}
       {isViewModalOpen && selectedDoc && (
         <div className="fixed inset-0 bg-gray-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in">
-          <div className="bg-white rounded-3xl p-8 w-full max-w-3xl shadow-2xl animate-in zoom-in-95 duration-200 border border-gray-100 max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-3xl p-5 sm:p-6 lg:p-8 w-full max-w-3xl shadow-2xl animate-in zoom-in-95 duration-200 border border-gray-100 max-h-[90vh] flex flex-col">
             <div className="flex justify-between items-start mb-6 border-b border-gray-100 pb-4">
               <div className="text-left">
                 <div className="flex items-center gap-2 mb-1.5">
@@ -688,7 +688,7 @@ export default function DocumentosIAPage() {
             </div>
 
             <div className="flex-1 overflow-y-auto space-y-6 py-2 pr-2 text-left">
-              <div className="grid grid-cols-2 gap-4 text-sm font-semibold bg-gray-50 p-4 rounded-2xl border border-gray-100">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm font-semibold bg-gray-50 p-4 rounded-2xl border border-gray-100">
                 <div>
                   <span className="text-xs text-gray-500 block mb-0.5">Destinatário / Órgão:</span>
                   <span className="text-gray-900">{selectedDoc.recipient}</span>
@@ -707,18 +707,18 @@ export default function DocumentosIAPage() {
               </div>
             </div>
 
-            <div className="pt-6 mt-6 border-t border-gray-100 flex items-center justify-between gap-4">
+            <div className="pt-6 mt-6 border-t border-gray-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
               <span className="text-xs font-bold text-gray-500">Tamanho do Arquivo em Nuvem: <strong>{selectedDoc.size}</strong></span>
-              <div className="flex gap-3">
+              <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
                 <button
                   onClick={() => { alert('Iniciando impressão oficial...'); }}
-                  className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-3 px-5 rounded-xl transition-colors flex items-center gap-2 text-sm shadow-xs"
+                  className="w-full sm:w-auto bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-3 px-5 rounded-xl transition-colors flex items-center justify-center gap-2 text-sm shadow-xs"
                 >
                   <Printer className="w-4 h-4" /> Imprimir Cópia
                 </button>
                 <button
                   onClick={() => { window.open(selectedDoc.url, '_blank'); }}
-                  className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-xl transition-colors flex items-center gap-2 text-sm shadow-sm"
+                  className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-xl transition-colors flex items-center justify-center gap-2 text-sm shadow-sm"
                 >
                   <Download className="w-4 h-4" /> Baixar Arquivo
                 </button>

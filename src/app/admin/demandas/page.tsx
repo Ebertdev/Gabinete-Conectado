@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Search, Filter, Eye, Edit, Trash2, MoreVertical, Archive, X, Save, FileText, Share2, Printer, Loader2, Upload, MessageSquare, Kanban, Table, ChevronRight } from 'lucide-react';
+import { Search, Filter, Eye, Edit, Trash2, MoreVertical, Archive, X, Save, FileText, Share2, Printer, Loader2, Upload, MessageSquare, Kanban, Table, ChevronRight, Camera } from 'lucide-react';
 import { supabase } from '@/infrastructure/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -20,6 +20,23 @@ const categoryColors: Record<string, string> = {
   'Limpeza Urbana': 'bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold',
   'Iluminação': 'bg-amber-50 text-amber-700 border border-amber-200 font-bold',
   'Outros': 'bg-gray-100 text-gray-700 border border-gray-300 font-bold',
+};
+
+const normalizeAttachments = (value: unknown): string[] => {
+  if (Array.isArray(value)) {
+    return value.filter((item): item is string => typeof item === 'string' && item.trim().length > 0);
+  }
+
+  if (typeof value === 'string' && value.trim().length > 0) {
+    try {
+      const parsed = JSON.parse(value);
+      return normalizeAttachments(parsed);
+    } catch {
+      return [value];
+    }
+  }
+
+  return [];
 };
 
 export default function DemandasList() {
@@ -71,7 +88,8 @@ export default function DemandasList() {
           address: d.endereco || '',
           cep: d.cep || '',
           cidadao_id: d.cidadao_id,
-          description: d.descricao || ''
+          description: d.descricao || '',
+          attachments: normalizeAttachments(d.anexos || d.attachments || d.fotos || d.imagens)
         }));
         setDemands(mapped);
       }
@@ -488,8 +506,8 @@ export default function DemandasList() {
           </div>
         </div>
 
-        <div className="p-4 border-b border-gray-100 flex flex-col md:flex-row gap-4 justify-between bg-gray-50/30">
-          <div className="relative flex-1 md:max-w-md">
+        <div className="p-4 sm:p-6 border-b border-gray-100 flex flex-col md:flex-row gap-4 justify-between bg-gray-50/30">
+          <div className="relative flex-1 w-full md:max-w-md">
             <Search className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
             <input
               type="text"
@@ -500,11 +518,11 @@ export default function DemandasList() {
             />
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className={`px-4 py-2.5 border ${filterStatus !== 'Todos' ? 'border-emerald-500 bg-emerald-50/50 text-emerald-800 font-extrabold' : 'border-gray-300 bg-white text-gray-900 font-bold'} rounded-xl outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 text-sm shadow-sm transition-all cursor-pointer`}
+              className={`w-full sm:w-auto px-4 py-2.5 border ${filterStatus !== 'Todos' ? 'border-emerald-500 bg-emerald-50/50 text-emerald-800 font-extrabold' : 'border-gray-300 bg-white text-gray-900 font-bold'} rounded-xl outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 text-sm shadow-sm transition-all cursor-pointer`}
             >
               <option value="Todos">Todos os Status</option>
               <option value="Registrada">Registrada</option>
@@ -522,8 +540,8 @@ export default function DemandasList() {
           </div>
         ) : displayMode === 'kanban' ? (
           /* Kanban Board View */
-          <div className="p-6 bg-gray-50/50 overflow-x-auto min-h-[500px]">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 min-w-[1000px]">
+          <div className="p-4 sm:p-6 bg-gray-50/50 overflow-x-auto min-h-[500px]">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 sm:gap-6 min-w-[1000px]">
               {[
                 { label: 'Registrada', status: 'Registrada', border: 'border-gray-400', bg: 'bg-gray-100/80 text-gray-800' },
                 { label: 'Em Análise', status: 'Em Análise', border: 'border-amber-500', bg: 'bg-amber-100 text-amber-800' },
@@ -560,6 +578,19 @@ export default function DemandasList() {
                             <h4 className="font-bold text-gray-900 text-sm group-hover:text-emerald-700 transition-colors mb-1">
                               {item.citizen}
                             </h4>
+                            {item.attachments.length > 0 && (
+                              <div className="mb-3 flex items-center gap-2 rounded-lg border border-gray-100 bg-gray-50 p-2">
+                                <img
+                                  src={item.attachments[0]}
+                                  alt={`Foto da demanda ${item.protocol}`}
+                                  className="h-10 w-10 rounded-md object-cover"
+                                />
+                                <span className="flex items-center gap-1 text-[11px] font-bold text-gray-600">
+                                  <Camera className="h-3.5 w-3.5 text-emerald-600" />
+                                  {item.attachments.length} foto{item.attachments.length > 1 ? 's' : ''}
+                                </span>
+                              </div>
+                            )}
                             <p className="text-xs text-gray-500 mb-3 flex items-center gap-1 font-medium">
                               📍 {item.neighborhood}
                             </p>
@@ -628,6 +659,12 @@ export default function DemandasList() {
                         {demand.type}
                       </span>
                       <div className="text-sm font-medium text-gray-600">{demand.neighborhood}</div>
+                      {demand.attachments.length > 0 && (
+                        <div className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-bold text-emerald-700">
+                          <Camera className="h-3.5 w-3.5" />
+                          {demand.attachments.length} foto{demand.attachments.length > 1 ? 's' : ''}
+                        </div>
+                      )}
                     </td>
                     <td className="px-6 py-4">
                       <span className={`px-3 py-1 rounded-full text-xs font-semibold inline-block ${statusColors[demand.status] || 'bg-gray-100 text-gray-700'}`}>
@@ -695,14 +732,14 @@ export default function DemandasList() {
           </div>
         )}
 
-        <div className="p-4 border-t border-gray-100 flex items-center justify-between text-sm text-gray-500 bg-gray-50/30">
+        <div className="p-4 border-t border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-sm text-gray-500 bg-gray-50/30">
           <span>Mostrando {filteredDemands.length} de {demands.length} resultados</span>
         </div>
       </div>
 
       {isDemandModalOpen && selectedDemand && (
         <div className="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in">
-          <div className="bg-white rounded-3xl p-6 w-full max-w-lg shadow-2xl animate-in zoom-in-95 duration-200">
+          <div className="bg-white rounded-3xl p-5 sm:p-6 w-full max-w-lg shadow-2xl animate-in zoom-in-95 duration-200">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
                 <FileText className="w-5 h-5 text-gray-500" /> Detalhes da Demanda
@@ -713,7 +750,7 @@ export default function DemandasList() {
             </div>
 
             <form onSubmit={saveDemandChanges} className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="p-3 bg-gray-50 rounded-xl border border-gray-100">
                   <p className="text-xs text-gray-500 font-semibold mb-1">Protocolo</p>
                   <p className="font-mono font-bold text-gray-900">{selectedDemand.protocol}</p>
@@ -729,7 +766,7 @@ export default function DemandasList() {
                 <input type="text" readOnly value={`${selectedDemand.citizen} - ${selectedDemand.phone}`} className="w-full px-4 py-2.5 bg-gray-100 border border-gray-200 rounded-xl outline-none text-sm text-gray-600 font-medium" />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-1">Categoria</label>
                   <input type="text" readOnly value={selectedDemand.type} className="w-full px-4 py-2.5 bg-gray-100 border border-gray-200 rounded-xl outline-none text-sm text-gray-600 font-medium" />
@@ -751,6 +788,30 @@ export default function DemandasList() {
                 />
               </div>
 
+              {selectedDemand.attachments.length > 0 && (
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Fotos anexadas</label>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    {selectedDemand.attachments.map((url: string, index: number) => (
+                      <a
+                        key={url}
+                        href={url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="group relative aspect-square overflow-hidden rounded-xl border border-gray-200 bg-gray-50"
+                        title="Abrir foto em nova aba"
+                      >
+                        <img
+                          src={url}
+                          alt={`Foto ${index + 1} da demanda ${selectedDemand.protocol}`}
+                          className="h-full w-full object-cover transition-transform group-hover:scale-105"
+                        />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               <div className="pt-2">
                 <label className="block text-sm font-semibold text-gray-900 mb-2">Status da Demanda</label>
                 <select
@@ -766,13 +827,13 @@ export default function DemandasList() {
               </div>
 
               <div className="pt-6 border-t border-gray-100 flex flex-col sm:flex-row gap-3">
-                <button type="submit" disabled={saving} className="flex-1 bg-emerald-600 text-white font-bold py-3 px-4 rounded-xl hover:bg-emerald-700 transition-colors flex items-center justify-center gap-2 shadow-sm text-sm disabled:opacity-70">
+                <button type="submit" disabled={saving} className="w-full sm:flex-1 bg-emerald-600 text-white font-bold py-3 px-4 rounded-xl hover:bg-emerald-700 transition-colors flex items-center justify-center gap-2 shadow-sm text-sm disabled:opacity-70">
                   {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5 flex-shrink-0" />} Salvar Alterações
                 </button>
                 <button
                   type="button"
                   onClick={() => handleNotifyStatusWhatsApp(selectedDemand)}
-                  className="bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold py-3 px-4 rounded-xl hover:bg-emerald-100 hover:text-emerald-950 transition-colors flex items-center justify-center gap-2 shadow-sm text-sm"
+                  className="w-full sm:w-auto bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold py-3 px-4 rounded-xl hover:bg-emerald-100 hover:text-emerald-950 transition-colors flex items-center justify-center gap-2 shadow-sm text-sm"
                 >
                   <MessageSquare className="w-5 h-5 text-emerald-600 flex-shrink-0" /> Notificar Status (WhatsApp)
                 </button>
@@ -784,7 +845,7 @@ export default function DemandasList() {
 
       {isNewDemandModalOpen && (
         <div className="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in">
-          <div className="bg-white rounded-3xl p-6 w-full max-w-lg shadow-2xl animate-in zoom-in-95 duration-200">
+          <div className="bg-white rounded-3xl p-5 sm:p-6 w-full max-w-lg shadow-2xl animate-in zoom-in-95 duration-200">
             <div className="flex justify-between items-center mb-6 border-b border-gray-100 pb-4">
               <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
                 <FileText className="w-5 h-5 text-emerald-600" /> Nova Demanda

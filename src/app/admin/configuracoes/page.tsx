@@ -165,19 +165,19 @@ export default function ConfiguracoesPage() {
         <div className="flex border-b border-gray-100 overflow-x-auto">
           <button 
             onClick={() => setActiveTab('geral')}
-            className={`flex items-center gap-2 px-6 py-4 font-medium transition-colors ${activeTab === 'geral' ? 'border-b-2 border-emerald-500 text-emerald-600 bg-emerald-50/10' : 'border-b-2 border-transparent text-gray-500 hover:text-gray-700'}`}
+            className={`shrink-0 flex items-center gap-2 px-4 sm:px-6 py-4 font-medium transition-colors ${activeTab === 'geral' ? 'border-b-2 border-emerald-500 text-emerald-600 bg-emerald-50/10' : 'border-b-2 border-transparent text-gray-500 hover:text-gray-700'}`}
           >
             <Database className="w-4 h-4" /> Geral
           </button>
           <button 
             onClick={() => setActiveTab('acessos')}
-            className={`flex items-center gap-2 px-6 py-4 font-medium transition-colors ${activeTab === 'acessos' ? 'border-b-2 border-emerald-500 text-emerald-600 bg-emerald-50/10' : 'border-b-2 border-transparent text-gray-500 hover:text-gray-700'}`}
+            className={`shrink-0 flex items-center gap-2 px-4 sm:px-6 py-4 font-medium transition-colors ${activeTab === 'acessos' ? 'border-b-2 border-emerald-500 text-emerald-600 bg-emerald-50/10' : 'border-b-2 border-transparent text-gray-500 hover:text-gray-700'}`}
           >
             <Shield className="w-4 h-4" /> Acessos
           </button>
           <button 
             onClick={() => setActiveTab('notificacoes')}
-            className={`flex items-center gap-2 px-6 py-4 font-medium transition-colors ${activeTab === 'notificacoes' ? 'border-b-2 border-emerald-500 text-emerald-600 bg-emerald-50/10' : 'border-b-2 border-transparent text-gray-500 hover:text-gray-700'}`}
+            className={`shrink-0 flex items-center gap-2 px-4 sm:px-6 py-4 font-medium transition-colors ${activeTab === 'notificacoes' ? 'border-b-2 border-emerald-500 text-emerald-600 bg-emerald-50/10' : 'border-b-2 border-transparent text-gray-500 hover:text-gray-700'}`}
           >
             <Bell className="w-4 h-4" /> Notificações
           </button>
@@ -216,7 +216,7 @@ export default function ConfiguracoesPage() {
               <section>
                 <h3 className="text-lg font-bold text-gray-900 mb-4">Integração WhatsApp API</h3>
                 <div className="bg-emerald-50/50 p-6 rounded-xl border border-emerald-100">
-                  <div className="flex items-center justify-between mb-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
                     <div>
                       <h4 className="font-semibold text-emerald-900">Evolution API (Conectado)</h4>
                       <p className="text-sm text-emerald-700 mt-1">Sessão ativa para envio de protocolos aos cidadãos.</p>
@@ -234,7 +234,7 @@ export default function ConfiguracoesPage() {
           {activeTab === 'acessos' && (
             <div className="animate-in fade-in slide-in-from-right-4 duration-300">
               <section>
-                <div className="flex items-center justify-between mb-6">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                   <div>
                     <h3 className="text-lg font-bold text-gray-900">Gestão de Assessores</h3>
                     <p className="text-xs text-gray-500 font-medium mt-0.5">
@@ -243,7 +243,7 @@ export default function ConfiguracoesPage() {
                   </div>
                   <button 
                     onClick={handleOpenAddAssessor}
-                    className="text-sm bg-gray-900 text-white px-4 py-2 rounded-xl font-bold hover:bg-gray-800 transition-colors flex items-center gap-1.5 shadow-sm"
+                    className="text-sm bg-gray-900 text-white px-4 py-2 rounded-xl font-bold hover:bg-gray-800 transition-colors flex items-center justify-center gap-1.5 shadow-sm w-full sm:w-auto"
                   >
                     <UserPlus className="w-4 h-4 text-emerald-400" /> Adicionar Assessor
                   </button>
@@ -258,12 +258,12 @@ export default function ConfiguracoesPage() {
                     <div className="p-4 text-center text-sm text-gray-500 bg-white">Nenhum assessor cadastrado.</div>
                   ) : (
                     users.map(user => (
-                      <div key={user.id} className="p-4 flex items-center justify-between border-b border-gray-200 bg-white last:border-0 group">
+                      <div key={user.id} className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-200 bg-white last:border-0 group">
                         <div>
                           <p className="font-bold text-gray-900">{user.nome}</p>
                           <p className="text-xs text-gray-500">{user.email}</p>
                         </div>
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-3 self-start sm:self-auto">
                           <span className={`px-2 py-1 text-xs font-bold rounded ${user.role === 'Administrador' ? 'bg-blue-100 text-blue-700' : user.role === 'Parlamentar' ? 'bg-violet-100 text-violet-700' : 'bg-gray-100 text-gray-700'}`}>
                             {user.role}
                           </span>
@@ -324,7 +324,7 @@ export default function ConfiguracoesPage() {
             <button 
               onClick={handleSave}
               disabled={saving}
-              className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-medium transition-all shadow-sm w-48 ${saved ? 'bg-emerald-500 text-white' : 'bg-gray-900 text-white hover:bg-gray-800'} disabled:opacity-70`}
+              className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-medium transition-all shadow-sm w-full sm:w-48 ${saved ? 'bg-emerald-500 text-white' : 'bg-gray-900 text-white hover:bg-gray-800'} disabled:opacity-70`}
             >
               {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : saved ? <CheckCircle2 className="w-4 h-4" /> : <Save className="w-4 h-4" />}
               {saving ? 'Salvando...' : saved ? 'Salvo!' : 'Salvar Alterações'}
@@ -337,7 +337,7 @@ export default function ConfiguracoesPage() {
       {/* Add Assessor Modal */}
       {isAssessorModalOpen && (
         <div className="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in">
-          <div className="bg-white rounded-3xl p-6 w-full max-w-sm shadow-2xl animate-in zoom-in-95 duration-200 text-left">
+          <div className="bg-white rounded-3xl p-5 sm:p-6 w-full max-w-sm shadow-2xl animate-in zoom-in-95 duration-200 text-left">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-bold text-gray-900">Novo Assessor</h2>
               <button onClick={() => setIsAssessorModalOpen(false)} className="text-gray-400 hover:text-gray-600 p-1 rounded-lg hover:bg-gray-100">
@@ -376,7 +376,7 @@ export default function ConfiguracoesPage() {
       {/* Limit Exceeded Modal */}
       {isLimitModalOpen && (
         <div className="fixed inset-0 bg-gray-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in">
-          <div className="bg-white rounded-3xl p-8 w-full max-w-md shadow-2xl text-center space-y-6 animate-in zoom-in-95 duration-200 border border-gray-100">
+          <div className="bg-white rounded-3xl p-6 sm:p-8 w-full max-w-md shadow-2xl text-center space-y-6 animate-in zoom-in-95 duration-200 border border-gray-100">
             <div className="w-16 h-16 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center mx-auto shadow-inner">
               <Lock className="w-8 h-8 animate-bounce" />
             </div>

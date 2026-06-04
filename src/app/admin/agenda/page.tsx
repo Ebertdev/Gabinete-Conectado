@@ -278,20 +278,20 @@ export default function AgendaPage() {
           </h1>
           <p className="text-gray-500 mt-1">Organize atendimentos no gabinete, visitas aos bairros e reuniões externas.</p>
         </div>
-        <div className="flex items-center gap-3 self-end md:self-auto">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 self-end md:self-auto w-full md:w-auto">
           {/* View Mode Toggle */}
-          <div className="bg-gray-100 p-1 rounded-xl flex items-center gap-1 border border-gray-200 shadow-xs">
+          <div className="bg-gray-100 p-1 rounded-xl flex items-center gap-1 border border-gray-200 shadow-xs w-full sm:w-auto">
             <button
               type="button"
               onClick={() => setViewMode('grid')}
-              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg font-bold text-xs transition-all ${viewMode === 'grid' ? 'bg-white text-emerald-700 shadow-sm' : 'text-gray-600 hover:text-gray-900'}`}
+              className={`flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-lg font-bold text-xs transition-all ${viewMode === 'grid' ? 'bg-white text-emerald-700 shadow-sm' : 'text-gray-600 hover:text-gray-900'}`}
             >
               <LayoutGrid className="w-4 h-4" /> Grade Mensal
             </button>
             <button
               type="button"
               onClick={() => setViewMode('list')}
-              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg font-bold text-xs transition-all ${viewMode === 'list' ? 'bg-white text-emerald-700 shadow-sm' : 'text-gray-600 hover:text-gray-900'}`}
+              className={`flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-lg font-bold text-xs transition-all ${viewMode === 'list' ? 'bg-white text-emerald-700 shadow-sm' : 'text-gray-600 hover:text-gray-900'}`}
             >
               <ListFilter className="w-4 h-4" /> Lista de Eventos
             </button>
@@ -299,7 +299,7 @@ export default function AgendaPage() {
 
           <button
             onClick={() => handleOpenNewAppointment()}
-            className="bg-emerald-600 text-white px-5 py-2.5 rounded-xl font-bold hover:bg-emerald-700 transition-colors shadow-md flex items-center gap-2 text-sm flex-shrink-0"
+            className="bg-emerald-600 text-white px-5 py-2.5 rounded-xl font-bold hover:bg-emerald-700 transition-colors shadow-md flex items-center justify-center gap-2 text-sm flex-shrink-0 w-full sm:w-auto"
           >
             <Plus className="w-4 h-4" /> Agendar
           </button>
@@ -307,7 +307,7 @@ export default function AgendaPage() {
       </div>
 
       {/* Toolbar / Filters */}
-      <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6 flex flex-col lg:flex-row gap-4 justify-between items-center">
+      <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-4 sm:p-6 flex flex-col lg:flex-row gap-4 justify-between items-stretch lg:items-center">
         <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto flex-1 max-w-2xl">
           <div className="relative flex-1">
             <Search className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -322,7 +322,7 @@ export default function AgendaPage() {
           <select
             value={filterType}
             onChange={(e) => setFilterType(e.target.value)}
-            className="px-4 py-2 bg-gray-50/80 border border-gray-200 rounded-xl font-bold text-gray-800 outline-none focus:border-emerald-500 text-sm shadow-sm"
+            className="w-full sm:w-auto px-4 py-2 bg-gray-50/80 border border-gray-200 rounded-xl font-bold text-gray-800 outline-none focus:border-emerald-500 text-sm shadow-sm"
           >
             {categories.map(c => (
               <option key={c} value={c}>{c === 'Todos' ? 'Todas Categorias' : c}</option>
@@ -331,7 +331,7 @@ export default function AgendaPage() {
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="px-4 py-2 bg-gray-50/80 border border-gray-200 rounded-xl font-bold text-gray-800 outline-none focus:border-emerald-500 text-sm shadow-sm"
+            className="w-full sm:w-auto px-4 py-2 bg-gray-50/80 border border-gray-200 rounded-xl font-bold text-gray-800 outline-none focus:border-emerald-500 text-sm shadow-sm"
           >
             {statuses.map(s => (
               <option key={s} value={s}>{s === 'Todos' ? 'Todos os Status' : s}</option>
@@ -341,11 +341,11 @@ export default function AgendaPage() {
 
         {/* Month Navigation if in Grid View */}
         {viewMode === 'grid' && (
-          <div className="flex items-center gap-3 bg-gray-50 border border-gray-200 px-4 py-2 rounded-xl">
+          <div className="flex items-center gap-3 bg-gray-50 border border-gray-200 px-4 py-2 rounded-xl w-full sm:w-auto justify-between">
             <button onClick={prevMonth} className="p-1 hover:bg-white rounded-lg text-gray-600 transition-colors shadow-xs border border-transparent hover:border-gray-300">
               <ChevronLeft className="w-5 h-5" />
             </button>
-            <span className="font-extrabold text-gray-900 text-base min-w-32 text-center">
+            <span className="font-extrabold text-gray-900 text-base min-w-0 sm:min-w-32 text-center flex-1">
               {monthNames[currentMonth]} {currentYear}
             </span>
             <button onClick={nextMonth} className="p-1 hover:bg-white rounded-lg text-gray-600 transition-colors shadow-xs border border-transparent hover:border-gray-300">
@@ -426,7 +426,7 @@ export default function AgendaPage() {
           {filtered.map(appt => {
             const StatusIcon = statusBadges[appt.status]?.icon || CheckCircle;
             return (
-              <div key={appt.id} className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between text-left">
+              <div key={appt.id} className="bg-white border border-gray-200 rounded-2xl p-5 sm:p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between text-left">
                 <div>
                   <div className="flex items-start justify-between gap-3 mb-3">
                     <span className={`text-xs font-bold px-3 py-1 rounded-full border ${typeColors[appt.type] || 'bg-gray-100 text-gray-800 border-gray-200'}`}>
@@ -458,16 +458,16 @@ export default function AgendaPage() {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between pt-2 border-t border-gray-100">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between pt-2 border-t border-gray-100 gap-3">
                   <button
                     onClick={() => handleNotifyParticipant(appt)}
-                    className="bg-emerald-50 border border-emerald-200 text-emerald-800 font-extrabold text-xs px-3.5 py-2 rounded-xl hover:bg-emerald-600 hover:text-white transition-all shadow-xs flex items-center gap-1.5"
+                    className="bg-emerald-50 border border-emerald-200 text-emerald-800 font-extrabold text-xs px-3.5 py-2 rounded-xl hover:bg-emerald-600 hover:text-white transition-all shadow-xs flex items-center justify-center gap-1.5 w-full sm:w-auto"
                   >
                     <MessageSquare className="w-3.5 h-3.5 text-emerald-600" /> Notificar WhatsApp
                   </button>
                   <button
                     onClick={() => handleOpenEditAppointment(appt)}
-                    className="bg-gray-900 text-white font-extrabold text-xs px-4 py-2 rounded-xl hover:bg-gray-800 transition-all shadow-xs"
+                    className="bg-gray-900 text-white font-extrabold text-xs px-4 py-2 rounded-xl hover:bg-gray-800 transition-all shadow-xs w-full sm:w-auto"
                   >
                     Editar Detalhes
                   </button>
@@ -503,7 +503,7 @@ export default function AgendaPage() {
                 <input required type="text" placeholder="Ex: Reunião Comunitária" value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-emerald-500 font-semibold text-gray-900 text-sm" />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-1">Data</label>
                   <input required type="date" value={formData.date} onChange={e => setFormData({...formData, date: e.target.value})} className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-emerald-500 font-semibold text-gray-900 text-sm" />
@@ -519,7 +519,7 @@ export default function AgendaPage() {
                 <input required type="text" placeholder="Ex: Gabinete 104 ou Gleba E" value={formData.location} onChange={e => setFormData({...formData, location: e.target.value})} className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-emerald-500 font-semibold text-gray-900 text-sm" />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-1">Categoria</label>
                   <select value={formData.type} onChange={e => setFormData({...formData, type: e.target.value as any})} className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-emerald-500 font-semibold text-gray-900 text-sm">
@@ -539,7 +539,7 @@ export default function AgendaPage() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-1">Nome do Contato</label>
                   <input type="text" placeholder="Ex: Liderança Maria" value={formData.contactName} onChange={e => setFormData({...formData, contactName: e.target.value})} className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-emerald-500 font-semibold text-gray-900 text-sm" />
@@ -555,18 +555,18 @@ export default function AgendaPage() {
                 <textarea rows={3} placeholder="Detalhes do assunto a ser tratado..." value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-emerald-500 font-semibold text-gray-900 text-sm resize-none" />
               </div>
 
-              <div className="pt-6 border-t border-gray-100 flex gap-3">
+              <div className="pt-6 border-t border-gray-100 flex flex-col sm:flex-row gap-3">
                 {selectedAppointment && (
                   <button
                     type="button"
                     onClick={() => handleDeleteAppointment(selectedAppointment.id)}
-                    className="bg-red-50 hover:bg-red-100 border border-red-200 text-red-700 font-bold px-4 py-3 rounded-xl transition-colors text-sm flex items-center justify-center gap-1.5"
+                    className="bg-red-50 hover:bg-red-100 border border-red-200 text-red-700 font-bold px-4 py-3 rounded-xl transition-colors text-sm flex items-center justify-center gap-1.5 w-full sm:w-auto"
                     title="Desmarcar / Excluir"
                   >
                     <Trash2 className="w-4 h-4 text-red-500" /> Desmarcar
                   </button>
                 )}
-                <button type="submit" disabled={saving} className="flex-1 bg-emerald-600 text-white font-bold py-3 px-6 rounded-xl hover:bg-emerald-700 transition-colors flex items-center justify-center gap-2 shadow-sm text-sm disabled:opacity-75">
+                <button type="submit" disabled={saving} className="flex-1 bg-emerald-600 text-white font-bold py-3 px-6 rounded-xl hover:bg-emerald-700 transition-colors flex items-center justify-center gap-2 shadow-sm text-sm disabled:opacity-75 w-full sm:w-auto">
                   {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} Salvar Compromisso
                 </button>
               </div>
